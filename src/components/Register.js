@@ -1,16 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from './header';
+import MessagePopup from "./MessagePopup";
 import './style.css';
 
 //faltan validaciones
 //falta hacer igual figma
 
 function Register() {
+    
+    const [message, setMessage] = useState(''); // Mensaje a mostrar
+    const [messageType, setMessageType] = useState(''); // Tipo de mensaje (éxito o error)
+
 
     const handleFormSubmit = async (event) => {
         event.preventDefault(); // Evitar el envío por defecto del formulario
     
-        // Aquí puedes obtener los valores de los campos del formulario
+        // obtener los valores de los campos del formulario
         const name = event.target.name.value;
         const lastName = event.target.lastName.value;
         const email = event.target.email.value;
@@ -25,27 +30,29 @@ function Register() {
         };
     
         try {
-          // Llamada a la API con fetch (aquí deberías reemplazar 'URL_DE_TU_API' con la URL de tu API)
+          // Llamada a la API con fetch
           const response = await fetch('/api/usuarios/', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify(userData),
-          })/*
-          .then(response => response.json())
-          .then(data => console.log(data))
-          .catch(error => console.error('Error:', error));*/
+          });
     
           // Manejo de la respuesta de la API
           if (response.ok) {
-            // La solicitud fue exitosa
-            // Aquí puedes manejar el resultado, por ejemplo, mostrar un mensaje de éxito
             console.log('Usuario registrado exitosamente');
+            setMessage('Usuario registrado exitosamente');
+            setMessageType('success');
+            
+            // Redireccionar al usuario a la página de inicio de sesión
+            //setTimeout(function(){
+            //  window.location.href = '/login';
+            //}, 2000);
           } else {
-            // La solicitud falló
-            // Aquí puedes manejar el error, por ejemplo, mostrar un mensaje de error
             console.error('Error al registrar el usuario');
+            setMessage('Error al registrar el usuario');
+            setMessageType('error');
           }
         } catch (error) {
           // Manejo de errores
@@ -86,6 +93,12 @@ function Register() {
                         </div>
                         <button class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
                     </form>
+                    {MessagePopup}
+                    {message && (
+                        <div style={{ backgroundColor: messageType === 'error' ? 'red' : 'green' }}>
+                        <p>{message}</p>
+                        </div>
+                    )}
                 </div>
                 </div>
             </div>
