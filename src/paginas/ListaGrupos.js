@@ -12,7 +12,7 @@ const ListaGrupos = () => {
 
   useEffect(() => {
     // Realizar una solicitud GET para obtener la lista de grupos
-    axios.get('http://localhost:8080/api/grupos')
+    axios.get('http://localhost:8080/api/grupos/')
       .then((response) => {
         setGrupos(response.data);
       })
