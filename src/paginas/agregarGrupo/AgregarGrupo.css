@@ -1,0 +1,19 @@
+#AgregarGrupo .form-group {
+    margin-bottom: 10px;
+    text-align: left;
+    padding: 0rem 2rem;
+}
+
+#AgregarGrupo .form-group label {
+   font-size: 14px;
+}
+
+#AgregarGrupo .form-group input {
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 0.5rem;
+}
+
+#AgregarGrupo .container {
+    margin-top: 50px;
+}
