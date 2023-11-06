@@ -86,30 +86,22 @@ function RegistrarUsuario() {
               />
             </div>
 
-            {/*<div className="form-group">
-              <InputField
-              type="password"
-              placeholder="Contraseña"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              />
-  </div>*/}
             <div className="form-group">
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Contraseña"
-              className='placeholder-white'
-              style={{
-                backgroundColor: '#27A281', // Fondo verde
-                borderRadius: '5px', // Esquinas redondeadas
-                padding: '8px', // Relleno interno
-                border: '1px solid white', // Borde blanco
-                color: 'white', // Texto en blanco
-                placeholder: 'white', // Color del marcador de posición en blanco
-              }}
-            />
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Contraseña"
+                className='placeholder-white'
+                style={{
+                  backgroundColor: '#27A281', // Fondo verde
+                  borderRadius: '5px', // Esquinas redondeadas
+                  padding: '8px', // Relleno interno
+                  border: '1px solid white', // Borde blanco
+                  color: 'white', // Texto en blanco
+                  placeholder: 'white', // Color del marcador de posición en blanco
+                }}
+              />
             </div>
 
             <Boton onClick={handleSubmit}>Registrarse</Boton>
