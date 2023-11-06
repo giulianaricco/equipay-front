@@ -36,22 +36,18 @@ function RegistrarUsuario() {
         },
         body: JSON.stringify(data),
       });
-
-      // Manejo de la respuesta de la API
+      
       if (response.ok) {
         console.log('Usuario registrado exitosamente');
         alert("Usuario registrado correctamente");
-        
-        // Redireccionar al usuario a la página de inicio de sesión
-        //setTimeout(function(){
-        //  window.location.href = '/login';
-        //}, 2000);
+      } else if (response.status === 409) {
+        console.log('Ya existe un usuario con el correo ingresado');
+        alert('Ya existe un usuario con el correo ingresado');
       } else {
-        console.error('Error al registrar el usuario');
-        alert("Error al registrar usuario");
+        console.error('Error inesperado:', response.statusText);
+        alert('Error inesperado: ' + response.statusText);
       }
     } catch (error) {
-      // Manejo de errores
       console.error('Error:', error);
     }
   };
