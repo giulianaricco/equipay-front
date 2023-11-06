@@ -1,16 +1,20 @@
-import './App.css';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import PaginaListarGrupo from './paginas/ListaGrupos';
+import './App.css'
+import PaginaAgregarGrupo from './paginas/agregarGrupo/AgregarGrupo';
+import PaginaRegistrarUsuario from './paginas/RegistrarUsuario';
 
 function App() {
   return (
-    <div className="App">
-      <header>
-      <div className="logo">
-        <Link to="/">Equipay</Link>
-      </div>
-      {/* Aquí puedes agregar otros elementos del encabezado */}
-    </header>
-    </div>
+    <Router>
+      <Routes>
+        {/* <Route path="/" element={<PaginaInicio />} /> */}
+        <Route path="/agregar-grupo" element={<PaginaAgregarGrupo />} />
+        <Route path="/listar-grupos" element={<PaginaListarGrupo />} />
+        <Route path="/registrar-usuario" element={<PaginaRegistrarUsuario />} />
+      </Routes>
+    </Router>
   );
 }
 
