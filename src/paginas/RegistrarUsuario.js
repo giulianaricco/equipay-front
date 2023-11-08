@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import Header from '../componentes/Header';
 import Boton from '../componentes/Boton';
 import Card from '../componentes/Card'; // Importa el componente Card
