@@ -36,6 +36,7 @@ const RegistrarGasto = () => {
   const [idBeneficiados, setIdBeneficiados] = useState([]);
   const [idCategoria, setIdCategoria] = useState("");
   const [usuariosGrupo, setUsuariosGrupo] = useState([]);
+  const [beneficiados, setBeneficiados] = useState([]);
   const [categorias, setCategorias] = useState([]);
 
    // Función para obtener los usuarios del grupo por ID
@@ -49,7 +50,16 @@ const RegistrarGasto = () => {
       }
   
       const response = await axios.get(`/api/grupos/${idGrupo}/usuarios`);
+      
       if (response.status === 200) {
+        
+        const usuariosObtenidos = response.data;
+
+        // Filtrar usuarios para obtener la lista de beneficiados excluyendo al seleccionado como cubridor
+        const usuariosBeneficiados = usuariosObtenidos.filter(usuario => usuario.correo !== idCubiertoPor);
+
+        setUsuariosGrupo(usuariosObtenidos);
+        setBeneficiados(usuariosBeneficiados);
         setUsuariosGrupo(response.data);
       }
     } catch (error) {
@@ -201,7 +211,7 @@ const RegistrarGasto = () => {
                   onChange={handleBeneficiadoChange}
                   multiple
                   style={styles.selectStyle}>
-                  {usuariosGrupo.map((usuario) => (
+                  {beneficiados.map((usuario) => (
                     <option key={usuario.correo} value={usuario.correo}>
                       {usuario.nombre}
                     </option>
