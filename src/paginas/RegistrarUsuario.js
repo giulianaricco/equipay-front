@@ -15,7 +15,7 @@ function RegistrarUsuario() {
     e.preventDefault();
 
     if (!name || !email || !password) {
-      alert("Por favor nombre, email y contraseña");
+      alert("Por favor complete nombre, email y contraseña.");
       return;
     }
 
@@ -38,10 +38,10 @@ function RegistrarUsuario() {
       
       if (response.ok) {
         console.log('Usuario registrado exitosamente');
-        alert("Usuario registrado correctamente");
+        alert("Usuario registrado correctamente.");
       } else if (response.status === 409) {
         console.log('Ya existe un usuario con el correo ingresado');
-        alert('Ya existe un usuario con el correo ingresado');
+        alert('Ya existe un usuario con el correo ingresado.');
       } else {
         console.error('Error inesperado:', response.statusText);
         alert('Error inesperado: ' + response.statusText);
