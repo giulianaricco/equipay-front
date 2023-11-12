@@ -26,7 +26,7 @@ const styles = {
 
 };
 
-const RegistrarGasto = () => {
+const RegistrarPago = () => {
   const [monto, setMonto] = useState("");
   const [moneda, setMoneda] = useState("");
   const [descripcion, setDescripcion] = useState("");
@@ -278,4 +278,4 @@ const RegistrarGasto = () => {
     </div>
   );
 
-}; export default RegistrarGasto;
+}; export default RegistrarPago;
