@@ -3,6 +3,8 @@ import Header from '../componentes/Header';
 import Boton from '../componentes/Boton';
 import Card from '../componentes/Card';
 import axios from '../utils/axios';
+import { useAuth } from '../contexto/AuthContext';
+import { parseJwt, hasRole } from '../utils/jwtUtils';
 
 const styles = {
   inputStyle: {
@@ -29,6 +31,9 @@ const styles = {
 const EliminarCategoria = () => {
   const [categorias, setCategorias] = useState([]);
   const [idCategoria, setIdCategoria] = useState("");
+  const { token } = useAuth(); // Obtener el token del contexto
+  const decodedToken = parseJwt(token);
+  const isAdmin = hasRole(token, 'Admin');
 
   // Definir la función obtenerCategorias en el ámbito más amplio
   const obtenerCategorias = async () => {
@@ -56,16 +61,14 @@ const EliminarCategoria = () => {
       return;
     }
 
-    const data = {
-      id: idCategoria,
-    };
-
     try {
-      // Llamada a la API con fetch
       const response = await fetch(`/api/categorias/${idCategoria}`, {
         method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
       });
-      
+
       if (response.ok) {
         console.log('Categoría eliminada exitosamente');
         alert("Categoría eliminada exitosamente.");
@@ -84,26 +87,28 @@ const EliminarCategoria = () => {
   return (
     <div>
       <Header /*agregar condicion por administrador logeado*//>
-      <div style={{ marginTop: '50px' }}>
-        <div className="container">
-          <Card title="Eliminar Categoría">
-            <div className="form-group">
-              <select
-                value={idCategoria}
-                onChange={(e) => setIdCategoria(e.target.value)}
-                style={styles.selectStyle}>
-                <option value="">Seleccione una categoría</option>
-                {categorias.map((categoria) => (
-                  <option key={categoria.id} value={categoria.id}>
-                    {categoria.nombre}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <Boton onClick={handleSubmit}>Eliminar</Boton>
-        </Card>
+      {token && isAdmin(token) && (
+        <div style={{ marginTop: '50px' }}>
+          <div className="container">
+            <Card title="Eliminar Categoría">
+              <div className="form-group">
+                <select
+                  value={idCategoria}
+                  onChange={(e) => setIdCategoria(e.target.value)}
+                  style={styles.selectStyle}>
+                  <option value="">Seleccione una categoría</option>
+                  {categorias.map((categoria) => (
+                    <option key={categoria.id} value={categoria.id}>
+                      {categoria.nombre}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <Boton onClick={handleSubmit}>Eliminar</Boton>
+          </Card>
+        </div>
       </div>
-    </div>
+    )}
   </div> 
   );
 };

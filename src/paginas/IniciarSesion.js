@@ -4,11 +4,13 @@ import Boton from "../componentes/Boton";
 import Card from "../componentes/Card";
 import InputField from "../componentes/InputField";
 import { useAuth } from '../contexto/AuthContext';
+import axios from '../utils/axios';
 
 function IniciarSesion() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [expoPushToken, setExpoPushToken] = useState("");
     const { setAuthToken } = useAuth();
 
     const handleSubmit = async (e) => {
@@ -22,16 +24,11 @@ function IniciarSesion() {
         const data = {
             correo: email,
             password: password,
+            expoPushToken: expoPushToken,
         }
 
         try {
-            const response = await fetch('/api/auth/login/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            });
+            const response = await axios.post('/api/auth/login/', data);
 
             if (response.ok) {
                 const responseData = await response.json();

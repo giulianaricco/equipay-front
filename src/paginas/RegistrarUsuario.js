@@ -28,7 +28,7 @@ function RegistrarUsuario() {
 
     try {
       // Llamada a la API con fetch
-      const response = await fetch('/api/usuarios/', {
+      const response = await fetch('/api/auth/registro', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
