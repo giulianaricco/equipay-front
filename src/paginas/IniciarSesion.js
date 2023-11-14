@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import Header from "../componentes/Header";
+import { useNavigate } from 'react-router-dom';
+import PublicHeader from "../componentes/PublicHeader";
 import Boton from "../componentes/Boton";
 import Card from "../componentes/Card";
 import InputField from "../componentes/InputField";
-import { useAuth } from '../contexto/AuthContext';
-import axios from '../utils/axios';
 
 function IniciarSesion() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [expoPushToken, setExpoPushToken] = useState("");
-    const { setAuthToken } = useAuth();
+    // Obtener la función de navegación
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -28,22 +28,31 @@ function IniciarSesion() {
         }
 
         try {
-            const response = await axios.post('/api/auth/login/', data);
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
 
             if (response.ok) {
-                const responseData = await response.json();
-                const newToken = responseData.token;
-          
-                // Almacenar el token en el contexto
-                setAuthToken(newToken);
-    
+                // Almacenar el token
+                const token = await response.text();
+                localStorage.setItem("token", token);
+              
                 console.log('Usuario logeado correctamente');
-                console.log('Token JWT:', newToken);
+                console.log('Token JWT:', token);
                 
                 alert('Usuario logeado correctamente');
+                
+
+                // Redirigir a la página "welcome"
+                navigate('/welcome');
+                            
             } else if (response.status === 401) {
-              console.log('Credenciales incorrectas');
-              alert('Credenciales incorrectas. Por favor, inténtalo de nuevo.');
+                console.log('Credenciales incorrectas');
+                alert('Credenciales incorrectas. Por favor, inténtalo de nuevo.');
             } else if (response.status === 404) {
                 console.log('Usuario no encontrado');
                 alert('Usuario no encontrado');
@@ -53,12 +62,13 @@ function IniciarSesion() {
             }
         } catch (error) {
             console.error('Error: ', error);
+            console.error(error.response); 
         }
     };
 
     return (
         <div>
-            <Header /*isLoggedIn={false} isAdmin={false} *//>
+            <PublicHeader /*isLoggedIn={false} isAdmin={false} *//>
             <div style={{ marginTop: '50px' }}>
                 <div className="container">
                     <Card title="Iniciar sesion">

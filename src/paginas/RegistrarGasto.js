@@ -3,6 +3,7 @@ import Header from '../componentes/Header';
 import Boton from '../componentes/Boton';
 import Card from '../componentes/Card'; // Importa el componente Card
 import axios from '../utils/axios';
+import { useAuth } from '../contexto/AuthContext'; 
 
 const styles = {
   inputStyle: {
@@ -27,6 +28,9 @@ const styles = {
 };
 
 const RegistrarGasto = () => {
+  const { getToken } = useAuth();
+  const token = getToken();
+
   const [monto, setMonto] = useState("");
   const [moneda, setMoneda] = useState("");
   const [descripcion, setDescripcion] = useState("");
@@ -38,14 +42,6 @@ const RegistrarGasto = () => {
   const [usuariosGrupo, setUsuariosGrupo] = useState([]);
   const [beneficiados, setBeneficiados] = useState([]);
   const [categorias, setCategorias] = useState([]);
-  //const [token, setToken] = useState("");  
-
-  /*useEffect(() => {
-    const storedToken = localStorage.getItem('jwtToken');
-    if (storedToken) {
-        setToken(storedToken);
-    }
-  }, []);*/
 
   // Función para obtener los usuarios del grupo por ID
   const obtenerUsuariosGrupo = async () => {
@@ -57,19 +53,10 @@ const RegistrarGasto = () => {
         return;
       }
   
-      // Obtener el token desde el estado
-      //const storedToken = localStorage.getItem('jwtToken');
-  
-      // Verificar si hay un token almacenado
-      /*if (!storedToken) {
-        console.error('No se ha proporcionado un token JWT.');
-        return;
-      }*/
-  
       const response = await axios.get(`/api/grupos/${idGrupo}/usuarios`, {
-        /*headers: {
-          'Authorization': `Bearer ${storedToken}` // Agregar el token al encabezado de autorización
-        }*/
+        headers: {
+          'Authorization': `Bearer ${token}` // Agregar el token al encabezado de autorización
+        }
       });
   
       if (response.status === 200) {
@@ -95,20 +82,11 @@ const RegistrarGasto = () => {
 
   useEffect(() => {
     async function obtenerCategorias() {
-      try {
-        // Obtener el token desde el estado
-        //const storedToken = localStorage.getItem('jwtToken');
-  
-        // Verificar si hay un token almacenado
-        /*if (!storedToken) {
-          console.error('No se ha proporcionado un token JWT.');
-          return;
-        }*/
-  
+      try {  
         const response = await axios.get('/api/categorias/', {
-          /*headers: {
-            'Authorization': `Bearer ${storedToken}` // Agregar el token al encabezado de autorización
-          }*/
+          headers: {
+            'Authorization': `Bearer ${token}` // Agregar el token al encabezado de autorización
+          }
         });
   
         if (response.status === 200) {
@@ -159,13 +137,12 @@ const RegistrarGasto = () => {
 
     try {
       const response = await axios.post('/api/gastos/', data, {
-        /*headers: {
+        headers: {
           'Authorization': `Bearer ${token}` // Agregar el token al encabezado de autorización
-        }*/
+        }
       });
       if (response.status === 200) {
         console.log('Gasto registrado correctamente:', response.data);
-        // Realiza cualquier acción adicional después de crear el gasto
         alert("Gasto registrado correctamente.");
       } else {
         console.error('Error al registrar el gasto:', response.statusText);

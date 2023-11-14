@@ -5,6 +5,7 @@ import Card from '../../componentes/Card'; // Importa el componente Card
 import InputField from '../../componentes/InputField';
 import axios from '../../utils/axios';
 import './AgregarGrupo.css';
+import { useAuth } from '../../contexto/AuthContext';
 
 const styles = {
   input: {
@@ -27,6 +28,9 @@ const styles = {
 };
 
 const PaginaAgregarGrupo = () => {
+  const { getToken } = useAuth();
+  const token = getToken();
+
   const [nombreGrupo, setNombreGrupo] = useState('');
   const [contacto, setContacto] = useState('');
   const [mostrarLabel, setMostrarLabel] = useState(false);
@@ -81,16 +85,17 @@ const PaginaAgregarGrupo = () => {
         idDueño: "agustin@mail.com", // Reemplaza con el ID adecuado del dueño
       };
 
-      axios
-        .post('/api/grupos/', nuevoGrupo)
-        .then((response) => {
-          console.log('Grupo creado con éxito:', response.data);
-          // Realiza cualquier acción adicional después de crear el grupo
-        })
-        .catch((error) => {
-          console.error('Error al crear el grupo:', error);
-          // Maneja los errores de manera adecuada
-        });
+      axios.post('/api/grupos/', nuevoGrupo, {
+        headers: {
+          'Authorization': `Bearer ${token}`  // Agrega el token al encabezado de autorización
+        }
+      })
+      .then((response) => {
+        console.log('Grupo creado con éxito:', response.data);
+      })
+      .catch((error) => {
+        console.error('Error al crear el grupo:', error);
+      });
     } else {
       alert('El nombre del grupo debe tener al menos 3 caracteres.');
     }

@@ -2,8 +2,12 @@ import React, { useState, useEffect } from 'react';
 import Header from '../componentes/Header';
 import Boton from '../componentes/Boton';
 import Card from '../componentes/Card';
+import { useAuth } from '../contexto/AuthContext'; 
 
 const ListarUsuarios = () => {
+  const { getToken } = useAuth();
+  const token = getToken();
+
   const [usuarios, setUsuarios] = useState([]);
   const [filtro, setFiltro] = useState(''); 
   const [usuarioFiltrado, setUsuarioFiltrado] = useState(null);
@@ -11,10 +15,11 @@ const ListarUsuarios = () => {
   useEffect(() => {
     const fetchUsuarios = async () => {
       try {
-        const response = await fetch('/api/usuarios/', {
+        const response = await fetch('/api/usuarios/detalles', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`, // Agrega el token al encabezado de autorización
           },
         });
         if (!response.ok) {
@@ -26,9 +31,9 @@ const ListarUsuarios = () => {
         console.error('Error:', error);
       }
     };
-
+  
     fetchUsuarios();
-  }, []); 
+  }, [token]); 
 
   // Ordenar la lista de grupos por fecha de creación, nombre, apellido o correo electrónico
   const ordenarUsuarios = (criterio) => {
@@ -57,16 +62,17 @@ const ListarUsuarios = () => {
 
   // Filtrar y ver los usuarios bloqueados
   const mostrarBloqueados = () => {
-    const bloqueados = usuarios.filter((usuario) => usuario.bloqueado);
+    const bloqueados = usuarios.filter((usuario) => usuario.estadoUsuario === "BLOQUEADO");
     setUsuarios(bloqueados);
   };
 
   const buscarPorCorreo = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/usuarios/${encodeURIComponent(filtro)}`, {
+      const response = await fetch(`/api/usuarios/${encodeURIComponent(filtro)}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`, // Agrega el token al encabezado de autorización
         },
       });
       if (!response.ok) {
@@ -84,10 +90,11 @@ const ListarUsuarios = () => {
   
   const resetearListaUsuarios = async () => {
     try {
-      const response = await fetch('/api/usuarios/', {
+      const response = await fetch('/api/usuarios/detalles', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`, // Agrega el token al encabezado de autorización
         },
       });
       if (!response.ok) {
@@ -130,12 +137,16 @@ const ListarUsuarios = () => {
               <li style={{ borderBottom: '1px solid #ccc', padding: '10px 0' }}>
                 <p>{usuarioFiltrado.correo}</p>
                 <p>{usuarioFiltrado.nombre} {usuarioFiltrado.apellido ? usuarioFiltrado.apellido : ' '}</p>
+                <p>{usuarioFiltrado.estadoUsuario}</p>
+                <p>{usuarioFiltrado.fechaCreacion}</p>
               </li>
             ) : (
               usuarios.map((usuario) => (
                 <li key={usuario.id} style={{ borderBottom: '1px solid #ccc', padding: '10px 0' }}>
                   <p>{usuario.correo}</p>
                   <p>{usuario.nombre} {usuario.apellido ? usuario.apellido : ' '}</p>
+                  <p>{usuario.estadoUsuario}</p>
+                  <p>{usuario.fechaCreacion}</p>
                 </li>
               ))
             )}

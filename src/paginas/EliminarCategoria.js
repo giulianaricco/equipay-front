@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../componentes/Header';
+import AdminHeader from '../componentes/AdminHeader';
 import Boton from '../componentes/Boton';
 import Card from '../componentes/Card';
 import axios from '../utils/axios';
-import { useAuth } from '../contexto/AuthContext';
-import { parseJwt, hasRole } from '../utils/jwtUtils';
+import { useAuth } from '../contexto/AuthContext'; 
 
 const styles = {
   inputStyle: {
@@ -29,16 +28,20 @@ const styles = {
 };
 
 const EliminarCategoria = () => {
+  const { getToken } = useAuth();
+  const token = getToken();
+
   const [categorias, setCategorias] = useState([]);
   const [idCategoria, setIdCategoria] = useState("");
-  const { token } = useAuth(); // Obtener el token del contexto
-  const decodedToken = parseJwt(token);
-  const isAdmin = hasRole(token, 'Admin');
 
   // Definir la función obtenerCategorias en el ámbito más amplio
   const obtenerCategorias = async () => {
     try {  
-      const response = await axios.get('/api/categorias/');
+      const response = await axios.get('/api/categorias/', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
   
       if (response.status === 200) {
         setCategorias(response.data);
@@ -86,8 +89,8 @@ const EliminarCategoria = () => {
 
   return (
     <div>
-      <Header /*agregar condicion por administrador logeado*//>
-      {token && isAdmin(token) && (
+      <AdminHeader /*agregar condicion por administrador logeado*//>
+      {/*token /*&& isAdmin(token) &&*/ (
         <div style={{ marginTop: '50px' }}>
           <div className="container">
             <Card title="Eliminar Categoría">

@@ -4,15 +4,23 @@ import Boton from '../componentes/Boton';
 import Card from '../componentes/Card'; // Importa el componente Card
 import InputField from '../componentes/InputField';
 import axios from 'axios';
+import { useAuth } from '../contexto/AuthContext'; 
 
 const ListaGrupos = () => {
+  const { getToken } = useAuth();
+  const token = getToken();
+
   const [grupos, setGrupos] = useState([]);
   const [grupoId, setGrupoId] = useState('');
   const [grupoEncontrado, setGrupoEncontrado] = useState(null);
 
   useEffect(() => {
     // Realizar una solicitud GET para obtener la lista de grupos
-    axios.get('http://localhost:8080/api/grupos/')
+    axios.get('/api/grupos/', {
+      headers: {
+        'Authorization': `Bearer ${token}`  // Agrega el token al encabezado de autorización
+      }
+    })
       .then((response) => {
         setGrupos(response.data);
       })
@@ -20,10 +28,14 @@ const ListaGrupos = () => {
         console.error('Error al obtener la lista de grupos:', error);
       });
   }, []);
-
+  
   const buscarGrupoPorId = () => {
     // Realizar una solicitud GET para buscar un grupo por ID
-    axios.get(`http://localhost:8080/api/grupos/${grupoId}`)
+    axios.get(`/api/grupos/${grupoId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`  // Agrega el token al encabezado de autorización
+      }
+    })
       .then((response) => {
         setGrupoEncontrado(response.data);
       })
