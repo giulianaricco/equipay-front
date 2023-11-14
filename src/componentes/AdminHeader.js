@@ -43,10 +43,10 @@ const AdminHeader = () => {
             <select style={selectStyle} onChange={(e) => navigate(e.target.value)}>
                 <option value="/usuarios">Usuarios</option>
                 <option value="/registrar-usuario">Alta de usuario</option>
-                <option value="/otra-opcion-usuario">Baja de usuario</option>
+                <option value="/eliminar-usuario">Baja de usuario</option>
                 <option value="/listar-usuarios">Listar usuarios</option>
-                <option value="/otra-opcion-usuario">Bloquear usuario</option>
-                <option value="/otra-opcion-usuario">Desbloquear usuario</option>
+                <option value="/bloquear-usuario">Bloquear usuario</option>
+                <option value="/desbloquear-usuario">Desbloquear usuario</option>
                 <option value="/otra-opcion-usuario">Visualizar actividad</option>
             </select>
             <select style={selectStyle} onChange={(e) => navigate(e.target.value)}>

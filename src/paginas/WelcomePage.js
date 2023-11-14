@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { parseJwt } from '../utils/jwtUtils';  // Asegúrate de ajustar la ruta según la estructura de tus archivos
-import EquiPayLogo from '../img/EquiPay-verde-sinFondo.png';
+import React from 'react';import EquiPayLogo from '../img/EquiPay-verde-sinFondo.png';
 import UsuarioHeader from "../componentes/UsuarioHeader";
 import AdminHeader from "../componentes/AdminHeader";
 import { useAuth } from '../contexto/AuthContext';

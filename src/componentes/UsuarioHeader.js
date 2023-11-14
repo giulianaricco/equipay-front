@@ -40,7 +40,7 @@ const UsuarioHeader = () => {
           </div>
           <div>
             <select style={selectStyle} onChange={(e) => navigate(e.target.value)}>
-                <option value="/" disabled>Grupos</option>
+                <option value="/">Grupos</option>
                 <option value="/agregar-grupo">Alta de grupo</option>
                 <option value="/otra-opcion-usuario">Baja de grupo</option>
                 <option value="/listar-grupos">Listar grupos</option>
@@ -51,9 +51,8 @@ const UsuarioHeader = () => {
                 <option value="/otra-opcion-usuario">Consultar deudas</option>
             </select>
             <select style={selectStyle} onChange={(e) => navigate(e.target.value)}>
-                <option value="/" disabled>Perfil</option>
+                <option value="/">Perfil</option>
                 <option value="/otra-opcion-categoria">Modificar perfil</option>
-                <option value="/otra-opcion-categoria">Eliminar cuenta</option>
                 <option value="/otra-opcion-categoria">Eliminar cuenta</option>
                 <option value="/otra-opcion-categoria">Visualizar estadísticas</option>
                 <option onClick={handleLogout}>Cerrar sesión</option>

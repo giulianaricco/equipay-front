@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../componentes/Header';
+import UsuarioHeader from "../componentes/UsuarioHeader";
+import AdminHeader from "../componentes/AdminHeader";
 import Boton from '../componentes/Boton';
 import Card from '../componentes/Card';
 import { useAuth } from '../contexto/AuthContext'; 
 
 const ListarUsuarios = () => {
   const { getToken } = useAuth();
+  const { user } = useAuth();
   const token = getToken();
 
   const [usuarios, setUsuarios] = useState([]);
@@ -109,7 +111,8 @@ const ListarUsuarios = () => {
 
   return (
     <div>
-      <Header /*agregar condicion por administrador logeado*//>
+      {user && user.rol === 'Usuario' && <UsuarioHeader nombre={user.nombre} />}
+      {user && user.rol === 'Admin' && <AdminHeader nombre={user.nombre} />}
       <div style={{ marginTop: '50px', width: '100%', padding: '0 30px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
           <input

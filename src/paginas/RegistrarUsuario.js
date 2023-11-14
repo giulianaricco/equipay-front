@@ -1,10 +1,13 @@
 import React, { useState } from "react";
-import Header from '../componentes/Header';
 import Boton from '../componentes/Boton';
 import Card from '../componentes/Card'; // Importa el componente Card
 import InputField from '../componentes/InputField';
+import { useAuth } from '../contexto/AuthContext';
+import UsuarioHeader from "../componentes/UsuarioHeader";
+import AdminHeader from "../componentes/AdminHeader";
 
 function RegistrarUsuario() {
+  const { user } = useAuth();
 
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -53,7 +56,8 @@ function RegistrarUsuario() {
 
   return (
     <div>
-      <Header /*isLoggedIn={false} isAdmin={false} *//>
+      {user && user.rol === 'Usuario' && <UsuarioHeader nombre={user.nombre} />}
+      {user && user.rol === 'Admin' && <AdminHeader nombre={user.nombre} />}
       <div style={{ marginTop: '50px' }}>
         <div className="container">
           <Card title="Registrar Usuario">
