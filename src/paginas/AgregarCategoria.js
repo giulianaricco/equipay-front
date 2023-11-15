@@ -4,7 +4,6 @@ import Boton from '../componentes/Boton';
 import Card from '../componentes/Card'; 
 import InputField from '../componentes/InputField';
 
-//falta boton cancelar
 
 const AgregarCategoria = () => {
     const [nombre, setNombre] = React.useState("");
@@ -45,6 +44,10 @@ const AgregarCategoria = () => {
         }
     };
 
+    const handleCancel = async (e) => {
+
+    }
+
     return (
         <div id="AgregarCategoria">
             <Header />
@@ -62,6 +65,7 @@ const AgregarCategoria = () => {
                     </div>
 
                     <Boton onClick={handleSubmit}>Agregar</Boton>
+                    <Boton onClick={handleCancel}>Cancelar</Boton>
                 </Card>
             </div>
             </div>
