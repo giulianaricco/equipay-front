@@ -10,7 +10,6 @@ function RegistrarUsuario() {
   const { user } = useAuth();
 
   const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -24,7 +23,6 @@ function RegistrarUsuario() {
 
     const data = {
       nombre: name,
-      apellido: lastName,
       correo: email,
       password: password,
     };
@@ -66,14 +64,6 @@ function RegistrarUsuario() {
               placeholder="Nombre"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-
-            <div className="form-group">
-              <InputField
-              placeholder="Apellido"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
               />
             </div>
 

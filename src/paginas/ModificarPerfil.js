@@ -5,27 +5,26 @@ import Card from "../componentes/Card";
 import InputField from "../componentes/InputField";
 import axios from "axios";
 
-//falta boton cancelar
 
 const ModificarPerfil = () => {
-    const [nombre, setNombre] = React.useState("");
-    const [apellido, setApellido] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
+    const [telefono, setTelefono] = React.useState("");
+    const [imagen, setImagen] = React.useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!nombre && !apellido && !email && !password) {
+        if (!email && !password && !telefono && !imagen) {
             alert("Por favor, tiene que introducir al menos un dato a modificar");
             return;
         }
 
         const data = {
-            nombre: nombre,
-            apellido: apellido,
             correo: email,
             password: password,
+            telefono: telefono,
+            imagen: imagen,
         };
 
         try {
@@ -46,30 +45,16 @@ const ModificarPerfil = () => {
         }
     };
 
+    const handleCancel = async (e) => {
+
+    }
+
     return (
         <div id="ModificarPerfil">
             <Header />
             <div style={{ marginTop: "50px" }}>
                 <div className="container">
                     <Card title="Perfil">
-                        <div className="form-group">
-                            <label>Nombre:</label>
-                            <div style={{ display: "flex", justifyContent: "center" }}>
-                                <InputField
-                                    value={nombre}
-                                    onChange={(e) => setNombre(e.target.value)}
-                                />
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <label>Apellido:</label>
-                            <div style={{ display: "flex", justifyContent: "center" }}>
-                                <InputField
-                                    value={apellido}
-                                    onChange={(e) => setApellido(e.target.value)}
-                                />
-                            </div>
-                        </div>
                         <div className="form-group">
                             <label>Email:</label>
                             <div style={{ display: "flex", justifyContent: "center" }}>
@@ -88,8 +73,27 @@ const ModificarPerfil = () => {
                                 />
                             </div>
                         </div>
+                        <div className="form-group">
+                            <label>Telefono:</label>
+                            <div style={{ display: "flex", justifyContent: "center" }}>
+                                <InputField
+                                    value={telefono}
+                                    onChange={(e) => setTelefono(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <label>Imagen:</label>
+                            <div style={{ display: "flex", justifyContent: "center" }}>
+                                <InputField
+                                    value={imagen}
+                                    onChange={(e) => setImagen(e.target.value)}
+                                />
+                            </div>
+                        </div>
 
                         <Boton onClick={handleSubmit}>Modificar</Boton>
+                        <Boton onClick={handleCancel}>Cancelar</Boton>
                     </Card>
                 </div>
             </div>
