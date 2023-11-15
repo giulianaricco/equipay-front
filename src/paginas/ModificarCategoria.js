@@ -5,7 +5,6 @@ import Card from "../componentes/Card";
 import InputField from "../componentes/InputField";
 import axios from "axios";
 
-//falta boton cancelar
 
 const ModificarCategoria = ({ categoryId }) => {
     const [nombre, setNombre] = React.useState("");
@@ -53,6 +52,10 @@ const ModificarCategoria = ({ categoryId }) => {
         }
     };
 
+    const handleCancel = async (e) => {
+
+    }
+
     return (
         <div id="ModificarCategoria">
             <Header />
@@ -71,6 +74,7 @@ const ModificarCategoria = ({ categoryId }) => {
 
                         <div style={{ display: "flex", justifyContent: "center" }}>
                             <Boton onClick={handleSubmit}>Modificar</Boton>
+                            <Boton onClick={handleCancel}>Cancelar</Boton>
                         </div>
                     </Card>
                 </div>
