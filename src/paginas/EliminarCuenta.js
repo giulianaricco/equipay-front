@@ -4,6 +4,7 @@ import Boton from '../componentes/Boton';
 import Card from '../componentes/Card';
 import axios from '../utils/axios';
 import { useAuth } from '../contexto/AuthContext'; 
+import { useNavigate } from 'react-router-dom';
 
 const styles = {
   inputStyle: {
@@ -27,13 +28,15 @@ const styles = {
 
 };
 
-const DesbloquearUsuario = () => {
+const EliminarCuenta = () => {
   const { getToken } = useAuth();
   const token = getToken();
+  const { user } = useAuth();
 
   const [usuarios, setUsuarios] = useState([]);
   const [idUsuario, setIdUsuario] = useState("");
   const [usuarioDetalles, setUsuarioDetalles] = useState(null);
+  const navigate = useNavigate();
 
   const obtenerUsuarios = async () => {
     try {
@@ -42,10 +45,17 @@ const DesbloquearUsuario = () => {
           'Authorization': `Bearer ${token}`
         }
       });
-
       if (response.status === 200) { 
-        const usuariosFiltrados = response.data.filter(usuario => usuario.estadoUsuario !== 'ELIMINADO' && usuario.estadoUsuario !== 'ACTIVO');
-        setUsuarios(usuariosFiltrados);
+        // Filtra solo el usuario logeado
+        const usuarioLogeado = response.data.find(usuario => usuario.correo === user.correo);
+        
+        // Si el usuario logeado existe, actualiza el estado solo con ese usuario
+        if (usuarioLogeado) {
+          setUsuarios([usuarioLogeado]);
+        } else {
+          // Si el usuario logeado no existe, puedes manejarlo según tus necesidades
+          console.error('Usuario logeado no encontrado');
+        }
       }
     } catch (error) {
       console.error('Error al obtener las categorías:', error);
@@ -56,6 +66,16 @@ const DesbloquearUsuario = () => {
     // Llamar a obtenerUsuarios al montar el componente
     obtenerUsuarios();
   }, []); // Sin dependencias, se ejecutará solo una vez al montar el componente
+
+  const confirmarEliminacion = () => {
+    // Muestra un cuadro de diálogo de confirmación
+    const confirmacion = window.confirm("¿Estás seguro de que deseas eliminar tu cuenta?");
+    
+    if (confirmacion) {
+      // Si el usuario confirma, procede con la eliminación
+      handleSubmit();
+    }
+  };
 
   const cargarDetallesUsuario = async (selectedUserId) => {
     try {
@@ -73,32 +93,22 @@ const DesbloquearUsuario = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!idUsuario) {
-      alert("Por favor seleccione un usuario.");
-      return;
-    }
-
-    cargarDetallesUsuario(idUsuario);
-
+  const handleSubmit = async () => {
     try {
-      
-      const response = await axios.post(`/api/usuarios/${idUsuario}/desbloquear`, null, {
-      headers: {
+      const response = await axios.delete(`/api/usuarios/${idUsuario}`, {
+        headers: {
           'Authorization': `Bearer ${token}`
-      },
+        },
       });
 
       if (response.status === 200) {
-        console.log('Usuario desbloqueado exitosamente');
-        alert("Usuario desbloqueado exitosamente.");
+        console.log('Usuario eliminado exitosamente');
+        alert("Usuario eliminado exitosamente.");
         // Actualizar la lista después de la eliminación
         obtenerUsuarios();
         setIdUsuario("");
-        // Ocultar los detalles del usuario al bloquear
-        setUsuarioDetalles(null);
+        navigate('/');
+        
       } else {
         console.error('Error inesperado:', response.statusText);
         alert('Error inesperado: ' + response.statusText);
@@ -114,24 +124,7 @@ const DesbloquearUsuario = () => {
       {(
         <div style={{ marginTop: '50px' }}>
           <div className="container">
-            <Card title="Desbloquear Usuario">
-              <div className="form-group">
-                <select
-                  value={idUsuario}
-                  onChange={(e) => {
-                    setIdUsuario(e.target.value);
-                    // Al cambiar el usuario seleccionado, carga sus detalles
-                    cargarDetallesUsuario(e.target.value);
-                  }}
-                  style={styles.selectStyle}>
-                  <option value="">Seleccione un usuario</option>
-                  {usuarios.map((usuario) => (
-                    <option key={usuario.correo} value={usuario.correo}>
-                      {usuario.nombre} {usuario.apellido ? usuario.apellido : ' '}
-                    </option>
-                  ))}
-                </select>
-              </div>
+            <Card title="Eliminar Cuenta">
               {usuarioDetalles && (
                 <div style={styles.userDetails}>
                   <h4>Detalles del Usuario</h4>
@@ -139,7 +132,7 @@ const DesbloquearUsuario = () => {
                   <p>Nombre: {usuarioDetalles.nombre} {usuarioDetalles.apellido ? usuarioDetalles.apellido : ' '}</p>
                 </div>
               )}
-              <Boton onClick={handleSubmit}>Desbloquear</Boton>
+              <Boton onClick={confirmarEliminacion}>Eliminar</Boton>
             </Card>
           </div>
         </div>
@@ -148,4 +141,4 @@ const DesbloquearUsuario = () => {
   );
 };
 
-export default DesbloquearUsuario;
+export default EliminarCuenta;

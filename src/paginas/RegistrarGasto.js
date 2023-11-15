@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../componentes/Header';
+import UsuarioHeader from "../componentes/UsuarioHeader";
+import AdminHeader from "../componentes/AdminHeader";
 import Boton from '../componentes/Boton';
 import Card from '../componentes/Card'; // Importa el componente Card
 import axios from '../utils/axios';
@@ -29,6 +30,7 @@ const styles = {
 
 const RegistrarGasto = () => {
   const { getToken } = useAuth();
+  const { user } = useAuth();
   const token = getToken();
 
   const [monto, setMonto] = useState("");
@@ -39,6 +41,7 @@ const RegistrarGasto = () => {
   const [idCubiertoPor, setIdCubiertoPor] = useState("");
   const [idBeneficiados, setIdBeneficiados] = useState([]);
   const [idCategoria, setIdCategoria] = useState("");
+  const [gruposUsuario, setGruposUsuario] = useState([]);
   const [usuariosGrupo, setUsuariosGrupo] = useState([]);
   const [beneficiados, setBeneficiados] = useState([]);
   const [categorias, setCategorias] = useState([]);
@@ -73,7 +76,6 @@ const RegistrarGasto = () => {
     }
   };
   
-
   useEffect(() => {
     if (idGrupo) {
       obtenerUsuariosGrupo(); // Llama a la función si se selecciona un grupo
@@ -100,6 +102,25 @@ const RegistrarGasto = () => {
     obtenerCategorias();
   }, []); // Sin dependencias, se ejecutará solo una vez al montar el componente
   
+  useEffect(() => {
+    async function obtenerGruposUsuario() {
+      try {  
+        const response = await axios.get(`/api/usuarios/${user.correo}/grupos`, {
+          headers: {
+            'Authorization': `Bearer ${token}` // Agregar el token al encabezado de autorización
+          }
+        });
+  
+        if (response.status === 200) {
+          setGruposUsuario(response.data);
+        }
+      } catch (error) {
+        console.error('Error al obtener los grupos del usuario:', error);
+      }
+    }
+  
+    obtenerGruposUsuario();
+  }, []); // Sin dependencias, se ejecutará solo una vez al montar el componente
 
   const handleMontoChange = (e) => {
     const input = e.target.value;
@@ -155,7 +176,8 @@ const RegistrarGasto = () => {
 
   return (
     <div id="AgregarGasto">
-      <Header />
+      {user && user.rol === 'Usuario' && <UsuarioHeader nombre={user.nombre} />}
+      {user && user.rol === 'Admin' && <AdminHeader nombre={user.nombre} />}
       <div style={{ marginTop: '50px' }}>
         <div className="container">
           <Card title="Registrar Gasto">
@@ -200,13 +222,17 @@ const RegistrarGasto = () => {
                 />
               </div>
               <div className="form-group">
-                <input
+                <select
                   value={idGrupo}
                   onChange={(e) => setIdGrupo(e.target.value)}
-                  placeholder="ID de Grupo"
-                  className='placeholder-white'
-                  style={styles.inputStyle}
-                />
+                  style={styles.selectStyle}>
+                  <option value="">Seleccione una opción</option> {/* Opción predeterminada */}
+                  {gruposUsuario.map((grupo) => (
+                    <option key={grupo.id} value={grupo.id}>
+                      {grupo.nombre}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="form-group">
               <select

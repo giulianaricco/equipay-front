@@ -14,6 +14,9 @@ import PaginaEliminarCategoria from './paginas/EliminarCategoria';
 import PaginaEliminarUsuario from './paginas/EliminarUsuario';
 import PaginaBloquearUsuario from './paginas/BloquearUsuario';
 import PaginaDesbloquearUsuario from './paginas/DesbloquearUsuario';
+import PaginaEliminarCuenta from './paginas/EliminarCuenta';
+import PaginaRegistrarPago from './paginas/RegistrarPago';
+import PaginaConsultarDeuda from './paginas/ConsultarDeudas';
 
 function App() {
 
@@ -33,6 +36,9 @@ function App() {
             <Route path="/eliminar-usuario" element={<PaginaEliminarUsuario />} />
             <Route path="/bloquear-usuario" element={<PaginaBloquearUsuario />} />
             <Route path="/desbloquear-usuario" element={<PaginaDesbloquearUsuario />} />
+            <Route path="/eliminar-cuenta" element={<PaginaEliminarCuenta />} />
+            <Route path="/registrar-pago" element={<PaginaRegistrarPago />} />
+            <Route path="/consultar-deudas" element={<PaginaConsultarDeuda />} />
           {/* Redirigir a la página de inicio si la ruta no coincide con ninguna de las anteriores */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

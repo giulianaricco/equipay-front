@@ -97,6 +97,8 @@ const BloquearUsuario = () => {
         // Actualizar la lista después de la eliminación
         obtenerUsuarios();
         setIdUsuario("");
+        // Ocultar los detalles del usuario al bloquear
+        setUsuarioDetalles(null);
       } else {
         console.error('Error inesperado:', response.statusText);
         alert('Error inesperado: ' + response.statusText);

@@ -66,7 +66,7 @@ const AdminHeader = () => {
             <select style={selectStyle} onChange={(e) => navigate(e.target.value)}>
                 <option value="/">Perfil</option>
                 <option value="/otra-opcion-categoria">Modificar perfil</option>
-                <option value="/otra-opcion-categoria">Eliminar cuenta</option>
+                <option value="/eliminar-cuenta">Eliminar cuenta</option>
                 <option onClick={handleLogout}>Cerrar sesión</option>
             </select>
           </div>

@@ -15,6 +15,7 @@ export const AuthProvider = ({ children }) => {
         setUser({
           nombre: decodedToken.nombre,
           rol: decodedToken.rol,
+          correo: decodedToken.sub,
         });
       } else {
         console.error('Error al decodificar el token');
@@ -27,10 +28,11 @@ export const AuthProvider = ({ children }) => {
 
   const login = (newToken) => {
     setToken(newToken);
+    localStorage.setItem('token', newToken);
   };
 
   const logout = () => {
-    setToken(null);
+    setToken('');
     setUser(null);
     // Eliminar el token del almacenamiento local
     localStorage.removeItem('token');
