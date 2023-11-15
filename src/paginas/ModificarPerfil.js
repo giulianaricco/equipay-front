@@ -123,6 +123,10 @@ const ModificarPerfil = () => {
       }, [id, token]);*/
 
 
+    const handleCancel = async (e) => {
+
+    }
+
     return (
         <div id="ModificarPerfil">
             <Header />
@@ -166,8 +170,28 @@ const ModificarPerfil = () => {
                                 />
                             </div>
                         </div>
+                        <div className="form-group">
+                            <label>Telefono:</label>
+                            <div style={{ display: "flex", justifyContent: "center" }}>
+                                <InputField
+                                    value={telefono}
+                                    onChange={(e) => setTelefono(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <label>Imagen:</label>
+                            <div style={{ display: "flex", justifyContent: "center" }}>
+                                <InputField
+                                    value={imagen}
+                                    onChange={(e) => setImagen(e.target.value)}
+                                />
+                            </div>
+                        </div>
 
                         <Boton onClick={handleSubmit} >Modificar</Boton>
+                        <Boton onClick={handleCancel}>Cancelar</Boton>
+                        <Boton onClick={handleSubmit}>Modificar</Boton>
                         <Boton onClick={handleCancel}>Cancelar</Boton>
                     </Card>
                 </div>
