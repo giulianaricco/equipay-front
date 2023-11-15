@@ -5,6 +5,7 @@ import Card from "../componentes/Card";
 import InputField from "../componentes/InputField";
 
 function IniciarSesion() {
+    //falt recuperar contraseña 
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");   
@@ -48,7 +49,7 @@ function IniciarSesion() {
 
     return (
         <div>
-            <Header /*isLoggedIn={false} isAdmin={false} *//>
+            <Header isLoggedIn={false} /*isAdmin={false}*/ />
             <div style={{ marginTop: '50px' }}>
                 <div className="container">
                     <Card title="Iniciar sesion">
