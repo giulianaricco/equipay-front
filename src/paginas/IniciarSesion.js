@@ -6,6 +6,7 @@ import Card from "../componentes/Card";
 import InputField from "../componentes/InputField";
 
 function IniciarSesion() {
+    //falt recuperar contraseña 
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
