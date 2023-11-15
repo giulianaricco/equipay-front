@@ -27,6 +27,11 @@ import PaginaEliminarCuenta from './paginas/EliminarCuenta';
 import PaginaRegistrarPago from './paginas/RegistrarPago';
 import PaginaConsultarDeuda from './paginas/ConsultarDeudas';
 
+import PaginaIniciarSesion from './paginas/IniciarSesion';
+import PaginaAgregarCategoria from './paginas/AgregarCategoria';
+import PaginaModificarCategoria from './paginas/ModificarCategoria';
+import PaginaModificarPerfil from './paginas/ModificarPerfil';
+
 function App() {
 
   return (
@@ -60,7 +65,11 @@ function App() {
 
           {/* Redirigir a la página de inicio si la ruta no coincide con ninguna de las anteriores */}
           <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
+          <Route path="/Iniciar-sesion" element={<PaginaIniciarSesion />} />
+        <Route path="/agregar-categoria" element={<PaginaAgregarCategoria />} />
+        <Route path="/modificar-categoria/:categoryId" element={<PaginaModificarCategoria />} />
+        <Route path="/modificar-perfil" element={<PaginaModificarPerfil />} />
+      </Routes>
       </Router>
     </AuthProvider>
   );
