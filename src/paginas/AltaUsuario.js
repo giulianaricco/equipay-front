@@ -5,10 +5,12 @@ import Card from "../componentes/Card";
 import InputField from "../componentes/InputField";
 
 const AltaUsuario = () => {
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [rol, setRol] = useState("");
+    const [name, setName] = React.useState("");
+    const [email, setEmail] = React.useState("");
+    const [password, setPassword] = React.useState("");
+    const [rol, setRol] = React.useState("");
+
+    //falta dropdown
 
     const handleSubmit = async (e) => {
 
@@ -41,16 +43,14 @@ const AltaUsuario = () => {
             </div>
 
             <div className="form-group">
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Contraseña"
-                className='placeholder-white'
+              <InputField
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               />
             </div>
 
-            <div className="form-group"> //mejor dropdown
+            <div className="form-group">
               <InputField
               placeholder="Rol"
               value={rol}
