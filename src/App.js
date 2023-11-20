@@ -6,6 +6,8 @@ import PaginaAgregarGrupo from './paginas/agregarGrupo/AgregarGrupo';
 import PaginaDetalleGrupo from './paginas/detalleGrupo/DetalleGrupo';
 import InvitarAmigo from './paginas/invitarAmigo/invitarAmigo';
 
+import PaginaRegistrarUsuario from './paginas/RegistrarUsuario';
+import PaginaListarUsuarios from './paginas/ListarUsuarios'
 function App() {
   return (
     <Router>
@@ -15,6 +17,8 @@ function App() {
         <Route path="/listar-grupos" element={<PaginaListarGrupo />} />
         <Route path="/detalle-grupo/:id" element={<PaginaDetalleGrupo />} />
         <Route path="/invitar-amigo" element={<InvitarAmigo />} />
+        <Route path="/registrar-usuario" element={<PaginaRegistrarUsuario />} />
+        <Route path="/listar-usuarios" element={<PaginaListarUsuarios />} />
       </Routes>
     </Router>
   );
