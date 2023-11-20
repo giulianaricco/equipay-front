@@ -1,10 +1,13 @@
 import React, { useState } from "react";
-import Header from '../componentes/Header';
 import Boton from '../componentes/Boton';
 import Card from '../componentes/Card'; // Importa el componente Card
 import InputField from '../componentes/InputField';
+import { useAuth } from '../contexto/AuthContext';
+import UsuarioHeader from "../componentes/UsuarioHeader";
+import AdminHeader from "../componentes/AdminHeader";
 
 function RegistrarUsuario() {
+  const { user } = useAuth();
 
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -15,7 +18,7 @@ function RegistrarUsuario() {
     e.preventDefault();
 
     if (!name || !email || !password) {
-      alert("Por favor nombre, email y contraseña");
+      alert("Por favor complete nombre, email y contraseña.");
       return;
     }
 
@@ -28,7 +31,7 @@ function RegistrarUsuario() {
 
     try {
       // Llamada a la API con fetch
-      const response = await fetch('/api/usuarios/', {
+      const response = await fetch('/api/auth/registro', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -38,10 +41,10 @@ function RegistrarUsuario() {
       
       if (response.ok) {
         console.log('Usuario registrado exitosamente');
-        alert("Usuario registrado correctamente");
+        alert("Usuario registrado correctamente.");
       } else if (response.status === 409) {
         console.log('Ya existe un usuario con el correo ingresado');
-        alert('Ya existe un usuario con el correo ingresado');
+        alert('Ya existe un usuario con el correo ingresado.');
       } else {
         console.error('Error inesperado:', response.statusText);
         alert('Error inesperado: ' + response.statusText);
@@ -53,7 +56,8 @@ function RegistrarUsuario() {
 
   return (
     <div>
-      <Header /*isLoggedIn={false} isAdmin={false} *//>
+      {user && user.rol === 'Usuario' && <UsuarioHeader nombre={user.nombre} />}
+      {user && user.rol === 'Admin' && <AdminHeader nombre={user.nombre} />}
       <div style={{ marginTop: '50px' }}>
         <div className="container">
           <Card title="Registrar Usuario">

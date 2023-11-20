@@ -7,9 +7,13 @@ import axios from 'axios';
 import './ListaGrupos.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { useAuth } from '../contexto/AuthContext'; 
 
 
 const ListaGrupos = () => {
+  const { getToken } = useAuth();
+  const token = getToken();
+
   const [grupos, setGrupos] = useState([]);
   const [grupoId, setGrupoId] = useState('');
   const [grupoEncontrado, setGrupoEncontrado] = useState(null);
@@ -19,7 +23,10 @@ const ListaGrupos = () => {
   useEffect(() => {
     // Realizar una solicitud GET para obtener la lista de grupos
     // Agregar validacion de cuando es admin, mostrar todos los grupos
-    // axios.get('http://localhost:8080/api/grupos/')
+    // axios.get('http://localhost:8080/api/grupos/',  headers: {
+    //     'Authorization': `Bearer ${token}`  // Agrega el token al encabezado de autorización
+    //   }
+    // })
     //   .then((response) => {
     //     setGrupos(response.data);
     //   })
@@ -27,7 +34,11 @@ const ListaGrupos = () => {
     //     console.error('Error al obtener la lista de grupos:', error);
     //   });
     const correo = 'agustin@mail.com'
-    axios.get(`http://localhost:8080/api/usuarios/${correo}/grupos`)
+    axios.get(`http://localhost:8080/api/usuarios/${correo}/grupos`, {
+      headers: {
+        'Authorization': `Bearer ${token}`  // Agrega el token al encabezado de autorización
+      }
+    })
       .then((response) => {
         setGrupos(response.data);
       })
@@ -39,7 +50,10 @@ const ListaGrupos = () => {
   // Cuando es admin, buscar todos los grupos:
   // const buscarGrupoPorId = () => {
   //   // Realizar una solicitud GET para buscar un grupo por ID
-  //   axios.get(`http://localhost:8080/api/grupos/${grupoId}`)
+  //   axios.get(`http://localhost:8080/api/grupos/${grupoId}`,  headers: {
+    //     'Authorization': `Bearer ${token}`  // Agrega el token al encabezado de autorización
+    //   }
+    // })
   //     .then((response) => {
   //       setGrupoEncontrado(response.data);
   //     })

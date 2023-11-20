@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const buttonStyle = {
@@ -29,6 +30,9 @@ const Header = () => {
         <button style={buttonStyle}>Grupos</button>
         <button style={buttonStyle}>Actividad</button>
         <button style={buttonStyle}>Perfil</button>
+        <Link to="/eliminar-categoria" style={buttonStyle}>
+          Categoría
+        </Link>
       </div>
     </div>
   );
