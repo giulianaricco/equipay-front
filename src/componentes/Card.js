@@ -34,5 +34,3 @@ const Card = ({ title, children }) => {
 };
 
 export default Card;
-
-
