@@ -13,28 +13,19 @@ import UsuarioHeader from '../../componentes/UsuarioHeader';
 
 const ListaGrupos = () => {
   const { getToken } = useAuth();
+  const { user } = useAuth();
   const token = getToken();
+  const correoUser = user.correo;
 
   const [grupos, setGrupos] = useState([]);
   const [grupoId, setGrupoId] = useState('');
   const [grupoEncontrado, setGrupoEncontrado] = useState(null);
   const [grupoEnEdicion, setGrupoEnEdicion] = useState(null);
+  const [busquedaExitosa, setBusquedaExitosa] = useState(true);
 
 
   useEffect(() => {
-    // Realizar una solicitud GET para obtener la lista de grupos
-    // Agregar validacion de cuando es admin, mostrar todos los grupos
-    // axios.get('http://localhost:8080/api/grupos/',  headers: {
-    //     'Authorization': `Bearer ${token}`  // Agrega el token al encabezado de autorización
-    //   }
-    // })
-    //   .then((response) => {
-    //     setGrupos(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error al obtener la lista de grupos:', error);
-    //   });
-    const correo = 'agustin@mail.com'
+    const correo = correoUser
     axios.get(`http://localhost:8080/api/usuarios/${correo}/grupos`, {
       headers: {
         'Authorization': `Bearer ${token}`  // Agrega el token al encabezado de autorización
@@ -48,38 +39,29 @@ const ListaGrupos = () => {
       });
   }, []);
 
-  // Cuando es admin, buscar todos los grupos:
-  // const buscarGrupoPorId = () => {
-  //   // Realizar una solicitud GET para buscar un grupo por ID
-  //   axios.get(`http://localhost:8080/api/grupos/${grupoId}`,  headers: {
-    //     'Authorization': `Bearer ${token}`  // Agrega el token al encabezado de autorización
-    //   }
-    // })
-  //     .then((response) => {
-  //       setGrupoEncontrado(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error al buscar el grupo por ID:', error);
-  //       setGrupoEncontrado(null); // Restablecer el resultado de la búsqueda
-  //     });
-  // };
-
   const buscarGrupoPorId = () => {
     const idBuscado = parseInt(grupoId, 10);
-
+  
     const grupoEncontrado = grupos.find(grupo => grupo.id === idBuscado);
-
+  
     if (grupoEncontrado != null) {
       setGrupoEncontrado(grupoEncontrado);
+      setBusquedaExitosa(true);
     } else {
       console.error('Grupo no encontrado en los resultados previos.');
       setGrupoEncontrado(null);
+      setBusquedaExitosa(false);
     }
   };
+  
 
   const handleEliminar = (grupoId) => {
     // Realiza la llamada a la API para eliminar el grupo con el ID proporcionado
-    axios.delete(`http://localhost:8080/api/grupos/${grupoId}`)
+    axios.delete(`http://localhost:8080/api/grupos/${grupoId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
       .then(response => {
         // Actualiza la lista de grupos después de eliminar
         const nuevosGrupos = grupos.filter(grupo => grupo.id !== grupoId);
@@ -92,32 +74,16 @@ const ListaGrupos = () => {
 
   const handleModificar = (grupoId) => {
     setGrupoEnEdicion(grupos.find(grupo => grupo.id === grupoId));
-    // Realiza la llamada a la API para modificar el grupo con el ID proporcionado
-    // const nuevoNombre = prompt('Nuevo nombre:');
-    // const nuevaDescripcion = prompt('Nueva descripción:');
-
-    // if (nuevoNombre !== null && nuevaDescripcion !== null) {
-    //   axios.put(`http://localhost:8080/api/grupos/${grupoId}`, {
-    //     nombre: nuevoNombre,
-    //     descripcion: nuevaDescripcion
-    //   })
-    //     .then(response => {
-    //       // Actualiza la lista de grupos después de modificar
-    //       const nuevosGrupos = grupos.map(grupo =>
-    //         grupo.id === grupoId ? { ...grupo, nombre: nuevoNombre, descripcion: nuevaDescripcion } : grupo
-    //       );
-    //       setGrupos(nuevosGrupos);
-    //     })
-    //     .catch(error => {
-    //       console.error('Error al modificar el grupo:', error);
-    //     });
-    // }
   };
 
   const handleGuardarEdicion = () => {
     // Realiza la llamada a la API para modificar el grupo con el ID proporcionado
     const { id, nombre, descripcion } = grupoEnEdicion;
-    axios.put(`http://localhost:8080/api/grupos/${id}`, { nombre, descripcion })
+    axios.put(`http://localhost:8080/api/grupos/${id}`, { nombre, descripcion }, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
       .then(response => {
         // Actualiza la lista de grupos después de modificar
         const nuevosGrupos = grupos.map(grupo =>
@@ -149,13 +115,17 @@ const ListaGrupos = () => {
               <Boton onClick={buscarGrupoPorId}>Buscar</Boton>
             </div>
             <div style={{ marginTop: '20px' }}></div>
-            {grupoEncontrado && (
-              <Card title="Grupo Encontrado">
-                <p>ID: {grupoEncontrado.id}</p>
-                <p>Nombre: {grupoEncontrado.nombre}</p>
-                <p>Descripción: {grupoEncontrado.descripcion}</p>
-              </Card>
-            )}
+            {busquedaExitosa ? (
+    grupoEncontrado && (
+      <Card title="Grupo Encontrado">
+        <p>ID: {grupoEncontrado.id}</p>
+        <p>Nombre: {grupoEncontrado.nombre}</p>
+        <p>Descripción: {grupoEncontrado.descripcion}</p>
+      </Card>
+    )
+  ) : (
+    <p>No se encontró ningún grupo con el ID proporcionado.</p>
+  )}
           </Card>
         </div>
         <div style={{ marginTop: '50px' }}>

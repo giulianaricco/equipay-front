@@ -10,6 +10,8 @@ import PaginaAgregarGrupo from './paginas/agregarGrupo/AgregarGrupo';
 import PaginaDetalleGrupo from './paginas/detalleGrupo/DetalleGrupo';
 import InvitarAmigo from './paginas/invitarAmigo/invitarAmigo';
 import PaginaRecuperarContrasena from './paginas/recuperarContrasena/RecuperarContrasena';
+import PaginaUnirseGrupoLink from './paginas/unirseGrupo/UnirseGrupoLink';
+import PaginaUnirseGrupoCodigo from './paginas/unirseGrupo/UnirseGrupoCodigo';
 
 import PaginaRegistrarUsuario from './paginas/RegistrarUsuario';
 import PaginaListarUsuarios from './paginas/ListarUsuarios';
@@ -48,6 +50,8 @@ function App() {
             <Route path="/detalle-grupo/:id" element={<PaginaDetalleGrupo />} />
             <Route path="/invitar-amigo" element={<InvitarAmigo />} />
             <Route path="/recuperar-contrasena" element={<PaginaRecuperarContrasena />} />
+            <Route path="/unirse-grupo-link" element={< PaginaUnirseGrupoLink />} />
+            <Route path="/unirse-grupo-codigo" element={< PaginaUnirseGrupoCodigo />} />
 
 
           {/* Redirigir a la página de inicio si la ruta no coincide con ninguna de las anteriores */}

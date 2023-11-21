@@ -14,21 +14,19 @@ const RecuperarContrasena = () => {
   };
 
   const handleRecuperarContrasenaClick = () => {
-    // Validar que el correo electrónico no esté vacío
     if (email.trim() === '') {
       setMensaje('Por favor, ingrese su correo electrónico.');
       return;
     }
 
-    // Realizar la solicitud POST al endpoint con el correo electrónico proporcionado
     axios
-      .post(`http://localhost:8080/api/auth/contrasena?idUsuario=${email}`)
+      .post(`http://localhost:8080/api/auth/contrasena?idUsuario=${email}`, {
+      idUsuario: email,
+    })
       .then((response) => {
-        // Manejar la respuesta del servidor
         setMensaje('Se ha enviado un correo electrónico con instrucciones para restablecer la contraseña.');
       })
       .catch((error) => {
-        // Manejar errores de la solicitud
         setMensaje('Error al intentar recuperar la contraseña. Por favor, inténtelo de nuevo.');
       });
   };

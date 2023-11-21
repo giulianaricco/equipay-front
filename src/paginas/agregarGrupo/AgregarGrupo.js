@@ -7,6 +7,8 @@ import axios from '../../utils/axios';
 import './AgregarGrupo.css';
 import { useAuth } from '../../contexto/AuthContext';
 import UsuarioHeader from '../../componentes/UsuarioHeader';
+import { Navigate } from 'react-router-dom';
+
 
 const styles = {
   input: {
@@ -30,7 +32,9 @@ const styles = {
 
 const PaginaAgregarGrupo = () => {
   const { getToken } = useAuth();
+  const { user } = useAuth();
   const token = getToken();
+  const correo = user.correo;
 
   const [nombreGrupo, setNombreGrupo] = useState('');
   const [contacto, setContacto] = useState('');
@@ -39,6 +43,10 @@ const PaginaAgregarGrupo = () => {
   const [mostrarBotonCrearGrupo, setMostrarBotonCrearGrupo] = useState(true);
   const [amigos, setAmigos] = useState([]);
   const [descripcion, setDescripcion] = useState('');
+  const [grupoIdCreated, setGrupoIdCreated] = useState(null); 
+  const [correosInvitados, setCorreosInvitados] = useState(new Set());
+  const [redireccionar, setRedireccionar] = useState(false);
+
 
   const handleNombreGrupoChange = (event) => {
     setNombreGrupo(event.target.value);
@@ -49,14 +57,13 @@ const PaginaAgregarGrupo = () => {
   };
 
   const handleContinuarClick = () => {
-    // if (nombreGrupo.length >= 3) {
-    //   setMostrarLabel(true);
-    //   setMostrarBotonContinuar(false);
-    //   setMostrarBotonCrearGrupo(true);
-    // } else {
-    //   alert('El nombre del grupo debe tener al menos 3 caracteres.');
-    // }
+
+    setRedireccionar(true);
   };
+
+  if (redireccionar) {
+    return <Navigate to="/listar-grupos" />;
+  }
 
   const validarContacto = (contacto) => {
     const esEmailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contacto);
@@ -66,8 +73,30 @@ const PaginaAgregarGrupo = () => {
 
   const handleAgregarAmigo = () => {
     if (validarContacto(contacto)) {
+      if (contacto.toLowerCase() === user.correo.toLowerCase()) {
+        alert('No puedes invitarte a ti mismo.');
+        return; 
+      }
+      if (correosInvitados.has(contacto.toLowerCase())) {
+        alert('Ya has enviado una invitación a este correo.');
+        return; // No realizar la solicitud si el correo ya ha sido invitado
+      }
+
       setAmigos([...amigos, contacto]);
+      setCorreosInvitados(new Set(correosInvitados).add(contacto.toLowerCase()));
       setContacto('');
+
+      axios.post(`/api/grupos/${grupoIdCreated}/invitar-amigo/${contacto}`, null, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then((response) => {
+        console.log('Amigo invitado con éxito:', response.data);
+      })
+      .catch((error) => {
+        console.error('Error al invitar amigo:', error);
+      });
     } else {
       alert('El contacto no es un email válido.');
     }
@@ -88,7 +117,7 @@ const PaginaAgregarGrupo = () => {
       const nuevoGrupo = {
         nombre: nombreGrupo,
         descripcion: descripcion, 
-        idDueño: "agustin@mail.com", // Reemplaza con el ID adecuado del dueño
+        idDueño: correo, // Reemplaza con el ID adecuado del dueño
       };
 
       axios.post('/api/grupos/', nuevoGrupo, {
@@ -97,6 +126,8 @@ const PaginaAgregarGrupo = () => {
         }
       })
       .then((response) => {
+        const grupoId = response.data;
+        setGrupoIdCreated(grupoId);
         console.log('Grupo creado con éxito:', response.data);
       })
       .catch((error) => {
@@ -165,7 +196,7 @@ const PaginaAgregarGrupo = () => {
             )}
 
            {mostrarBotonContinuar && (
-              <Boton onClick={handleContinuarClick}>Continuar</Boton>
+              <Boton onClick={handleContinuarClick}>Ver mis grupos</Boton>
             )}
           </div>
         </Card>
