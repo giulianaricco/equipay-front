@@ -3,7 +3,7 @@ import Header from '../../componentes/Header';
 import Boton from '../../componentes/Boton';
 import Card from '../../componentes/Card';
 import InputField from '../../componentes/InputField';
-import axios from 'axios';
+import axios from '../../utils/axios';
 import './ListaGrupos.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
@@ -22,7 +22,7 @@ const ListaGrupoAdmin = () => {
 
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/grupos/', { 
+    axios.get('/api/grupos/', { 
         headers: {
         'Authorization': `Bearer ${token}`  // Agrega el token al encabezado de autorización
       }
@@ -34,22 +34,6 @@ const ListaGrupoAdmin = () => {
         console.error('Error al obtener la lista de grupos:', error);
       });
   }, []);
-
-  // Cuando es admin, buscar todos los grupos:
-  // const buscarGrupoPorId = () => {
-  //   // Realizar una solicitud GET para buscar un grupo por ID
-  //   axios.get(`http://localhost:8080/api/grupos/${grupoId}`,  headers: {
-    //     'Authorization': `Bearer ${token}`  // Agrega el token al encabezado de autorización
-    //   }
-    // })
-  //     .then((response) => {
-  //       setGrupoEncontrado(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error al buscar el grupo por ID:', error);
-  //       setGrupoEncontrado(null); // Restablecer el resultado de la búsqueda
-  //     });
-  // };
 
   const buscarGrupoPorId = () => {
     const idBuscado = parseInt(grupoId, 10);
@@ -66,7 +50,7 @@ const ListaGrupoAdmin = () => {
 
   const handleEliminar = (grupoId) => {
     // Realiza la llamada a la API para eliminar el grupo con el ID proporcionado
-    axios.delete(`http://localhost:8080/api/grupos/${grupoId}`)
+    axios.delete(`/api/grupos/${grupoId}`)
       .then(response => {
         // Actualiza la lista de grupos después de eliminar
         const nuevosGrupos = grupos.filter(grupo => grupo.id !== grupoId);
@@ -79,32 +63,12 @@ const ListaGrupoAdmin = () => {
 
   const handleModificar = (grupoId) => {
     setGrupoEnEdicion(grupos.find(grupo => grupo.id === grupoId));
-    // Realiza la llamada a la API para modificar el grupo con el ID proporcionado
-    // const nuevoNombre = prompt('Nuevo nombre:');
-    // const nuevaDescripcion = prompt('Nueva descripción:');
-
-    // if (nuevoNombre !== null && nuevaDescripcion !== null) {
-    //   axios.put(`http://localhost:8080/api/grupos/${grupoId}`, {
-    //     nombre: nuevoNombre,
-    //     descripcion: nuevaDescripcion
-    //   })
-    //     .then(response => {
-    //       // Actualiza la lista de grupos después de modificar
-    //       const nuevosGrupos = grupos.map(grupo =>
-    //         grupo.id === grupoId ? { ...grupo, nombre: nuevoNombre, descripcion: nuevaDescripcion } : grupo
-    //       );
-    //       setGrupos(nuevosGrupos);
-    //     })
-    //     .catch(error => {
-    //       console.error('Error al modificar el grupo:', error);
-    //     });
-    // }
   };
 
   const handleGuardarEdicion = () => {
     // Realiza la llamada a la API para modificar el grupo con el ID proporcionado
     const { id, nombre, descripcion } = grupoEnEdicion;
-    axios.put(`http://localhost:8080/api/grupos/${id}`, { nombre, descripcion })
+    axios.put(`/api/grupos/${id}`, { nombre, descripcion })
       .then(response => {
         // Actualiza la lista de grupos después de modificar
         const nuevosGrupos = grupos.map(grupo =>

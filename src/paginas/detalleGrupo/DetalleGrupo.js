@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../../utils/axios';
 import Header from '../../componentes/Header';
 import Boton from '../../componentes/Boton';
 import Card from '../../componentes/Card';
@@ -15,7 +15,7 @@ const GrupoDetalle = () => {
 useEffect(() => {
   const fetchData = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/api/grupos/${grupo}`, {
+      const response = await axios.get(`/api/grupos/${grupo}`, {
         headers: {Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJub21icmUiOiJSb21pbmEiLCJyb2wiOiJVc3VhcmlvIiwic3ViIjoicm9taW5hQG1haWwuY29tIiwiaWF0IjoxNjk5OTMzMTYxLCJleHAiOjE2OTk5MzQ5NjF9.ryJksOX0ZwPEi0ho4ubjNCT1MKrab3ql5xM_UocU36s"},
       });
       setGrupo(response.data);

@@ -3,7 +3,7 @@ import Header from '../../componentes/Header';
 import Boton from '../../componentes/Boton';
 import Card from '../../componentes/Card';
 import InputField from '../../componentes/InputField';
-import axios from 'axios';
+import axios from '../../utils/axios';
 import './ListaGrupos.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
@@ -26,7 +26,7 @@ const ListaGrupos = () => {
 
   useEffect(() => {
     const correo = correoUser
-    axios.get(`http://localhost:8080/api/usuarios/${correo}/grupos`, {
+    axios.get(`/api/usuarios/${correo}/grupos`, {
       headers: {
         'Authorization': `Bearer ${token}`  // Agrega el token al encabezado de autorización
       }
@@ -57,7 +57,7 @@ const ListaGrupos = () => {
 
   const handleEliminar = (grupoId) => {
     // Realiza la llamada a la API para eliminar el grupo con el ID proporcionado
-    axios.delete(`http://localhost:8080/api/grupos/${grupoId}`, {
+    axios.delete(`/api/grupos/${grupoId}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -79,7 +79,7 @@ const ListaGrupos = () => {
   const handleGuardarEdicion = () => {
     // Realiza la llamada a la API para modificar el grupo con el ID proporcionado
     const { id, nombre, descripcion } = grupoEnEdicion;
-    axios.put(`http://localhost:8080/api/grupos/${id}`, { nombre, descripcion }, {
+    axios.put(`/api/grupos/${id}`, { nombre, descripcion }, {
       headers: {
         'Authorization': `Bearer ${token}`
       }

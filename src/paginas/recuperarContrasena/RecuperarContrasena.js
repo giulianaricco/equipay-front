@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from '../../utils/axios';
 import InputField from '../../componentes/InputField';
 import Boton from '../../componentes/Boton';
 import PublicHeader from '../../componentes/PublicHeader';
@@ -20,7 +20,7 @@ const RecuperarContrasena = () => {
     }
 
     axios
-      .post(`http://localhost:8080/api/auth/contrasena?idUsuario=${email}`, {
+      .post(`/api/auth/contrasena?idUsuario=${email}`, {
       idUsuario: email,
     })
       .then((response) => {

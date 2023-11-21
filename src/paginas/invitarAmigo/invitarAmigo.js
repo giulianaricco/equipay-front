@@ -22,7 +22,7 @@ const PaginaInvitarAmigos = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/api/usuarios/${correoUsuario}/grupos`, {
+      .get(`/api/usuarios/${correoUsuario}/grupos`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
