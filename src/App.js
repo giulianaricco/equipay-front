@@ -28,7 +28,6 @@ import PaginaRegistrarPago from './paginas/RegistrarPago';
 import PaginaConsultarDeuda from './paginas/ConsultarDeudas';
 import PaginaVisualizarGraficos from './paginas/VisualizarGraficos';
 
-import PaginaIniciarSesion from './paginas/IniciarSesion';
 import PaginaAgregarCategoria from './paginas/AgregarCategoria';
 import PaginaModificarCategoria from './paginas/ModificarCategoria';
 import PaginaModificarPerfil from './paginas/ModificarPerfil';
