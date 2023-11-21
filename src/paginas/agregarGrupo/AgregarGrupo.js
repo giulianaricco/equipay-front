@@ -6,6 +6,7 @@ import InputField from '../../componentes/InputField';
 import axios from '../../utils/axios';
 import './AgregarGrupo.css';
 import { useAuth } from '../../contexto/AuthContext';
+import UsuarioHeader from '../../componentes/UsuarioHeader';
 
 const styles = {
   input: {
@@ -106,7 +107,7 @@ const PaginaAgregarGrupo = () => {
 
   return (
     <div id="AgregarGrupo">
-      <Header />
+      <UsuarioHeader />
       <div className="container">
         <Card title="Agregar Grupo">
           <div>

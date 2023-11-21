@@ -4,10 +4,12 @@ import './App.css';
 import { AuthProvider } from './contexto/AuthContext';
 import PaginaInicio from './paginas/PaginaInicio';
 import WelcomePage from './paginas/WelcomePage';
-import PaginaListarGrupo from './paginas/ListaGrupos';
+import PaginaListarGrupo from './paginas/listaGrupo/ListaGrupos';
+import PaginaListarGrupoAdmin from './paginas/listaGrupo/ListaGrupoAdmin';
 import PaginaAgregarGrupo from './paginas/agregarGrupo/AgregarGrupo';
 import PaginaDetalleGrupo from './paginas/detalleGrupo/DetalleGrupo';
 import InvitarAmigo from './paginas/invitarAmigo/invitarAmigo';
+import PaginaRecuperarContrasena from './paginas/recuperarContrasena/RecuperarContrasena';
 
 import PaginaRegistrarUsuario from './paginas/RegistrarUsuario';
 import PaginaListarUsuarios from './paginas/ListarUsuarios';
@@ -31,6 +33,7 @@ function App() {
             <Route path="/welcome" element={<WelcomePage />} />
             <Route path="/agregar-grupo" element={<PaginaAgregarGrupo />} />
             <Route path="/listar-grupos" element={<PaginaListarGrupo />} />
+            <Route path="/listar-grupos-admin" element={<PaginaListarGrupoAdmin />} />
             <Route path="/registrar-usuario" element={<PaginaRegistrarUsuario />} />
             <Route path="/listar-usuarios" element={<PaginaListarUsuarios />} />
             <Route path="/eliminar-categoria" element={<PaginaEliminarCategoria />} />
@@ -44,6 +47,8 @@ function App() {
             <Route path="/consultar-deudas" element={<PaginaConsultarDeuda />} />
             <Route path="/detalle-grupo/:id" element={<PaginaDetalleGrupo />} />
             <Route path="/invitar-amigo" element={<InvitarAmigo />} />
+            <Route path="/recuperar-contrasena" element={<PaginaRecuperarContrasena />} />
+
 
           {/* Redirigir a la página de inicio si la ruta no coincide con ninguna de las anteriores */}
           <Route path="*" element={<Navigate to="/" />} />

@@ -8,10 +8,10 @@ import './ListaGrupos.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../../contexto/AuthContext'; 
-import UsuarioHeader from '../../componentes/UsuarioHeader';
+import AdminHeader from '../../componentes/AdminHeader';
 
 
-const ListaGrupos = () => {
+const ListaGrupoAdmin = () => {
   const { getToken } = useAuth();
   const token = getToken();
 
@@ -22,21 +22,8 @@ const ListaGrupos = () => {
 
 
   useEffect(() => {
-    // Realizar una solicitud GET para obtener la lista de grupos
-    // Agregar validacion de cuando es admin, mostrar todos los grupos
-    // axios.get('http://localhost:8080/api/grupos/',  headers: {
-    //     'Authorization': `Bearer ${token}`  // Agrega el token al encabezado de autorización
-    //   }
-    // })
-    //   .then((response) => {
-    //     setGrupos(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error al obtener la lista de grupos:', error);
-    //   });
-    const correo = 'agustin@mail.com'
-    axios.get(`http://localhost:8080/api/usuarios/${correo}/grupos`, {
-      headers: {
+    axios.get('http://localhost:8080/api/grupos/', { 
+        headers: {
         'Authorization': `Bearer ${token}`  // Agrega el token al encabezado de autorización
       }
     })
@@ -136,7 +123,7 @@ const ListaGrupos = () => {
 
   return (
     <div>
-      <UsuarioHeader />
+      <AdminHeader />
       <div style={{ marginTop: '50px' }}>
         <div className="container">
           <Card title="Buscar Grupo por ID">
@@ -220,4 +207,4 @@ const ListaGrupos = () => {
   );
 };
 
-export default ListaGrupos;
+export default ListaGrupoAdmin;
