@@ -4,12 +4,16 @@ import Boton from '../componentes/Boton';
 import Card from '../componentes/Card'; 
 import InputField from '../componentes/InputField';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from "../contexto/AuthContext";
+import axios from "axios";
 
 
 const AgregarCategoria = () => {
-    const [nombre, setNombre] = React.useState("");
-
+    const { getToken } = useAuth();
+    const token = getToken();
     const navigate = useNavigate();
+
+    const [nombre, setNombre] = React.useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -20,16 +24,15 @@ const AgregarCategoria = () => {
         }
 
         const data = {
+            id: 0,
             nombre: nombre,
         }
 
         try {
-            const response = await fetch('/api/categoria/', {
-                method: 'POST',
+            const response = await axios.post("/api/categorias/", data, {
                 headers: {
-                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify(data),
             });
 
             if (response.ok) {
