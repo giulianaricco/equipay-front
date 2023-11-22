@@ -71,7 +71,7 @@ function IniciarSesion() {
             <PublicHeader /*isLoggedIn={false} isAdmin={false} *//>
             <div style={{ marginTop: '50px' }}>
                 <div className="container">
-                    <Card title="Iniciar sesion">
+                    <Card title="Iniciar Sesión">
                         <div className="form-group">
                         <InputField
                         placeholder="Email"
