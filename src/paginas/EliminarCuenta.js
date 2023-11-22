@@ -7,42 +7,20 @@ import axios from '../utils/axios';
 import { useAuth } from '../contexto/AuthContext'; 
 import { useNavigate } from 'react-router-dom';
 
-const styles = {
-  inputStyle: {
-    width: '80%',
-    backgroundColor: '#27A281', // Fondo verde
-    borderRadius: '5px', // Esquinas redondeadas
-    padding: '8px', // Relleno interno
-    border: '1px solid white', // Borde blanco
-    color: 'white', // Texto en blanco
-    placeholder: 'white', // Color del marcador de posición en blanco
-  },
-  selectStyle: {
-    width: '80%',
-    backgroundColor: '#27A281', // Fondo verde
-    borderRadius: '5px',
-    padding: '8px',
-    border: '1px solid white', // Borde blanco
-    color: 'white', // Texto en blanco
-    placeholder: 'white', // Color del marcador de posición en blanco
-  }
-
-};
-
 const EliminarCuenta = () => {
   const { getToken } = useAuth();
   const token = getToken();
   const { user } = useAuth();
-  const [idUsuario, setIdUsuario] = useState("");
-  const [usuarioDetalles, setUsuarioDetalles] = useState(null);
+  const [idUsuario, setIdUsuario] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Cargar detalles del usuario al montar el componente
+    // Actualiza el ID del usuario cuando el usuario cambia
     if (user) {
-      cargarDetallesUsuario(user.correo);
+      setIdUsuario(user.correo); // Asumiendo que `user` tiene una propiedad `id`
     }
   }, [user]);
+  
 
   const confirmarEliminacion = () => {
     // Muestra un cuadro de diálogo de confirmación
@@ -54,24 +32,12 @@ const EliminarCuenta = () => {
     }
   };
 
-  const cargarDetallesUsuario = async (selectedUserId) => {
-    try {
-      const response = await axios.get(`/api/usuarios/${selectedUserId}`, {
-        headers: {
-          'Authorization': `Bearer ${user.token}`
-        },
-      });
-  
-      if (response.status === 200) {
-        setUsuarioDetalles(response.data);
-      }
-    } catch (error) {
-      console.error('Error al obtener los detalles del usuario:', error);
-    }
-  };
-
   const handleSubmit = async () => {
     try {
+      if (!idUsuario) {
+        console.error('ID de usuario no válido');
+        return;
+      }
       const response = await axios.delete(`/api/usuarios/${idUsuario}`, {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -82,7 +48,7 @@ const EliminarCuenta = () => {
         console.log('Usuario eliminado exitosamente');
         alert("Usuario eliminado exitosamente.");
         // Actualizar la lista después de la eliminación
-        setIdUsuario("");
+        setIdUsuario(null);
         navigate('/');
         
       } else {
@@ -102,14 +68,10 @@ const EliminarCuenta = () => {
         <div style={{ marginTop: '50px' }}>
           <div className="container">
             <Card title="Eliminar Cuenta">
-              {usuarioDetalles && (
-                <div style={styles.userDetails}>
-                  <h4>Detalles del Usuario</h4>
-                  <p>Correo: {usuarioDetalles.correo}</p>
-                  <p>Nombre: {usuarioDetalles.nombre} {usuarioDetalles.apellido ? usuarioDetalles.apellido : ' '}</p>
-                </div>
-              )}
-              <Boton onClick={confirmarEliminacion}>Eliminar</Boton>
+              <br></br>
+              <h3>¿Estás seguro de que deseas eliminar tu cuenta?</h3>
+              <br></br>
+              <Boton onClick={confirmarEliminacion}>Confirmar</Boton>
             </Card>
           </div>
         </div>
