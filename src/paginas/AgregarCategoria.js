@@ -4,17 +4,16 @@ import Boton from '../componentes/Boton';
 import Card from '../componentes/Card'; 
 import InputField from '../componentes/InputField';
 import { useNavigate } from 'react-router-dom';
-import axios from '../utils/axios';
-import { useAuth } from '../contexto/AuthContext'; 
+import { useAuth } from "../contexto/AuthContext";
+import axios from "axios";
 
 
 const AgregarCategoria = () => {
     const { getToken } = useAuth();
-    const { user } = useAuth();
     const token = getToken();
-    const [nombre, setNombre] = React.useState("");
-
     const navigate = useNavigate();
+
+    const [nombre, setNombre] = React.useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -25,16 +24,16 @@ const AgregarCategoria = () => {
         }
 
         const data = {
-            id : 7,
+            id: 0,
             nombre: nombre,
         }
 
         try {
-            const response = await axios.post('/api/categorias/', data, {
+            const response = await axios.post("/api/categorias/", data, {
                 headers: {
-                  'Authorization': `Bearer ${token}`  // Agrega el token al encabezado de autorización
-                }
-              });
+                    Authorization: `Bearer ${token}`,
+                },
+            });
 
             if (response.status === 200) {
                 console.log('Categoria agregada correctamente');
