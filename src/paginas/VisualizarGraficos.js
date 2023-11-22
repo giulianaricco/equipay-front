@@ -21,7 +21,7 @@ const VisualizarGraficos = () => {
         });
 
         if (response.status === 200) {
-          //const estadisticasArray = JSON.parse(response.data);
+          const estadisticasArray = JSON.parse(response.data);
           setEstadisticas(response.data);
           console.log(estadisticas);
         }
