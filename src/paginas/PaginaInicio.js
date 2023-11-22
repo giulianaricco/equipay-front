@@ -12,7 +12,7 @@ function PaginaInicio() {
   useEffect(() => {
     // Verificar la existencia del token y redirigir según sea necesario
     if (token) {
-      navigate('/welcome');
+      navigate('/');
     }
   }, [token, navigate]);
 
