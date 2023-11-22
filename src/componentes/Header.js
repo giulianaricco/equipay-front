@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const buttonStyle = {
@@ -25,10 +26,9 @@ const Header = () => {
         <span style={{ fontSize: '1.5em', fontWeight: 'bold' }}>EQUIPAY</span>
       </div>
       <div>
-        <button style={buttonStyle}>Amigos</button>
-        <button style={buttonStyle}>Grupos</button>
-        <button style={buttonStyle}>Actividad</button>
-        <button style={buttonStyle}>Perfil</button>
+        <Link to="/" style={buttonStyle}>
+          Inicio
+        </Link>
       </div>
     </div>
   );

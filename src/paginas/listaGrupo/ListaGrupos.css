@@ -1,0 +1,14 @@
+/* styles.css */
+
+.table-container {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-container th, .table-container td {
+  padding: 8px;
+}
+
+.table-container th {
+  border-bottom: 2px solid #ddd; /* Añade una línea inferior a los encabezados */
+}
