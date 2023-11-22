@@ -9,7 +9,8 @@ const ListarUsuarios = () => {
   const { getToken } = useAuth();
   const { user } = useAuth();
   const token = getToken();
-
+  
+  const [usuariosOriginales, setUsuariosOriginales] = useState([]);
   const [usuarios, setUsuarios] = useState([]);
   const [filtro, setFiltro] = useState(''); 
   const [usuarioFiltrado, setUsuarioFiltrado] = useState(null);
@@ -28,6 +29,7 @@ const ListarUsuarios = () => {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
+        setUsuariosOriginales(data);
         setUsuarios(data);
       } catch (error) {
         console.error('Error:', error);
@@ -77,12 +79,22 @@ const ListarUsuarios = () => {
           'Authorization': `Bearer ${token}`, // Agrega el token al encabezado de autorización
         },
       });
+  
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
   
       const usuarioEncontrado = await response.json();
-      setUsuarioFiltrado(usuarioEncontrado);
+      const usuarioConDetalles = usuarios.find(u => u.correo === usuarioEncontrado.correo);
+  
+      if (usuarioConDetalles) {
+        // Combinar la información del usuario encontrado con la lista existente
+        const usuarioCompleto = { ...usuarioConDetalles, ...usuarioEncontrado };
+        setUsuarioFiltrado(usuarioCompleto);
+      } else {
+        // Si no se encuentra en la lista existente, mostrar el usuario encontrado directamente
+        setUsuarioFiltrado(usuarioEncontrado);
+      }
     } catch (error) {
       setUsuarioFiltrado(null);
       alert("No se encontraron datos para el correo ingresado.");
@@ -124,7 +136,6 @@ const ListarUsuarios = () => {
               padding: '8px', // Relleno interno
               border: '1px solid white', // Borde blanco
               color: 'black', // Texto en blanco
-              placeholder: 'black', // Color del marcador de posición en blanco
             }}
           />
           <Boton onClick={buscarPorCorreo}>Buscar</Boton>
@@ -135,25 +146,38 @@ const ListarUsuarios = () => {
           <Boton onClick={resetearListaUsuarios}>Resetear Lista</Boton>
         </div>
         <Card title="Lista de Usuarios">
-          <ul>
-            {usuarioFiltrado ? (
-              <li style={{ borderBottom: '1px solid #ccc', padding: '10px 0' }}>
-                <p>{usuarioFiltrado.correo}</p>
-                <p>{usuarioFiltrado.nombre} {usuarioFiltrado.apellido ? usuarioFiltrado.apellido : ' '}</p>
-                <p>{usuarioFiltrado.estadoUsuario}</p>
-                <p>{usuarioFiltrado.fechaCreacion}</p>
-              </li>
-            ) : (
-              usuarios.map((usuario) => (
-                <li key={usuario.id} style={{ borderBottom: '1px solid #ccc', padding: '10px 0' }}>
-                  <p>{usuario.correo}</p>
-                  <p>{usuario.nombre} {usuario.apellido ? usuario.apellido : ' '}</p>
-                  <p>{usuario.estadoUsuario}</p>
-                  <p>{usuario.fechaCreacion}</p>
-                </li>
-              ))
-            )}
-          </ul>
+          <table className="table-container">
+            <thead>
+              <tr>
+                <th>Correo</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Estado</th>
+                <th>Fecha de creación</th>
+              </tr>
+            </thead>
+            <tbody>
+              {usuarioFiltrado ? (
+                <tr>
+                  <td>{usuarioFiltrado.correo}</td>
+                  <td>{usuarioFiltrado.nombre}</td>
+                  <td>{usuarioFiltrado.apellido ? usuarioFiltrado.apellido : ' '}</td>
+                  <td>{usuarioFiltrado.estadoUsuario}</td>
+                  <td>{usuarioFiltrado.fechaCreacion}</td>
+                </tr>
+              ) : (
+                usuarios.map((usuario) => (
+                  <tr key={usuario.id}>
+                    <td>{usuario.correo}</td>
+                    <td>{usuario.nombre}</td>
+                    <td>{usuario.apellido ? usuario.apellido : ' '}</td>
+                    <td>{usuario.estadoUsuario}</td>
+                    <td>{usuario.fechaCreacion}</td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
         </Card>
       </div>
     </div>
