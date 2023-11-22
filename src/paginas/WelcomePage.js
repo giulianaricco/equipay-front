@@ -23,6 +23,7 @@ function WelcomePage() {
 
   return (
     <div>
+      <UsuarioHeader />
       {user && user.rol === 'Usuario' && <UsuarioHeader nombre={user.nombre} />}
       {user && user.rol === 'Admin' && <AdminHeader nombre={user.nombre} />}
       <div style={containerStyle}>

@@ -32,6 +32,7 @@ import PaginaAgregarCategoria from './paginas/AgregarCategoria';
 import PaginaModificarCategoria from './paginas/ModificarCategoria';
 import PaginaModificarPerfil from './paginas/ModificarPerfil';
 import PaginaAltaUsuario from './paginas/AltaUsuario';
+import PaginaVisualizarUsuario from './paginas/VisualizarUsuario';
 
 function App() {
 
@@ -70,8 +71,9 @@ function App() {
           <Route path="/Iniciar-sesion" element={<PaginaIniciarSesion />} />
         <Route path="/agregar-categoria" element={<PaginaAgregarCategoria />} />
         <Route path="/modificar-categoria/:categoryId" element={<PaginaModificarCategoria />} />
-        <Route path="/modificar-perfil" element={<PaginaModificarPerfil />} />
+        <Route path="/modificar-perfil/:id" element={<PaginaModificarPerfil />} />
         <Route path="/alta-usuario" element={<PaginaAltaUsuario/>} />
+        <Route path="/visualizar-usuario" element={<PaginaVisualizarUsuario/>} />
       </Routes>
       </Router>
     </AuthProvider>
