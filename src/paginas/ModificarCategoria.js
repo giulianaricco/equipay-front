@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Header from "../componentes/Header";
+import Header from "../componentes/UsuarioHeader";
 import Boton from "../componentes/Boton";
 import Card from "../componentes/Card";
 import InputField from "../componentes/InputField";
@@ -73,7 +73,7 @@ const ModificarCategoria = ({ categoryId }) => {
                         </div>
 
                         <div style={{ display: "flex", justifyContent: "center" }}>
-                            <Boton onClick={handleSubmit}>Modificar</Boton>
+                            <Boton  onClick={handleSubmit}>Modificar</Boton>
                             <Boton onClick={handleCancel}>Cancelar</Boton>
                         </div>
                     </Card>

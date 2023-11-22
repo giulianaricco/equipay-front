@@ -44,16 +44,16 @@ const UsuarioHeader = () => {
                 <option value="/agregar-grupo">Alta de grupo</option>
                 <option value="/unirse-grupo-codigo">Unirse a un grupo</option>
                 <option value="/listar-grupos">Listar y buscar grupos</option>
-                <option value="/listar-grupos">Emilinar y modificar grupo</option>
+                <option value="/listar-grupos">Eliminar y modificar grupo</option>
                 <option value="/invitar-amigo">Invitar amigos a un grupo</option>
-                <option value="/otra-opcion-usuario">Visualizar actividad</option>
+                <option value="/visualizar-usuario">Visualizar actividad</option>
                 <option value="/registrar-gasto">Registrar gasto</option>
                 <option value="/registrar-pago">Registrar pago</option>
                 <option value="/consultar-deudas">Consultar deudas</option>
             </select>
             <select style={selectStyle} onChange={(e) => navigate(e.target.value)}>
                 <option value="/">Perfil</option>
-                <option value="/otra-opcion-categoria">Modificar perfil</option>
+                <option value="/modificar-perfil/:id">Modificar perfil</option>
                 <option value="/eliminar-cuenta">Eliminar cuenta</option>
                 <option value="/otra-opcion-categoria">Visualizar estadísticas</option>
                 <option onClick={handleLogout}>Cerrar sesión</option>
