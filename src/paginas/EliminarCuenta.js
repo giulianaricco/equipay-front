@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AdminHeader from '../componentes/AdminHeader';
+import UsuarioHeader from '../componentes/UsuarioHeader';
 import Boton from '../componentes/Boton';
 import Card from '../componentes/Card';
 import axios from '../utils/axios';
@@ -32,40 +33,16 @@ const EliminarCuenta = () => {
   const { getToken } = useAuth();
   const token = getToken();
   const { user } = useAuth();
-
-  const [usuarios, setUsuarios] = useState([]);
   const [idUsuario, setIdUsuario] = useState("");
   const [usuarioDetalles, setUsuarioDetalles] = useState(null);
   const navigate = useNavigate();
 
-  const obtenerUsuarios = async () => {
-    try {
-      const response = await axios.get('/api/usuarios/detalles', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      if (response.status === 200) { 
-        // Filtra solo el usuario logeado
-        const usuarioLogeado = response.data.find(usuario => usuario.correo === user.correo);
-        
-        // Si el usuario logeado existe, actualiza el estado solo con ese usuario
-        if (usuarioLogeado) {
-          setUsuarios([usuarioLogeado]);
-        } else {
-          // Si el usuario logeado no existe, puedes manejarlo según tus necesidades
-          console.error('Usuario logeado no encontrado');
-        }
-      }
-    } catch (error) {
-      console.error('Error al obtener las categorías:', error);
-    }
-  };
-
   useEffect(() => {
-    // Llamar a obtenerUsuarios al montar el componente
-    obtenerUsuarios();
-  }, []); // Sin dependencias, se ejecutará solo una vez al montar el componente
+    // Cargar detalles del usuario al montar el componente
+    if (user) {
+      cargarDetallesUsuario(user.correo);
+    }
+  }, [user]);
 
   const confirmarEliminacion = () => {
     // Muestra un cuadro de diálogo de confirmación
@@ -81,10 +58,10 @@ const EliminarCuenta = () => {
     try {
       const response = await axios.get(`/api/usuarios/${selectedUserId}`, {
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${user.token}`
         },
       });
-
+  
       if (response.status === 200) {
         setUsuarioDetalles(response.data);
       }
@@ -105,7 +82,6 @@ const EliminarCuenta = () => {
         console.log('Usuario eliminado exitosamente');
         alert("Usuario eliminado exitosamente.");
         // Actualizar la lista después de la eliminación
-        obtenerUsuarios();
         setIdUsuario("");
         navigate('/');
         
@@ -120,7 +96,8 @@ const EliminarCuenta = () => {
 
   return (
     <div>
-      <AdminHeader />
+      {user && user.rol === 'Usuario' && <UsuarioHeader nombre={user.nombre} />}
+      {user && user.rol === 'Admin' && <AdminHeader nombre={user.nombre} />}
       {(
         <div style={{ marginTop: '50px' }}>
           <div className="container">
