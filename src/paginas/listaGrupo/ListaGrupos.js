@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../../contexto/AuthContext'; 
 import UsuarioHeader from '../../componentes/UsuarioHeader';
+import { useNavigate } from 'react-router-dom';
 
 
 const ListaGrupos = () => {
@@ -16,6 +17,8 @@ const ListaGrupos = () => {
   const { user } = useAuth();
   const token = getToken();
   const correoUser = user.correo;
+  const navigate = useNavigate();
+
 
   const [grupos, setGrupos] = useState([]);
   const [grupoId, setGrupoId] = useState('');
@@ -98,6 +101,9 @@ const ListaGrupos = () => {
       });
   };
 
+  const handleVerMas = (grupoId) => {
+    navigate(`/detalle-grupo/${grupoId}`);
+  };
 
 
   return (
@@ -177,6 +183,10 @@ const ListaGrupos = () => {
                       )}
                         <Boton onClick={() => handleEliminar(grupo.id)}>
                         <FontAwesomeIcon icon={faTrash} />
+                        </Boton>
+
+                        <Boton onClick={() => handleVerMas(grupo.id)}>
+                        Ver mas
                         </Boton>
                     </td>
                   </tr>

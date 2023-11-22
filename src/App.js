@@ -8,6 +8,7 @@ import PaginaListarGrupo from './paginas/listaGrupo/ListaGrupos';
 import PaginaListarGrupoAdmin from './paginas/listaGrupo/ListaGrupoAdmin';
 import PaginaAgregarGrupo from './paginas/agregarGrupo/AgregarGrupo';
 import PaginaDetalleGrupo from './paginas/detalleGrupo/DetalleGrupo';
+import PaginaDetalleGrupoAdmin from './paginas/detalleGrupo/DetalleGrupoAdmin';
 import InvitarAmigo from './paginas/invitarAmigo/invitarAmigo';
 import PaginaRecuperarContrasena from './paginas/recuperarContrasena/RecuperarContrasena';
 import PaginaUnirseGrupoLink from './paginas/unirseGrupo/UnirseGrupoLink';
@@ -50,6 +51,7 @@ function App() {
             <Route path="/registrar-pago" element={<PaginaRegistrarPago />} />
             <Route path="/consultar-deudas" element={<PaginaConsultarDeuda />} />
             <Route path="/detalle-grupo/:id" element={<PaginaDetalleGrupo />} />
+            <Route path="/detalle-grupo-admin/:id" element={<PaginaDetalleGrupoAdmin />} />
             <Route path="/invitar-amigo" element={<InvitarAmigo />} />
             <Route path="/recuperar-contrasena" element={<PaginaRecuperarContrasena />} />
             <Route path="/unirse-grupo-link" element={< PaginaUnirseGrupoLink />} />
