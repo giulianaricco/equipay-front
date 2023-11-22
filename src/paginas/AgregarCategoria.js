@@ -3,10 +3,13 @@ import Header from '../componentes/UsuarioHeader';
 import Boton from '../componentes/Boton';
 import Card from '../componentes/Card'; 
 import InputField from '../componentes/InputField';
+import { useNavigate } from 'react-router-dom';
 
 
 const AgregarCategoria = () => {
     const [nombre, setNombre] = React.useState("");
+
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -45,7 +48,7 @@ const AgregarCategoria = () => {
     };
 
     const handleCancel = async (e) => {
-
+        navigate('/welcome');
     }
 
     return (
