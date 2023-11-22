@@ -52,10 +52,8 @@ const UsuarioHeader = () => {
                 <option value="/consultar-deudas">Consultar deudas</option>
             </select>
             <select style={selectStyle} onChange={(e) => navigate(e.target.value)}>
-                <option value="/">Perfil</option>
-                <option value="/modificar-perfil/:id">Modificar perfil</option>
+                <option value="/Modificar">Modificar perfil</option>
                 <option value="/eliminar-cuenta">Eliminar cuenta</option>
-                <option value="/otra-opcion-categoria">Visualizar estadísticas</option>
                 <option onClick={handleLogout}>Cerrar sesión</option>
             </select>
           </div>

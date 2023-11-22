@@ -1,20 +1,17 @@
 import React from "react";
 import Header from "../componentes/UsuarioHeader";
-import Header from "../componentes/UsuarioHeader";
 import Boton from "../componentes/Boton";
 import Card from "../componentes/Card";
 import InputField from "../componentes/InputField";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { useAuth } from "../contexto/AuthContext";
 
 
 const ModificarPerfil = () => {
     const { getToken } = useAuth();
     const token = getToken();
-    const { id } = useParams();
-    const [usuario, setUsuario] = React.useState(null);
-    const [usuarios, setUsuarios] = React.useState([]);
+    const [idUsuario, setIdUsuario] = React.useState("");
 
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
@@ -24,89 +21,22 @@ const ModificarPerfil = () => {
 
     const navigate = useNavigate();
 
-    /*const obtenerUsuarios = async () => {
-        try {
-            console.log("por entrar")
-            console.log("token", token)
-          const response = await axios.get('/api/usuarios/detalles', {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          });
-
-          console.log("response", response)
-
-          if (response.status === 200) { 
-            // Filtra solo el usuario logeado
-            const usuarioLogeado = response.data.find(usuario => usuario.correo === user.correo);
-            console.log("user", user)
-            console.log("logeado", usuarioLogeado);
-            
-            // Si el usuario logeado existe, actualiza el estado solo con ese usuario
-            if (usuarioLogeado) {
-              setUsuarios([usuarioLogeado]);
-            } else {
-              // Si el usuario logeado no existe, puedes manejarlo según tus necesidades
-              console.error('Usuario logeado no encontrado');
-            }
-          }
-        } catch (error) {
-          console.error('Error al obtener las categorías:', error);
+    React.useEffect(() => {
+        if (user) {
+            setIdUsuario(user.correo);
+            //ver Id
         }
-      };
+    }, [user]);
 
-
-      React.useEffect(() => {
-        // Llamar a obtenerUsuarios al montar el componente
-        obtenerUsuarios();
-      }, []); // Sin dependencias, se ejecutará solo una vez al montar el componente */   
-    const [name, setname] = React.useState("");
-    const [lastName, setlastName] = React.useState("");
-    const { user } = useAuth();
-
-    const navigate = useNavigate();
-
-    /*const obtenerUsuarios = async () => {
-        try {
-            console.log("por entrar")
-            console.log("token", token)
-          const response = await axios.get('/api/usuarios/detalles', {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          });
-
-          console.log("response", response)
-
-          if (response.status === 200) { 
-            // Filtra solo el usuario logeado
-            const usuarioLogeado = response.data.find(usuario => usuario.correo === user.correo);
-            console.log("user", user)
-            console.log("logeado", usuarioLogeado);
-            
-            // Si el usuario logeado existe, actualiza el estado solo con ese usuario
-            if (usuarioLogeado) {
-              setUsuarios([usuarioLogeado]);
-            } else {
-              // Si el usuario logeado no existe, puedes manejarlo según tus necesidades
-              console.error('Usuario logeado no encontrado');
-            }
-          }
-        } catch (error) {
-          console.error('Error al obtener las categorías:', error);
-        }
-      };
-
-
-      React.useEffect(() => {
-        // Llamar a obtenerUsuarios al montar el componente
-        obtenerUsuarios();
-      }, []); // Sin dependencias, se ejecutará solo una vez al montar el componente */   
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!email && !password && !name && !lastName) {
+        if (!idUsuario) {
+            console.error("ID de usuario no válido");
+            return;
+        }
+
         if (!email && !password && !name && !lastName) {
             alert("Por favor, tiene que introducir al menos un dato a modificar");
             return;
@@ -117,26 +47,20 @@ const ModificarPerfil = () => {
             password: password,
             name: name,
             lastName: lastName,
-            name: name,
-            lastName: lastName,
         };
 
         try {
-            const response = await axios.put(`/api/usuario/${usuario}`, data, {
+            const response = await axios.put(`/api/usuario/${idUsuario}`, data, {
                 headers: {Authorization: `Bearer ${token}`
                 },
-            })
-
-            const response = await axios.put(`/api/usuario/${usuario}`, data, {
-                headers: {Authorization: `Bearer ${token}`
-                },
-            })
-
+            });
 
             if (response.status === 200) {
-                setUsuario(response.data);
+                //setUsuario(response.data);
                 console.log("Usuario modificado correctamente");
                 alert("Usuario modificado correctamente");
+                setIdUsuario("");
+                navigate('/welcome');
             } else if (response.status === 409) {
                 console.log("Usuario ya existente");
                 alert("Usuario ya existente");
@@ -153,77 +77,6 @@ const ModificarPerfil = () => {
         navigate('/welcome');
     }
 
-    /*React.useEffect(() => {
-        const obtenerUsuario = async () => {
-          try {
-            const response = await axios.get(`/api/usuarios/${id}`, {
-              headers: { Authorization: `Bearer ${token}` },
-            });
-    
-            if (response.status === 200) {
-              setUsuario(response.data);
-            } else {
-              console.error("Error al obtener el usuario:", response.statusText);
-            }
-          } catch (error) {
-            console.error("Error: ", error);
-          }
-        };
-    
-        obtenerUsuario();
-      }, [id, token]);*/
-
-
-    const handleCancel = async (e) => {
-        navigate('/welcome');
-    }
-
-    /*React.useEffect(() => {
-        const obtenerUsuario = async () => {
-          try {
-            const response = await axios.get(`/api/usuarios/${id}`, {
-              headers: { Authorization: `Bearer ${token}` },
-            });
-    
-            if (response.status === 200) {
-              setUsuario(response.data);
-            } else {
-              console.error("Error al obtener el usuario:", response.statusText);
-            }
-          } catch (error) {
-            console.error("Error: ", error);
-          }
-        };
-    
-        obtenerUsuario();
-      }, [id, token]);*/
-
-
-    const handleCancel = async (e) => {
-        navigate('/welcome');
-    }
-
-    /*React.useEffect(() => {
-        const obtenerUsuario = async () => {
-          try {
-            const response = await axios.get(`/api/usuarios/${id}`, {
-              headers: { Authorization: `Bearer ${token}` },
-            });
-    
-            if (response.status === 200) {
-              setUsuario(response.data);
-            } else {
-              console.error("Error al obtener el usuario:", response.statusText);
-            }
-          } catch (error) {
-            console.error("Error: ", error);
-          }
-        };
-    
-        obtenerUsuario();
-      }, [id, token]);*/
-
-
     return (
         <div id="ModificarPerfil">
             <Header />
@@ -231,7 +84,6 @@ const ModificarPerfil = () => {
                 <div className="container">
                     <Card title="Perfil">
                         <div className="form-group">
-                            <p>Id: {usuario}</p>
                             <label>Email:</label>
                             <div style={{ display: "flex", justifyContent: "center" }}>
                                 <InputField
