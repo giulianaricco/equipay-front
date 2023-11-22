@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import Header from '../../componentes/Header';
 import Boton from '../../componentes/Boton';
-import Card from '../../componentes/Card'; // Importa el componente Card
+import Card from '../../componentes/Card'; 
 import InputField from '../../componentes/InputField';
 import axios from '../../utils/axios';
 import './AgregarGrupo.css';
 import { useAuth } from '../../contexto/AuthContext';
+import UsuarioHeader from '../../componentes/UsuarioHeader';
+import { Navigate } from 'react-router-dom';
+
 
 const styles = {
   input: {
@@ -21,23 +24,29 @@ const styles = {
   },
   roundedInput: {
     width: '100%',
-    borderRadius: '5px', // Aplicar esquinas redondeadas
-    padding: '8px', // Ajusta el relleno
-    border: '1px solid #27A281', // Agrega un borde
+    borderRadius: '5px', 
+    padding: '8px', 
+    border: '1px solid #27A281',
   },
 };
 
 const PaginaAgregarGrupo = () => {
   const { getToken } = useAuth();
+  const { user } = useAuth();
   const token = getToken();
+  const correo = user.correo;
 
   const [nombreGrupo, setNombreGrupo] = useState('');
   const [contacto, setContacto] = useState('');
   const [mostrarLabel, setMostrarLabel] = useState(false);
-  const [mostrarBotonContinuar, setMostrarBotonContinuar] = useState(true);
-  const [mostrarBotonCrearGrupo, setMostrarBotonCrearGrupo] = useState(false);
+  const [mostrarBotonContinuar, setMostrarBotonContinuar] = useState(false);
+  const [mostrarBotonCrearGrupo, setMostrarBotonCrearGrupo] = useState(true);
   const [amigos, setAmigos] = useState([]);
   const [descripcion, setDescripcion] = useState('');
+  const [grupoIdCreated, setGrupoIdCreated] = useState(null); 
+  const [correosInvitados, setCorreosInvitados] = useState(new Set());
+  const [redireccionar, setRedireccionar] = useState(false);
+
 
   const handleNombreGrupoChange = (event) => {
     setNombreGrupo(event.target.value);
@@ -48,28 +57,48 @@ const PaginaAgregarGrupo = () => {
   };
 
   const handleContinuarClick = () => {
-    if (nombreGrupo.length >= 3) {
-      setMostrarLabel(true);
-      setMostrarBotonContinuar(false);
-      setMostrarBotonCrearGrupo(true);
-    } else {
-      alert('El nombre del grupo debe tener al menos 3 caracteres.');
-    }
+
+    setRedireccionar(true);
   };
+
+  if (redireccionar) {
+    return <Navigate to="/listar-grupos" />;
+  }
 
   const validarContacto = (contacto) => {
     const esEmailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contacto);
-    const esTelefonoValido = /^[0-9]+$/.test(contacto) && contacto.length >= 9;
 
-    return esEmailValido || esTelefonoValido;
+    return esEmailValido;
   };
 
   const handleAgregarAmigo = () => {
     if (validarContacto(contacto)) {
+      if (contacto.toLowerCase() === user.correo.toLowerCase()) {
+        alert('No puedes invitarte a ti mismo.');
+        return; 
+      }
+      if (correosInvitados.has(contacto.toLowerCase())) {
+        alert('Ya has enviado una invitación a este correo.');
+        return; // No realizar la solicitud si el correo ya ha sido invitado
+      }
+
       setAmigos([...amigos, contacto]);
+      setCorreosInvitados(new Set(correosInvitados).add(contacto.toLowerCase()));
       setContacto('');
+
+      axios.post(`/api/grupos/${grupoIdCreated}/invitar-amigo/${contacto}`, null, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then((response) => {
+        console.log('Amigo invitado con éxito:', response.data);
+      })
+      .catch((error) => {
+        console.error('Error al invitar amigo:', error);
+      });
     } else {
-      alert('El contacto no es un email válido ni un número de teléfono válido.');
+      alert('El contacto no es un email válido.');
     }
   };
 
@@ -79,10 +108,16 @@ const PaginaAgregarGrupo = () => {
 
   const handleCrearGrupoClick = () => {
     if (nombreGrupo.length >= 3) {
+      setMostrarLabel(true);
+      setMostrarBotonContinuar(true);
+      setMostrarBotonCrearGrupo(false);
+    } else {
+      alert('El nombre del grupo debe tener al menos 3 caracteres.');
+    }
       const nuevoGrupo = {
         nombre: nombreGrupo,
-        descripcion: descripcion, // Asegúrate de obtener la descripción desde el estado
-        idDueño: "agustin@mail.com", // Reemplaza con el ID adecuado del dueño
+        descripcion: descripcion, 
+        idDueño: correo, // Reemplaza con el ID adecuado del dueño
       };
 
       axios.post('/api/grupos/', nuevoGrupo, {
@@ -91,20 +126,19 @@ const PaginaAgregarGrupo = () => {
         }
       })
       .then((response) => {
+        const grupoId = response.data;
+        setGrupoIdCreated(grupoId);
         console.log('Grupo creado con éxito:', response.data);
       })
       .catch((error) => {
         console.error('Error al crear el grupo:', error);
       });
-    } else {
-      alert('El nombre del grupo debe tener al menos 3 caracteres.');
-    }
   };
 
 
   return (
     <div id="AgregarGrupo">
-      <Header />
+      <UsuarioHeader />
       <div className="container">
         <Card title="Agregar Grupo">
           <div>
@@ -130,9 +164,8 @@ const PaginaAgregarGrupo = () => {
               </div>
             </div>
 
-
-            {mostrarBotonContinuar && (
-              <Boton onClick={handleContinuarClick}>Continuar</Boton>
+            {mostrarBotonCrearGrupo && (
+              <Boton onClick={handleCrearGrupoClick}>Crear Grupo</Boton>
             )}
 
             {mostrarLabel && (
@@ -142,7 +175,7 @@ const PaginaAgregarGrupo = () => {
                   <InputField
                     value={contacto}
                     onChange={handleContactoChange}
-                    placeholder="Correo o teléfono"
+                    placeholder="Correo"
                   />
                   <br />
                   <Boton onClick={handleAgregarAmigo} style={styles.addButton}>
@@ -162,8 +195,8 @@ const PaginaAgregarGrupo = () => {
               </div>
             )}
 
-            {mostrarBotonCrearGrupo && (
-              <Boton onClick={handleCrearGrupoClick}>Crear Grupo</Boton>
+           {mostrarBotonContinuar && (
+              <Boton onClick={handleContinuarClick}>Ver mis grupos</Boton>
             )}
           </div>
         </Card>

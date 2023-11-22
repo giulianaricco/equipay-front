@@ -4,8 +4,17 @@ import './App.css';
 import { AuthProvider } from './contexto/AuthContext';
 import PaginaInicio from './paginas/PaginaInicio';
 import WelcomePage from './paginas/WelcomePage';
-import PaginaListarGrupo from './paginas/ListaGrupos';
+import PaginaListarGrupo from './paginas/listaGrupo/ListaGrupos';
+import PaginaListarGrupoAdmin from './paginas/listaGrupo/ListaGrupoAdmin';
 import PaginaAgregarGrupo from './paginas/agregarGrupo/AgregarGrupo';
+import PaginaDetalleGrupo from './paginas/detalleGrupo/DetalleGrupo';
+import PaginaDetalleGrupoAdmin from './paginas/detalleGrupo/DetalleGrupoAdmin';
+import InvitarAmigo from './paginas/invitarAmigo/invitarAmigo';
+import PaginaRecuperarContrasena from './paginas/recuperarContrasena/RecuperarContrasena';
+import PaginaUnirseGrupoLink from './paginas/unirseGrupo/UnirseGrupoLink';
+import PaginaUnirseGrupoCodigo from './paginas/unirseGrupo/UnirseGrupoCodigo';
+import PaginaAgregarGrupoAdmin from './paginas/agregarGrupo/AgregarGrupoAdmin';
+
 import PaginaRegistrarUsuario from './paginas/RegistrarUsuario';
 import PaginaListarUsuarios from './paginas/ListarUsuarios';
 import PaginaRegistrarGasto from './paginas/RegistrarGasto';
@@ -27,7 +36,9 @@ function App() {
             <Route path="/" element={<PaginaInicio />} />
             <Route path="/welcome" element={<WelcomePage />} />
             <Route path="/agregar-grupo" element={<PaginaAgregarGrupo />} />
+            <Route path="/agregar-grupo-admin" element={<PaginaAgregarGrupoAdmin />} />
             <Route path="/listar-grupos" element={<PaginaListarGrupo />} />
+            <Route path="/listar-grupos-admin" element={<PaginaListarGrupoAdmin />} />
             <Route path="/registrar-usuario" element={<PaginaRegistrarUsuario />} />
             <Route path="/listar-usuarios" element={<PaginaListarUsuarios />} />
             <Route path="/eliminar-categoria" element={<PaginaEliminarCategoria />} />
@@ -39,6 +50,14 @@ function App() {
             <Route path="/eliminar-cuenta" element={<PaginaEliminarCuenta />} />
             <Route path="/registrar-pago" element={<PaginaRegistrarPago />} />
             <Route path="/consultar-deudas" element={<PaginaConsultarDeuda />} />
+            <Route path="/detalle-grupo/:id" element={<PaginaDetalleGrupo />} />
+            <Route path="/detalle-grupo-admin/:id" element={<PaginaDetalleGrupoAdmin />} />
+            <Route path="/invitar-amigo" element={<InvitarAmigo />} />
+            <Route path="/recuperar-contrasena" element={<PaginaRecuperarContrasena />} />
+            <Route path="/unirse-grupo-link" element={< PaginaUnirseGrupoLink />} />
+            <Route path="/unirse-grupo-codigo" element={< PaginaUnirseGrupoCodigo />} />
+
+
           {/* Redirigir a la página de inicio si la ruta no coincide con ninguna de las anteriores */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

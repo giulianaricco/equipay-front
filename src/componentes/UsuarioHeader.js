@@ -42,9 +42,10 @@ const UsuarioHeader = () => {
             <select style={selectStyle} onChange={(e) => navigate(e.target.value)}>
                 <option value="/">Grupos</option>
                 <option value="/agregar-grupo">Alta de grupo</option>
-                <option value="/otra-opcion-usuario">Baja de grupo</option>
-                <option value="/listar-grupos">Listar grupos</option>
-                <option value="/listar-grupos">Buscar grupo</option>
+                <option value="/unirse-grupo-codigo">Unirse a un grupo</option>
+                <option value="/listar-grupos">Listar y buscar grupos</option>
+                <option value="/listar-grupos">Emilinar y modificar grupo</option>
+                <option value="/invitar-amigo">Invitar amigos a un grupo</option>
                 <option value="/otra-opcion-usuario">Visualizar actividad</option>
                 <option value="/registrar-gasto">Registrar gasto</option>
                 <option value="/registrar-pago">Registrar pago</option>

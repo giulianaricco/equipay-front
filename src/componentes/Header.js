@@ -26,12 +26,8 @@ const Header = () => {
         <span style={{ fontSize: '1.5em', fontWeight: 'bold' }}>EQUIPAY</span>
       </div>
       <div>
-        <button style={buttonStyle}>Amigos</button>
-        <button style={buttonStyle}>Grupos</button>
-        <button style={buttonStyle}>Actividad</button>
-        <button style={buttonStyle}>Perfil</button>
-        <Link to="/eliminar-categoria" style={buttonStyle}>
-          Categoría
+        <Link to="/" style={buttonStyle}>
+          Inicio
         </Link>
       </div>
     </div>
