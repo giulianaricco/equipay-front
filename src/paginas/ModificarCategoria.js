@@ -77,7 +77,7 @@ const ModificarCategoria = ({ categoryId }) => {
                         </div>
 
                         <div style={{ display: "flex", justifyContent: "center" }}>
-                            <Boton onClick={handleSubmit}>Modificar</Boton>
+                            <Boton  onClick={handleSubmit}>Modificar</Boton>
                             <Boton onClick={handleCancel}>Cancelar</Boton>
                         </div>
                     </Card>
