@@ -88,19 +88,19 @@ const PaginaInvitarAmigos = () => {
   return (
     <div id="InvitarAmigos">
       <UsuarioHeader />
-      <div style={{ marginTop: '50px' }}/>
+      <div style={{ marginTop: '50px' }} />
       <div className="container">
         <Card title="Invitar Amigos">
           <div>
-          <div className="form-group">
-  <label>Seleccionar Grupo:</label>
-  <SelectField
-    value={grupoId}
-    onChange={handleGrupoIdChange}
-    placeholder="Seleccionar Grupo"
-    options={grupos.map((grupo) => ({ value: grupo.id, label: grupo.nombre }))}
-  />
-</div>
+            <div className="form-group">
+              <label>Seleccionar Grupo:</label>
+              <SelectField
+                value={grupoId}
+                onChange={handleGrupoIdChange}
+                placeholder="Seleccionar Grupo"
+                options={grupos.map((grupo) => ({ value: grupo.id, label: grupo.nombre }))}
+              />
+            </div>
             <div className="form-group">
               <label>Invitar a:</label>
               <InputField
