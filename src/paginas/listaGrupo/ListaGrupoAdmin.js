@@ -9,11 +9,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../../contexto/AuthContext'; 
 import AdminHeader from '../../componentes/AdminHeader';
+import { useNavigate } from 'react-router-dom';
+
 
 
 const ListaGrupoAdmin = () => {
   const { getToken } = useAuth();
   const token = getToken();
+  const navigate = useNavigate();
 
   const [grupos, setGrupos] = useState([]);
   const [grupoId, setGrupoId] = useState('');
@@ -63,6 +66,10 @@ const ListaGrupoAdmin = () => {
 
   const handleModificar = (grupoId) => {
     setGrupoEnEdicion(grupos.find(grupo => grupo.id === grupoId));
+  };
+
+  const handleVerMas = (grupoId) => {
+    navigate(`/detalle-grupo-admin/${grupoId}`);
   };
 
   const handleGuardarEdicion = () => {
@@ -158,6 +165,10 @@ const ListaGrupoAdmin = () => {
                       )}
                         <Boton onClick={() => handleEliminar(grupo.id)}>
                         <FontAwesomeIcon icon={faTrash} />
+                        </Boton>
+
+                        <Boton onClick={() => handleVerMas(grupo.id)}>
+                        Ver mas
                         </Boton>
                     </td>
                   </tr>

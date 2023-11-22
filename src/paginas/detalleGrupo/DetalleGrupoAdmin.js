@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from '../../utils/axios';
-import UsuarioHeader from '../../componentes/UsuarioHeader';
+import AdminHeader from '../../componentes/AdminHeader';
 import Boton from '../../componentes/Boton';
 import Card from '../../componentes/Card';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../../contexto/AuthContext';
 
-const GrupoDetalle = () => {
+const GrupoDetalleAdmin = () => {
   const { getToken } = useAuth();
   const { user } = useAuth();
   const token = getToken();
@@ -40,7 +40,7 @@ const idMiembros = grupo.idMiembros || [];
 
   return (
     <>
-      <UsuarioHeader />
+      <AdminHeader />
       <div style={{ marginTop: '50px' }}></div>
       <Card title="Grupo">
         <table className="table-container">
@@ -75,4 +75,4 @@ const idMiembros = grupo.idMiembros || [];
   );
 };
 
-export default GrupoDetalle;
+export default GrupoDetalleAdmin;
