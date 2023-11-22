@@ -55,7 +55,7 @@ const UsuarioHeader = () => {
                 <option value="/">Perfil</option>
                 <option value="/otra-opcion-categoria">Modificar perfil</option>
                 <option value="/eliminar-cuenta">Eliminar cuenta</option>
-                <option value="/otra-opcion-categoria">Visualizar estadísticas</option>
+                <option value="/estadisticas-personales">Visualizar estadísticas</option>
                 <option onClick={handleLogout}>Cerrar sesión</option>
             </select>
           </div>

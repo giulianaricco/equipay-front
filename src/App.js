@@ -26,6 +26,7 @@ import PaginaDesbloquearUsuario from './paginas/DesbloquearUsuario';
 import PaginaEliminarCuenta from './paginas/EliminarCuenta';
 import PaginaRegistrarPago from './paginas/RegistrarPago';
 import PaginaConsultarDeuda from './paginas/ConsultarDeudas';
+import PaginaVisualizarGraficos from './paginas/VisualizarGraficos';
 
 function App() {
 
@@ -56,6 +57,7 @@ function App() {
             <Route path="/recuperar-contrasena" element={<PaginaRecuperarContrasena />} />
             <Route path="/unirse-grupo-link" element={< PaginaUnirseGrupoLink />} />
             <Route path="/unirse-grupo-codigo" element={< PaginaUnirseGrupoCodigo />} />
+            <Route path="/estadisticas" element={< PaginaVisualizarGraficos />} />
 
 
           {/* Redirigir a la página de inicio si la ruta no coincide con ninguna de las anteriores */}

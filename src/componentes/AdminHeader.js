@@ -55,6 +55,7 @@ const AdminHeader = () => {
                 <option value="/listar-grupos-admin">Listar y buscar grupos</option>
                 <option value="/listar-grupos-admin">Baja de grupo</option>
                 <option value="/otra-opcion-usuario">Visualizar actividad</option>
+                <option value="/estadisticas">Visualizar gráficos</option>
             </select>
             <select style={selectStyle} onChange={(e) => navigate(e.target.value)}>
                 <option value="/">Categorías</option>
