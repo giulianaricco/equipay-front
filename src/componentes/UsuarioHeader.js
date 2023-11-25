@@ -7,11 +7,14 @@ const UsuarioHeader = () => {
   const { logout } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    // Llamar a la función logout al hacer clic en el botón de cerrar sesión
-    logout();
-    // Redirigir a la página de inicio después del logout
-    navigate('/');
+  const handleOptionSelect = (value) => {
+    if (value === '/cerrar-sesion') {
+      logout();
+      navigate('/');
+    } 
+    else {
+      navigate(value);
+    }
   };
 
     const headerStyle = {
@@ -55,7 +58,7 @@ const UsuarioHeader = () => {
                 <option value="/Modificar">Modificar perfil</option>
                 <option value="/eliminar-cuenta">Eliminar cuenta</option>
                 <option value="/estadisticas-personales">Visualizar estadísticas</option>
-                <option onClick={handleLogout}>Cerrar sesión</option>
+                <option value="/cerrar-sesion">Cerrar sesión</option>
             </select>
           </div>
         </div>
