@@ -4,8 +4,11 @@ import PublicHeader from "../componentes/PublicHeader";
 import Boton from "../componentes/Boton";
 import Card from "../componentes/Card";
 import InputField from "../componentes/InputField";
+import { useAuth } from '../contexto/AuthContext';
 
 function IniciarSesion() {
+
+    const { login } = useAuth();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -39,7 +42,7 @@ function IniciarSesion() {
             if (response.ok) {
                 // Almacenar el token
                 const token = await response.text();
-                localStorage.setItem("token", token);
+                login(token);
               
                 console.log('Usuario logeado correctamente');
                 console.log('Token JWT:', token);
