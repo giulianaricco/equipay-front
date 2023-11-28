@@ -1,12 +1,17 @@
 import React from "react";
-import Header from '../componentes/UsuarioHeader';
+import Header from '../componentes/AdminHeader';
 import Boton from '../componentes/Boton';
 import Card from '../componentes/Card'; 
 import InputField from '../componentes/InputField';
 import { useNavigate } from 'react-router-dom';
+import axios from '../utils/axios';
+import { useAuth } from '../contexto/AuthContext'; 
 
 
 const AgregarCategoria = () => {
+    const { getToken } = useAuth();
+    const { user } = useAuth();
+    const token = getToken();
     const [nombre, setNombre] = React.useState("");
 
     const navigate = useNavigate();
@@ -20,19 +25,18 @@ const AgregarCategoria = () => {
         }
 
         const data = {
+            id : 7,
             nombre: nombre,
         }
 
         try {
-            const response = await fetch('/api/categoria/', {
-                method: 'POST',
+            const response = await axios.post('/api/categorias/', data, {
                 headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            });
+                  'Authorization': `Bearer ${token}`  // Agrega el token al encabezado de autorización
+                }
+              });
 
-            if (response.ok) {
+            if (response.status === 200) {
                 console.log('Categoria agregada correctamente');
                 alert('Categoria agregada correctamente');
             } else if (response.status === 409) {
