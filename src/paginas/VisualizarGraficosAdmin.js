@@ -52,13 +52,22 @@ const VisualizarGraficos = () => {
     ],
   };
 
+
+  // Opciones de configuración de la gráfica
+  const options = {
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+  };
+
   return (
     <div>
       <AdminHeader />
       <h1>Estadísticas de Gastos</h1>
       <div>
-        <Bar data={datosGrafica} />
-        {/* Otros elementos según sea necesario */}
+        <Bar data={datosGrafica} options={options} />
       </div>
     </div>
   );
