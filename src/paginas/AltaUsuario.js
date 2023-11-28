@@ -5,8 +5,12 @@ import Card from "../componentes/Card";
 import InputField from "../componentes/InputField";
 import Dropdown from "../componentes/Dropdown";
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexto/AuthContext';
 
 const AltaUsuario = () => {
+  const { getToken } = useAuth();
+  const token = getToken();
+
   const [name, setName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
   const [email, setEmail] = React.useState("");
@@ -32,32 +36,50 @@ const AltaUsuario = () => {
       rol: rol,
     };
 
-    try {
-      const response = await fetch('/api/auth/registro', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-      
-      if (response.ok) {
-        console.log('Usuario registrado exitosamente');
-        alert("Usuario registrado correctamente.");
-        navigate('/welcome');
-      } else if (response.status === 409) {
-        console.log('Ya existe un usuario con el correo ingresado');
-        alert('Ya existe un usuario con el correo ingresado.');
-      } else {
-        console.error('Error inesperado:', response.statusText);
-        alert('Error inesperado: ' + response.statusText);
+    var response = null;
+
+    if (data.rol === "Admin") {
+      try {
+        response = await fetch('/api/admins', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(data),
+        });
+      } catch (error) {
+        console.error('Error:', error);
       }
-    } catch (error) {
-      console.error('Error:', error);
+    } else {
+      try {
+        response = await fetch('/api/auth/registro', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+      } catch (error) {
+        console.error('Error:', error);
+      }
     }
-  }
+      
+    if (response.ok) {
+      console.log('Usuario registrado exitosamente');
+      alert("Usuario registrado correctamente.");
+      navigate('/welcome');
+    } else if (response.status === 409) {
+      console.log('Ya existe un usuario con el correo ingresado');
+      alert('Ya existe un usuario con el correo ingresado.');
+    } else {
+      console.error('Error inesperado:', response.statusText);
+      alert('Error inesperado: ' + response.statusText);
+    }
+  };
 
   const handleCancel = async (e) => {
+    e.preventDefault();
     navigate('/welcome');
   }
 
