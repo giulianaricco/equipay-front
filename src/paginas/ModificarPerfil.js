@@ -21,10 +21,10 @@ const ModificarPerfil = () => {
 
     const navigate = useNavigate();
 
+
     React.useEffect(() => {
         if (user) {
             setIdUsuario(user.correo);
-            //ver Id
         }
     }, [user]);
 
@@ -42,12 +42,16 @@ const ModificarPerfil = () => {
             return;
         }
 
-        const data = {
-            correo: email,
-            password: password,
-            name: name,
-            lastName: lastName,
-        };
+        const data = {};
+
+        if (email !== "") data.correo = email;
+
+        if (password !== "") data.password = password;
+
+        if (name !== "") data.name = name;
+
+        if (lastName !== "") data.lastName = lastName;
+
 
         try {
             const response = await axios.put(`/api/usuario/${idUsuario}`, data, {
@@ -56,7 +60,6 @@ const ModificarPerfil = () => {
             });
 
             if (response.status === 200) {
-                //setUsuario(response.data);
                 console.log("Usuario modificado correctamente");
                 alert("Usuario modificado correctamente");
                 setIdUsuario("");
@@ -74,6 +77,7 @@ const ModificarPerfil = () => {
     };
 
     const handleCancel = async (e) => {
+        e.preventDefault();
         navigate('/welcome');
     }
 
@@ -119,46 +123,7 @@ const ModificarPerfil = () => {
                                 />
                             </div>
                         </div>
-                        <div className="form-group">
-                            <label>Nombre:</label>
-                            <div style={{ display: "flex", justifyContent: "center" }}>
-                                <InputField
-                                    value={name}
-                                    onChange={(e) => setname(e.target.value)}
-                                />
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <label>Apellido:</label>
-                            <div style={{ display: "flex", justifyContent: "center" }}>
-                                <InputField
-                                    value={lastName}
-                                    onChange={(e) => setlastName(e.target.value)}
-                                />
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <label>Nombre:</label>
-                            <div style={{ display: "flex", justifyContent: "center" }}>
-                                <InputField
-                                    value={name}
-                                    onChange={(e) => setname(e.target.value)}
-                                />
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <label>Apellido:</label>
-                            <div style={{ display: "flex", justifyContent: "center" }}>
-                                <InputField
-                                    value={lastName}
-                                    onChange={(e) => setlastName(e.target.value)}
-                                />
-                            </div>
-                        </div>
-
                         <Boton onClick={handleSubmit} >Modificar</Boton>
-                        <Boton onClick={handleCancel}>Cancelar</Boton>
-                        <Boton onClick={handleSubmit}>Modificar</Boton>
                         <Boton onClick={handleCancel}>Cancelar</Boton>
                     </Card>
                 </div>

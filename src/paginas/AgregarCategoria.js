@@ -1,17 +1,17 @@
 import React from "react";
-import Header from '../componentes/UsuarioHeader';
+import AdminHeader from '../componentes/AdminHeader';
 import Boton from '../componentes/Boton';
 import Card from '../componentes/Card'; 
 import InputField from '../componentes/InputField';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../contexto/AuthContext";
-import axios from "axios";
 
 
 const AgregarCategoria = () => {
     const { getToken } = useAuth();
     const token = getToken();
     const navigate = useNavigate();
+
 
     const [nombre, setNombre] = React.useState("");
 
@@ -29,10 +29,12 @@ const AgregarCategoria = () => {
         }
 
         try {
-            const response = await axios.post("/api/categorias/", data, {
+            const response = await fetch('/api/categorias/', {
+                method: "POST",
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    'Authorization': `Bearer ${token}`
                 },
+                body: JSON.stringify(data),
             });
 
             if (response.ok) {
@@ -56,7 +58,7 @@ const AgregarCategoria = () => {
 
     return (
         <div id="AgregarCategoria">
-            <Header />
+            <AdminHeader />
             <div style={{ marginTop: '50px' }}>
             <div className="container">
                 <Card title="Categoria">
