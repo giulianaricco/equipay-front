@@ -7,9 +7,10 @@ import cookies from "js-cookie";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(cookies.get("token"));
-  const [user, setUser] = useState(null)
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const storedToken = localStorage.getItem("token");
+  const [token, setToken] = useState(storedToken || null);
+  const [user, setUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(!!storedToken);
 
   const processToken = (token) => {
     const decodedToken = parseJwt(token);
@@ -20,28 +21,26 @@ export const AuthProvider = ({ children }) => {
         rol: decodedToken.rol,
         correo: decodedToken.sub,
       });
-      cookies.set("token", token)
-    } 
-    else {
+      localStorage.setItem("token", token);
+    } else {
       console.error('Error al decodificar el token');
     }
-  } 
-
+  };
 
   const login = (token) => {
     processToken(token);
     setIsAuthenticated(true);
-	};
+  };
 
-	const logout = () => {
-		cookies.remove('token');
+  const logout = () => {
+    localStorage.removeItem('token');
     setUser(null);
-		setIsAuthenticated(false);
-	};
+    setIsAuthenticated(false);
+  };
 
   // Nuevo método para obtener el token
   const getToken = () => {
-    return cookies.get("token");
+    return localStorage.getItem("token");
   };
 
   return (
