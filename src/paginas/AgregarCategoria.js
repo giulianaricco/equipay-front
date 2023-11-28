@@ -3,6 +3,7 @@ import AdminHeader from '../componentes/AdminHeader';
 import Boton from '../componentes/Boton';
 import Card from '../componentes/Card'; 
 import InputField from '../componentes/InputField';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../contexto/AuthContext";
 
@@ -29,13 +30,11 @@ const AgregarCategoria = () => {
         }
 
         try {
-            const response = await fetch('/api/categorias/', {
-                method: "POST",
+            const response = await axios.post('/api/categorias/', data, {
                 headers: {
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(data),
-            });
+                  'Authorization': `Bearer ${token}` 
+                }
+              });
 
             if (response.status === 200) {
                 console.log('Categoria agregada correctamente');
@@ -53,6 +52,7 @@ const AgregarCategoria = () => {
     };
 
     const handleCancel = async (e) => {
+        e.preventDefault();
         navigate('/welcome');
     }
 
