@@ -34,9 +34,9 @@ const PublicHeader = () => {
         <Link to="/registrar-usuario" style={buttonStyle}>
           Registrarse
         </Link>
-        <Link to="/recuperar-contrasena" style={buttonStyle}>
+        {/*<Link to="/recuperar-contrasena" style={buttonStyle}>
           Recuperar contraseña
-        </Link>
+        </Link>*/}
       </div>
     </div>
   );

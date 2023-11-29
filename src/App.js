@@ -33,7 +33,8 @@ import PaginaVisualizarGraficosAdmin from './paginas/VisualizarGraficosAdmin';
 
 import PaginaAgregarCategoria from './paginas/AgregarCategoria';
 import PaginaModificarCategoria from './paginas/ModificarCategoria';
-import PaginaModificarPerfil from './paginas/ModificarPerfil';
+import PaginaModificarPerfil from './paginas/modificarPerfil/ModificarPerfil';
+import PaginaModificarPerfilAdmin from './paginas/modificarPerfil/ModificarPerfilAdmin';
 import PaginaAltaUsuario from './paginas/AltaUsuario';
 import PaginaVisualizarUsuario from './paginas/VisualizarUsuario';
 import PaginaVisualizarGrupo from './paginas/VisualizarGrupo';
@@ -268,12 +269,63 @@ function App() {
             />
           <Route path="*" element={<Navigate to="/" />} />
           <Route path="/Iniciar-sesion" element={<PaginaIniciarSesion />} />
-        <Route path="/agregar-categoria" element={<PaginaAgregarCategoria />} />
-        <Route path="/modificar-categoria" element={<PaginaModificarCategoria />} />
-        <Route path="/modificar-perfil" element={<PaginaModificarPerfil />} />
-        <Route path="/alta-usuario" element={<PaginaAltaUsuario/>} />
-        <Route path="/visualizar-usuario" element={<PaginaVisualizarUsuario/>} />
-        <Route path="/visualizar-grupo" element={<PaginaVisualizarGrupo/>} />
+
+        <Route 
+          path="/agregar-categoria" 
+          element={
+            <ProtectedRouteAdmin>
+              <PaginaAgregarCategoria />
+            </ProtectedRouteAdmin>
+          }
+        />
+        <Route 
+          path="/modificar-categoria" 
+          element={
+            <ProtectedRouteAdmin>
+              <PaginaModificarCategoria />
+            </ProtectedRouteAdmin>
+          }
+        />
+        <Route 
+          path="/modificar-perfil" 
+          element={
+            <ProtectedRouteUser>
+              <PaginaModificarPerfil />
+            </ProtectedRouteUser>
+          } 
+        />
+        <Route 
+          path="/modificar-perfil-admin" 
+          element={
+            <ProtectedRouteAdmin>
+              <PaginaModificarPerfilAdmin />
+            </ProtectedRouteAdmin>
+          }
+        />
+        <Route 
+        path="/alta-usuario" 
+        element={
+          <ProtectedRouteAdmin>
+            <PaginaAltaUsuario />
+          </ProtectedRouteAdmin>
+        }
+        />
+        <Route 
+          path="/visualizar-usuario" 
+          element={
+            <ProtectedRouteAdmin>
+              <PaginaVisualizarUsuario />
+            </ProtectedRouteAdmin>
+          }
+        />
+        <Route 
+          path="/visualizar-grupo" 
+          element={
+            <ProtectedRouteAdmin>
+              <PaginaVisualizarGrupo />
+            </ProtectedRouteAdmin>
+          }
+        />
       </Routes>
       </Router>
     </AuthProvider>

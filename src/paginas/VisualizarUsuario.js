@@ -70,7 +70,7 @@ const VisualizarUsuario = () => {
         try {
             const response = await axios.get(`/api/usuarios/${idUsuario}/valor-total-gastos-cubiertos`, {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    'Authorization': `Bearer ${token}`,
                 },
             });
 
@@ -105,9 +105,7 @@ const VisualizarUsuario = () => {
             }
         } catch (error) {
             console.error("Error:", error);
-        }
-
-         
+        }      
     }
 
     const handleCancel = () => {
@@ -129,8 +127,8 @@ return (
                 >
                     <option value="">Seleccione un usuario</option>
                     {usuarios.map((usuario) => (
-                        <option key={usuario.id} value={usuario.id}>
-                            {usuario.nombre}
+                        <option key={usuario.correo} value={usuario.correo}>
+                            {usuario.nombre} {usuario.apellido ? usuario.apellido : ' '}
                         </option>
                     ))}
                 </select>

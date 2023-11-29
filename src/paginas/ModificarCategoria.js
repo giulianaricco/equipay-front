@@ -100,6 +100,7 @@ const ModificarCategoria = () => {
     };  
 
     const handleCancel = async (e) => {
+        e.preventDefault();
         navigate('/welcome');
     }
 

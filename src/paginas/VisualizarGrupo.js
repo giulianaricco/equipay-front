@@ -59,47 +59,7 @@ const VisualizarGrupo = () => {
         // eslint-disable-next-line
     }, []);
 
-    const obtenerPagos = async () => {
-        try {
-            const response = await axios.get("/api/pagos/", {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            if (response.status === 200) {
-                for (let i = 0; i < response.data.length; i++) {
-                    if (response.data[i].grupo === idGrupo) {
-                        pagos.push(response.data[i]);
-                    }
-                }
-            }
-            return pagos;
-        } catch (error) {
-            console.error("Error al obtener los pagos:", error);
-        }
-    }
-
-    const obtenerGastos = async () => {
-        try {
-            const response = await axios.get("/api/gastos/", {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            if (response.status === 200) {
-                for (let i = 0; i < response.data.length; i++) {
-                    if (response.data[i].grupo === idGrupo) {
-                        gastos.push(response.data[i]);
-                    }
-                }
-            }
-            return gastos;
-        } catch (error) {
-            console.error("Error al obtener los gastos:", error);
-        }
-    }
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -109,11 +69,48 @@ const VisualizarGrupo = () => {
             return;
         }
 
-        pagos = obtenerPagos();
-        gastos = obtenerGastos();
-     }
+        try {
+            const response = await axios.get(`/api/grupos/${idGrupo}/valor-total-gastos-cubiertos`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
 
-     const handleCancel = () => {
+            if (response.status === 200) {
+                gastos = response.data;
+                console.log("Actividad del usuario obtenida exitosamente");
+                alert("Actividad del usuario obtenida exitosamente.");
+                navigate("/welcome");
+            } else {
+                console.error("Error inesperado:", response.statusText);
+                alert("Error inesperado: " + response.statusText);
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+
+        try {
+            const response = await axios.get(`/api/grupos/${idGrupo}/valor-total-pagos-realizados`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (response.status === 200) {
+                pagos = response.data;
+                console.log("Actividad del usuario obtenida exitosamente");
+                alert("Actividad del usuario obtenida exitosamente.");
+                navigate("/welcome");
+            } else {
+                console.error("Error inesperado:", response.statusText);
+                alert("Error inesperado: " + response.statusText);
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    }
+
+    const handleCancel = () => {
         navigate("/welcome");
     }
 

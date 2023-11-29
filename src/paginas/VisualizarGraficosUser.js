@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Bar, Line } from 'react-chartjs-2';
 import { useAuth } from '../contexto/AuthContext'; 
-import AdminHeader from '../componentes/AdminHeader';
+import UsuarioHeader from '../componentes/UsuarioHeader';
 import {getValorTotalPagosRealizados, getTotalPagosPorGrupo, getTotalUltimosDoceMeses} from '../apis/resumenControllerAPI'
 import 'chart.js';
 import 'chart.js/auto';
@@ -116,7 +116,7 @@ const VisualizarGraficos = () => {
 
   return (
     <div>
-      <AdminHeader />
+      <UsuarioHeader />
       <h1>Estadísticas Personales</h1>
       <div>
         <Line data={datosTotalGastosPorMes} options={options} redraw/>
