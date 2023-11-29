@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAuth } from '../contexto/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const UsuarioHeader = () => {
 
@@ -39,15 +40,16 @@ const UsuarioHeader = () => {
       return (
         <div style={headerStyle}>
           <div>
-            <span style={{ fontSize: '1.5em', fontWeight: 'bold' }}>EQUIPAY</span>
+          <Link to="/welcome">
+            <span style={{ fontSize: '1.5em', fontWeight: 'bold', color: '#27A281' }}>EQUIPAY</span>
+          </Link>
           </div>
           <div>
             <select style={selectStyle} onChange={(e) => navigate(e.target.value)}>
                 <option value="/">Grupos</option>
                 <option value="/agregar-grupo">Alta de grupo</option>
                 <option value="/unirse-grupo-codigo">Unirse a un grupo</option>
-                <option value="/listar-grupos">Listar y buscar grupos</option>
-                <option value="/listar-grupos">Eliminar y modificar grupo</option>
+                <option value="/listar-grupos">Listar y modificar grupos</option>
                 <option value="/invitar-amigo">Invitar amigos a un grupo</option>
                 <option value="/registrar-gasto">Registrar gasto</option>
                 <option value="/registrar-pago">Registrar pago</option>

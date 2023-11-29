@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAuth } from '../contexto/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const AdminHeader = () => {
 
@@ -40,7 +41,9 @@ const AdminHeader = () => {
       return (
         <div style={headerStyle}>
           <div>
-            <span style={{ fontSize: '1.5em', fontWeight: 'bold' }}>EQUIPAY</span>
+          <Link to="/welcome">
+            <span style={{ fontSize: '1.5em', fontWeight: 'bold', color: '#27A281' }}>EQUIPAY</span>
+          </Link>
           </div>
           <div>
             <select style={selectStyle} onChange={(e) => navigate(e.target.value)}>
@@ -55,8 +58,7 @@ const AdminHeader = () => {
             <select style={selectStyle} onChange={(e) => navigate(e.target.value)}>
                 <option value="/usuarios">Grupos</option>
                 <option value="/agregar-grupo-admin">Alta de grupo</option>
-                <option value="/listar-grupos-admin">Listar y buscar grupos</option>
-                <option value="/listar-grupos-admin">Baja de grupo</option>
+                <option value="/listar-grupos-admin">Listar y modificar grupos</option>
                 <option value="/visualizar-grupo">Visualizar actividad</option>
                 <option value="/estadisticas">Visualizar gráficos</option>
             </select>
