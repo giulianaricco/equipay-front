@@ -25,7 +25,7 @@ const AgregarCategoria = () => {
         }
 
         const data = {
-            id: 8,
+            id: 10,
             nombre: nombre,
         }
 

@@ -1,7 +1,7 @@
 import React from "react";
 import Boton from "../componentes/Boton";
 import Card from "../componentes/Card";
-import axios from "axios";
+import axios from '../utils/axios';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexto/AuthContext";
 import AdminHeader from "../componentes/AdminHeader";
@@ -35,8 +35,8 @@ const VisualizarGrupo = () => {
 
     const [grupos, setGrupos] = React.useState([]);
     const [idGrupo, setIdGrupo] = React.useState("");
-    var pagos = [];
-    var gastos = [];
+    const [pagos, setPagos] = React.useState([]);
+    const [gastos, setGastos] = React.useState([]);
 
     const obtenerGrupos = async () => {
         try {
@@ -70,17 +70,16 @@ const VisualizarGrupo = () => {
         }
 
         try {
-            const response = await axios.get(`/api/grupos/${idGrupo}/valor-total-gastos-cubiertos`, {
+            const response = await axios.get(`/api/grupos/${idGrupo}/gastos`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },
             });
 
             if (response.status === 200) {
-                gastos = response.data;
+                console.log(response.data)
+                setGastos(response.data);
                 console.log("Actividad del usuario obtenida exitosamente");
-                alert("Actividad del usuario obtenida exitosamente.");
-                navigate("/welcome");
             } else {
                 console.error("Error inesperado:", response.statusText);
                 alert("Error inesperado: " + response.statusText);
@@ -90,17 +89,16 @@ const VisualizarGrupo = () => {
         }
 
         try {
-            const response = await axios.get(`/api/grupos/${idGrupo}/valor-total-pagos-realizados`, {
+            const response = await axios.get(`/api/grupos/${idGrupo}/pagos`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
 
             if (response.status === 200) {
-                pagos = response.data;
+                console.log(response.data);
+                setPagos(response.data);
                 console.log("Actividad del usuario obtenida exitosamente");
-                alert("Actividad del usuario obtenida exitosamente.");
-                navigate("/welcome");
             } else {
                 console.error("Error inesperado:", response.statusText);
                 alert("Error inesperado: " + response.statusText);
@@ -139,24 +137,60 @@ const VisualizarGrupo = () => {
                 <Boton onClick={handleCancel}>Cancelar</Boton>
                 </Card>
                 <div style={{ marginTop: '30px' }}></div>
-                <Card title="Actividad del grupo">
-                    <ul> {gastos.map((gastos) => (
-                                <li key={gastos.id}>
-                                    <p>Descripcion: {gastos.descripcion}</p>
-                                    <p>Moneda: {gastos.moneda}</p>
-                                    <p>Monto: {gastos.monto}</p>
-                                    <p>Grupo: {gastos.Grupo}</p>
-                                </li>
-                            ))}
-                    </ul>
-                    <ul>{pagos.map((pagos) => (
-                            <li key={pagos.id}>
-                                <p>Moneda: {pagos.moneda}</p>
-                                <p>Monto: {pagos.monto}</p>
-                                <p>Grupo: {pagos.Grupo}</p>
-                            </li>
-                        ))}
-                    </ul>
+                <Card title="Gastos del grupo">
+                    <table className="table-container">
+                        <thead>
+                            <tr>
+                                <th>Descripcion</th>
+                                <th>Moneda</th>
+                                <th>Monto</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {gastos.length > 0 ? (
+                                gastos.map((gasto) => (
+                                    <tr key={gasto.id}>
+                                        <td>{gasto.descripcion}</td>
+                                        <td>{gasto.moneda}</td>
+                                        <td>{gasto.monto}</td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr key="sin-gastos">
+                                    <td colSpan={3}>No hay gastos registrados</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </Card>
+                <div style={{ marginTop: '10px' }}></div>
+                <Card title="Pagos del grupo">
+                    <table className="table-container">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Moneda</th>
+                                <th>Monto</th>
+                                <th>Beneficiario</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {pagos.length > 0 ? (
+                                pagos.map((pago) => (
+                                    <tr key={pago.id}>
+                                        <td>{pago.fecha}</td>
+                                        <td>{pago.moneda}</td>
+                                        <td>{pago.monto}</td>
+                                        <td>{pago.recibe.nombre} {pago.recibe.apellido}</td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr key="sin-gastos">
+                                    <td colSpan={4}>No hay pagos registrados</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
                 </Card>
             </div>
             </div>
