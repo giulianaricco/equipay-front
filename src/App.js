@@ -38,6 +38,7 @@ import PaginaModificarPerfilAdmin from './paginas/modificarPerfil/ModificarPerfi
 import PaginaAltaUsuario from './paginas/AltaUsuario';
 import PaginaVisualizarUsuario from './paginas/VisualizarUsuario';
 import PaginaVisualizarGrupo from './paginas/VisualizarGrupo';
+import PaginaHistorico from './paginas/HistoricoActividad';
 
 function App() {
 
@@ -324,6 +325,14 @@ function App() {
             <ProtectedRouteAdmin>
               <PaginaVisualizarGrupo />
             </ProtectedRouteAdmin>
+          }
+        />
+        <Route 
+          path="/historico-actividad" 
+          element={
+            <ProtectedRouteUser>
+              <PaginaHistorico />
+            </ProtectedRouteUser>
           }
         />
       </Routes>

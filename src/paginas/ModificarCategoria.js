@@ -106,7 +106,7 @@ const ModificarCategoria = () => {
 
     return (
         <div id="ModificarCategoria">
-            <AdminHeader /> {/* falta validacion */}
+            <AdminHeader /> 
             <div style={{ marginTop: "50px" }}>
                 <div className="container">
                     <Card title="Modificar Categoria">
