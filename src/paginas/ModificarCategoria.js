@@ -74,18 +74,18 @@ const ModificarCategoria = () => {
         }
 
         const data = {
+            id: idCategoria,
             nombre: nombre,
         };
 
         try {
-            const response = await fetch(`/api/categorias/${idCategoria}`, data, {
-                method: "PUT",
+            const response = await axios.put(`/api/categorias/${idCategoria}`, data, {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    'Authorization': `Bearer ${token}`
                 },
-            });
+                });
 
-            if (response.ok) {
+            if (response.status === 200) {
                 console.log("Categoria modificada exitosamente");
                 alert("Categoria modificada exitosamente");
                 obtenerCategorias();
