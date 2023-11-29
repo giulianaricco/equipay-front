@@ -3,7 +3,7 @@ import AdminHeader from '../../componentes/AdminHeader';
 import Boton from '../../componentes/Boton';
 import Card from '../../componentes/Card'; 
 import InputField from '../../componentes/InputField';
-import axios from 'axios';
+import axios from '../../utils/axios';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../../contexto/AuthContext";
 
