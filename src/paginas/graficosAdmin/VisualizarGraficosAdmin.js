@@ -44,7 +44,8 @@ const VisualizarGraficos = () => {
         label: 'Valor Total',
         backgroundColor: ['rgba(75,192,192,0.6)', 'rgba(255,99,132,0.6)'],
         borderColor: ['rgba(75,192,192,1)', 'rgba(255,99,132,1)'],
-        borderWidth: 1,
+        borderWidth: 2,
+        barThickness: 100,
         hoverBackgroundColor: ['rgba(75,192,192,0.8)', 'rgba(255,99,132,0.8)'],
         hoverBorderColor: ['rgba(75,192,192,1)', 'rgba(255,99,132,1)'],
         data: estadisticas.map((item) => item.valor),
@@ -58,8 +59,29 @@ const VisualizarGraficos = () => {
     scales: {
       y: {
         beginAtZero: true,
+        ticks: {
+          stepSize: 100, 
+        },
       },
     },
+    maintainAspectRatio: false,
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'center',
+      },
+    },
+    layout: {
+      padding: {
+        left: 100,
+        right: 100,
+        top: 5,
+        bottom: 10,
+      },
+    },
+    width: 800,
+    height: 1600,
   };
 
   return (
