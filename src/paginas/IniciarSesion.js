@@ -5,10 +5,9 @@ import Boton from "../componentes/Boton";
 import Card from "../componentes/Card";
 import InputField from "../componentes/InputField";
 import { useAuth } from '../contexto/AuthContext';
+import { Link } from 'react-router-dom';
 
 function IniciarSesion() {
-    //falt recuperar contraseña 
-
     const { login } = useAuth();
 
     const [email, setEmail] = useState("");
@@ -24,6 +23,7 @@ function IniciarSesion() {
           alert("Por favor, tiene que introducir email y contraseña");
           return;
         }
+
 
         const data = {
             correo: email,
@@ -43,6 +43,11 @@ function IniciarSesion() {
             if (response.ok) {
                 // Almacenar el token
                 const token = await response.text();
+                if (token === 'El usuario o la contraseña ingresada no son correctos, vuelva a intentarlo.') {
+                    alert('El usuario o la contraseña ingresada no son correctos, vuelva a intentarlo.')
+                    setPassword("");
+                    return;
+                }
                 login(token);
               
                 console.log('Usuario logeado correctamente');
@@ -102,7 +107,12 @@ function IniciarSesion() {
                         />
                         </div>
 
-                        <Boton onClick={handleSubmit}>Iniciar sesión</Boton>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <Boton onClick={handleSubmit}>Iniciar sesión</Boton>
+                            <Link to="/recuperar-contrasena">
+                                <Boton>Recuperar contraseña</Boton>
+                            </Link>
+                        </div>
                     </Card>
                 </div>
             </div>
