@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../componentes/AdminHeader";
+import AdminHeader from "../componentes/AdminHeader";
 import Boton from "../componentes/Boton";
 import Card from "../componentes/Card";
 import InputField from "../componentes/InputField";
@@ -63,7 +63,7 @@ const AltaUsuario = () => {
 
   return (
     <div>
-    <Header/>
+    <AdminHeader/>
     <div style={{ marginTop: '50px' }}>
       <div className="container">
         <Card title="Registrar Usuario">

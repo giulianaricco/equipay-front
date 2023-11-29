@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import UsuarioHeader from "../componentes/UsuarioHeader";
 import AdminHeader from "../componentes/AdminHeader";
-import Boton from '../componentes/Boton';
 import Card from '../componentes/Card';
 import axios from '../utils/axios';
 import { useAuth } from '../contexto/AuthContext';

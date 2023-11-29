@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../../componentes/Header';
 import Boton from '../../componentes/Boton';
 import Card from '../../componentes/Card';
 import InputField from '../../componentes/InputField';

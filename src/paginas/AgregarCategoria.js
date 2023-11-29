@@ -1,5 +1,5 @@
 import React from "react";
-import Header from '../componentes/AdminHeader';
+import AdminHeader from '../componentes/AdminHeader';
 import Boton from '../componentes/Boton';
 import Card from '../componentes/Card'; 
 import InputField from '../componentes/InputField';
@@ -10,7 +10,6 @@ import { useAuth } from '../contexto/AuthContext';
 
 const AgregarCategoria = () => {
     const { getToken } = useAuth();
-    const { user } = useAuth();
     const token = getToken();
     const [nombre, setNombre] = React.useState("");
 
@@ -56,7 +55,7 @@ const AgregarCategoria = () => {
 
     return (
         <div id="AgregarCategoria">
-            <Header />
+            <AdminHeader />
             <div style={{ marginTop: '50px' }}>
             <div className="container">
                 <Card title="Categoria">

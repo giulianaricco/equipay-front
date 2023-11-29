@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../componentes/UsuarioHeader";
+import UsuarioHeader from "../componentes/UsuarioHeader";
 import Boton from "../componentes/Boton";
 import Card from "../componentes/Card";
 import InputField from "../componentes/InputField";
@@ -79,7 +79,7 @@ const ModificarPerfil = () => {
 
     return (
         <div id="ModificarPerfil">
-            <Header />
+            <UsuarioHeader />
             <div style={{ marginTop: "50px" }}>
                 <div className="container">
                     <Card title="Perfil">
