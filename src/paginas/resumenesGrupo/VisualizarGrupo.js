@@ -1,7 +1,7 @@
 import React from "react";
-import Boton from "../componentes/Boton";
-import Card from "../componentes/Card";
-import axios from '../utils/axios';
+import Boton from "../../componentes/Boton";
+import Card from "../../componentes/Card";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexto/AuthContext";
 import AdminHeader from "../../componentes/AdminHeader";
