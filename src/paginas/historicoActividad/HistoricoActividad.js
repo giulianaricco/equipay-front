@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Boton from "../../componentes/Boton";
 import Card from "../../componentes/Card";
-import axios from "axios";
+import axios from '../../utils/axios';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexto/AuthContext";
-import AdminHeader from "../../componentes/AdminHeader";
+import UsuarioHeader from "../../componentes/UsuarioHeader";
 
 const styles = {
     inputStyle: {
@@ -28,100 +28,87 @@ const styles = {
   
   };
 
-const VisualizarGrupo = () => {
+  const HistoricoActividad = () => {
     const { getToken } = useAuth();
     const token = getToken();
     const navigate = useNavigate();
+    const { user } = useAuth();
+
 
     const [grupos, setGrupos] = React.useState([]);
-    const [idGrupo, setIdGrupo] = React.useState("");
+    const [grupoSeleccionado, setGrupoSeleccionado] = React.useState("");
     const [pagos, setPagos] = React.useState([]);
     const [gastos, setGastos] = React.useState([]);
 
-    const obtenerGrupos = async () => {
-        try {
-            const response = await axios.get("/api/grupos/", {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            if (response.status === 200) {
+    useEffect(() => {
+        axios.get(`/api/usuarios/${user.correo}/grupos`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+            .then((response) => {
                 setGrupos(response.data);
-            }
-        } catch (error) {
-            console.error("Error al obtener los grupos:", error);
-        }
-    }
-
-    React.useEffect(() => {
-        obtenerGrupos();
-        // eslint-disable-next-line
+            })
+            .catch((error) => {
+                console.error("Error al obtener la lista de grupos:", error);
+            });
     }, []);
 
-    
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async (event) => {
+        event.preventDefault();
 
-        if (!idGrupo) {
-            console.error("ID de grupo no válido");
+        if (!grupoSeleccionado) {
+            alert("Debe seleccionar un grupo");
             return;
         }
-
         try {
-            const response = await axios.get(`/api/grupos/${idGrupo}/gastos`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
-            });
-
-            if (response.status === 200) {
-                setGastos(response.data);
-                console.log("Actividad del usuario obtenida exitosamente");
-            } else {
-                console.error("Error inesperado:", response.statusText);
-                alert("Error inesperado: " + response.statusText);
-            }
-        } catch (error) {
-            console.error("Error:", error);
-        }
-
-        try {
-            const response = await axios.get(`/api/grupos/${idGrupo}/pagos`, {
+            const response = await axios.get(`/api/grupos/${grupoSeleccionado}/gastos`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
-
             if (response.status === 200) {
-                setPagos(response.data);
-                console.log("Actividad del usuario obtenida exitosamente");
+                setGastos(response.data);
             } else {
-                console.error("Error inesperado:", response.statusText);
-                alert("Error inesperado: " + response.statusText);
+                console.error("Error al obtener los gastos");
             }
         } catch (error) {
-            console.error("Error:", error);
+            console.error("Error al obtener el historico de actividad:", error);
+        }
+
+        try {
+            const response = await axios.get(`/api/grupos/${grupoSeleccionado}/pagos`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            if (response.status === 200) {
+                setPagos(response.data);
+            } else {
+                console.error("Error al obtener los pagos");
+            }
+        } catch (error) {
+            console.error("Error al obtener el historico de actividad:", error);
         }
     }
 
-    const handleCancel = () => {
+    const handleCancelar = () => {
         navigate("/welcome");
     }
 
     return (
-        <div id="visualizar-grupo" >
-            <AdminHeader/>
+        <div id="historico-actividad">
+            <UsuarioHeader />
             <div style={{ marginTop: '50px' }}>
             <div className="container">
-                <Card title="Visualizar actividad">
+            <Card title="Historico actividad">
                 <div className="form-group">
                     <label>Seleccione el grupo a visualizar:</label>
                     <select
-                        value={idGrupo}
-                        onChange={(e) => setIdGrupo(e.target.value)}
                         style={styles.selectStyle}
+                        value={grupoSeleccionado}
+                        onChange={(e) => setGrupoSeleccionado(e.target.value)}
                     >
                         <option value="">Seleccione un grupo</option>
                         {grupos.map((grupo) => (
@@ -131,10 +118,10 @@ const VisualizarGrupo = () => {
                         ))}
                     </select>
                 </div>
-                <Boton onClick={handleSubmit}>Visualizar</Boton>
-                <Boton onClick={handleCancel}>Cancelar</Boton>
-                </Card>
-                <div style={{ marginTop: '30px' }}></div>
+                <Boton onClick={handleSubmit}>Ver historico</Boton>
+                <Boton onClick={handleCancelar}>Cancelar</Boton>
+            </Card>
+            <div style={{ marginTop: '30px' }}></div>
                 <Card title="Gastos del grupo">
                     <table className="table-container">
                         <thead>
@@ -191,9 +178,10 @@ const VisualizarGrupo = () => {
                     </table>
                 </Card>
             </div>
-            </div>
         </div>
-        );
-    }
-    
-    export default VisualizarGrupo;
+        </div>
+    );
+}
+
+export default HistoricoActividad;
+

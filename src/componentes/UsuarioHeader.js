@@ -54,6 +54,7 @@ const UsuarioHeader = () => {
                 <option value="/registrar-gasto">Registrar gasto</option>
                 <option value="/registrar-pago">Registrar pago</option>
                 <option value="/consultar-deudas">Consultar deudas</option>
+                <option value="/historico-actividad">Actividad del grupo</option>
             </select>
             <select style={selectStyle} onChange={(e) => handleOptionSelect(e.target.value)}>
                 <option value="/">Perfil</option>
