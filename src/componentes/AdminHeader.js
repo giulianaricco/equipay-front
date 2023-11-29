@@ -68,7 +68,7 @@ const AdminHeader = () => {
             </select>
             <select style={selectStyle} onChange={(e) => handleOptionSelect(e.target.value)}>
                 <option value="/">Perfil</option>
-                <option value="/modificar-perfil">Modificar perfil</option>
+                <option value="/modificar-perfil-admin">Modificar perfil</option>
                 <option value="/eliminar-cuenta">Eliminar cuenta</option>
                 <option value="/cerrar-sesion">Cerrar sesión</option>
             </select>

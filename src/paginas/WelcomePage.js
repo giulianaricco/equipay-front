@@ -23,12 +23,11 @@ function WelcomePage() {
 
   return (
     <div>
-      <AdminHeader />
-      {/*{user && user.rol === 'Usuario' && <UsuarioHeader nombre={user.nombre} />}*/}
-      {/*{user && user.rol === 'Admin' && <AdminHeader nombre={user.nombre} />}*/}
+      {user?.rol === 'Usuario' ? <UsuarioHeader nombre={user.nombre} /> : null}
+      {user?.rol === 'Admin' ? <AdminHeader nombre={user.nombre} /> : null}
       <div style={containerStyle}>
       <div style={textStyle}>
-        <p>¡Bienvenido/a!</p>
+        <p>¡Bienvenido/a {user.nombre}!</p>
       </div>
       <img src={EquiPayLogo} alt="Descripción de la imagen" style={{ maxWidth: '100%' }} />
     </div>

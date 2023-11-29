@@ -49,7 +49,6 @@ const UsuarioHeader = () => {
                 <option value="/listar-grupos">Listar y buscar grupos</option>
                 <option value="/listar-grupos">Eliminar y modificar grupo</option>
                 <option value="/invitar-amigo">Invitar amigos a un grupo</option>
-                <option value="/visualizar-usuario">Visualizar actividad</option>
                 <option value="/registrar-gasto">Registrar gasto</option>
                 <option value="/registrar-pago">Registrar pago</option>
                 <option value="/consultar-deudas">Consultar deudas</option>
