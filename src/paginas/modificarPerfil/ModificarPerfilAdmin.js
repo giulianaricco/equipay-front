@@ -7,12 +7,14 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../../contexto/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const ModificarPerfilAdmin = () => {
     const { getToken } = useAuth();
     const token = getToken();
     const [idUsuario, setIdUsuario] = React.useState("");
     const { user } = useAuth();
+    const navigate = useNavigate();
 
     const [usuarioEditado, setUsuarioEditado] = React.useState(null);
 
@@ -58,6 +60,11 @@ const ModificarPerfilAdmin = () => {
         } catch (error) {
             console.error("Error: ", error);
         }
+    }
+
+    const handleCancel = async (e) => {
+        e.preventDefault();
+        navigate('/welcome');
     }
 
     return (
@@ -110,12 +117,17 @@ const ModificarPerfilAdmin = () => {
                                 )}
                             </td>
                             <td>
+                                <div style={{ display: "flex", justifyContent: "center" }}>
                                 {usuarioEditado?.correo === user.correo ? (
                                     <Boton onClick={handleGuardarEdicion}>Guardar</Boton>
                                 ) : (
                                     <Boton onClick={() => handleModificar(user.correo)}>
                                         <FontAwesomeIcon icon={faPencilAlt} />
-                                    </Boton>                                )}
+                                    </Boton>
+                                    )}
+                                    <Boton onClick={handleCancel}>Cancelar</Boton>
+                                </div>
+                                
                             </td>
                             </tr>
                         </tbody>

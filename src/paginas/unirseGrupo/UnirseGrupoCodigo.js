@@ -5,11 +5,13 @@ import Boton from '../../componentes/Boton';
 import InputField from '../../componentes/InputField';
 import UsuarioHeader from '../../componentes/UsuarioHeader';
 import axios from '../../utils/axios';
+import { useNavigate } from "react-router-dom";
 
 const UnirseGrupoCodigo = () => {
   const { getToken, user } = useAuth();
   const token = getToken();
   const [codigo, setCodigo] = useState('');
+  const navigate = useNavigate();
 
   const handleCodigoChange = (event) => {
     setCodigo(event.target.value);
@@ -34,6 +36,11 @@ const UnirseGrupoCodigo = () => {
     });
   };
 
+  const handleCancel = async (e) => {
+    e.preventDefault();
+    navigate('/welcome');
+  }
+
   return (
     <div id="UnirseAGrupoCodigo">
             <UsuarioHeader />
@@ -49,7 +56,10 @@ const UnirseGrupoCodigo = () => {
                 placeholder="Ingresa el código del grupo"
               />
             </div>
-            <Boton onClick={handleUnirseAGrupoClick}>Unirse al Grupo</Boton>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <Boton onClick={handleUnirseAGrupoClick}>Unirse al Grupo</Boton>
+              <Boton onClick={handleCancel}>Cancelar</Boton>
+            </div>
           </div>
         </Card>
       </div>

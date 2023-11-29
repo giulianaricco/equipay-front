@@ -1,7 +1,7 @@
-import React from 'react';import EquiPayLogo from '../img/EquiPay-verde-sinFondo.png';
-import UsuarioHeader from "../componentes/UsuarioHeader";
-import AdminHeader from "../componentes/AdminHeader";
-import { useAuth } from '../contexto/AuthContext';
+import React from 'react';import EquiPayLogo from '../../img/EquiPay-verde-sinFondo.png';
+import UsuarioHeader from "../../componentes/UsuarioHeader";
+import AdminHeader from "../../componentes/AdminHeader";
+import { useAuth } from '../../contexto/AuthContext';
 
 function WelcomePage() {
   const { user } = useAuth();

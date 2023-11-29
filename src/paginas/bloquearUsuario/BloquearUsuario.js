@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import AdminHeader from '../componentes/AdminHeader';
-import Boton from '../componentes/Boton';
-import Card from '../componentes/Card';
-import axios from '../utils/axios';
-import { useAuth } from '../contexto/AuthContext'; 
+import AdminHeader from '../../componentes/AdminHeader';
+import Boton from '../../componentes/Boton';
+import Card from '../../componentes/Card';
+import axios from '../../utils/axios';
+import { useAuth } from '../../contexto/AuthContext'; 
+import { useNavigate } from "react-router-dom";
 
 const styles = {
   inputStyle: {
@@ -30,6 +31,7 @@ const styles = {
 const BloquearUsuario = () => {
   const { getToken } = useAuth();
   const token = getToken();
+  const navigate = useNavigate();
 
   const [usuarios, setUsuarios] = useState([]);
   const [idUsuario, setIdUsuario] = useState("");
@@ -108,6 +110,11 @@ const BloquearUsuario = () => {
     }
   };
 
+  const handleCancel = async (e) => {
+      e.preventDefault();
+      navigate('/welcome');
+  }
+
   return (
     <div>
       <AdminHeader />
@@ -139,7 +146,10 @@ const BloquearUsuario = () => {
                   <p>Nombre: {usuarioDetalles.nombre} {usuarioDetalles.apellido ? usuarioDetalles.apellido : ' '}</p>
                 </div>
               )}
-              <Boton onClick={handleSubmit}>Bloquear</Boton>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <Boton onClick={handleSubmit}>Bloquear</Boton>
+                <Boton onClick={handleCancel}>Cancelar</Boton>
+              </div>
             </Card>
           </div>
         </div>

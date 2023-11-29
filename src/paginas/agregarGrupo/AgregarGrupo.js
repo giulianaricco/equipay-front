@@ -7,6 +7,7 @@ import './AgregarGrupo.css';
 import { useAuth } from '../../contexto/AuthContext';
 import UsuarioHeader from '../../componentes/UsuarioHeader';
 import { Navigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 
 const styles = {
@@ -34,6 +35,7 @@ const PaginaAgregarGrupo = () => {
   const { user } = useAuth();
   const token = getToken();
   const correo = user.correo;
+  const navigate = useNavigate();
 
   const [nombreGrupo, setNombreGrupo] = useState('');
   const [contacto, setContacto] = useState('');
@@ -133,6 +135,11 @@ const PaginaAgregarGrupo = () => {
         console.error('Error al crear el grupo:', error);
       });
   };
+ 
+  const handleCancel = async (e) => {
+    e.preventDefault();
+    navigate('/welcome');
+  }
 
 
   return (
@@ -162,10 +169,14 @@ const PaginaAgregarGrupo = () => {
                 />
               </div>
             </div>
-
-            {mostrarBotonCrearGrupo && (
-              <Boton onClick={handleCrearGrupoClick}>Crear Grupo</Boton>
-            )}
+            
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              {mostrarBotonCrearGrupo && (
+                <Boton onClick={handleCrearGrupoClick}>Crear Grupo</Boton>
+              )}
+              <Boton onClick={handleCancel}>Cancelar</Boton>
+            </div>
+            
 
             {mostrarLabel && (
               <div>

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import UsuarioHeader from "../componentes/UsuarioHeader";
-import AdminHeader from "../componentes/AdminHeader";
-import Boton from '../componentes/Boton';
-import Card from '../componentes/Card'; // Importa el componente Card
-import axios from '../utils/axios';
-import { useAuth } from '../contexto/AuthContext'; 
+import UsuarioHeader from "../../componentes/UsuarioHeader";
+import AdminHeader from "../../componentes/AdminHeader";
+import Boton from '../../componentes/Boton';
+import Card from '../../componentes/Card'; // Importa el componente Card
+import axios from '../../utils/axios';
+import { useAuth } from '../../contexto/AuthContext'; 
+import { useNavigate } from "react-router-dom";
 
 const styles = {
   inputStyle: {
@@ -32,6 +33,7 @@ const RegistrarGasto = () => {
   const { getToken } = useAuth();
   const { user } = useAuth();
   const token = getToken();
+  const navigate = useNavigate();
 
   const [monto, setMonto] = useState("");
   const [moneda, setMoneda] = useState("");
@@ -174,6 +176,11 @@ const RegistrarGasto = () => {
     }
   }
 
+  const handleCancel = async (e) => {
+      e.preventDefault();
+      navigate('/welcome');
+  }
+
   return (
     <div id="AgregarGasto">
       {user && user.rol === 'Usuario' && <UsuarioHeader nombre={user.nombre} />}
@@ -273,7 +280,10 @@ const RegistrarGasto = () => {
                   ))}
                 </select>
               </div>
-              <Boton onClick={handleSubmit}>Registrar Gasto</Boton>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <Boton onClick={handleSubmit}>Registrar Gasto</Boton>
+                <Boton onClick={handleCancel}>Cancelar</Boton>
+              </div>
             </div>
           </Card>
         </div>

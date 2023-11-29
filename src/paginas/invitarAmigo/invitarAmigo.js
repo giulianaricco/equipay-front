@@ -84,6 +84,11 @@ const PaginaInvitarAmigos = () => {
   const handleContinuarClick = () => {
     navigate('/listar-grupos');
   };
+  
+  const handleCancel = async (e) => {
+    e.preventDefault();
+    navigate('/welcome');
+}
 
   return (
     <div id="InvitarAmigos">
@@ -109,6 +114,7 @@ const PaginaInvitarAmigos = () => {
                 placeholder="Correo del amigo"
               />
               <br />
+              <br />
               <Boton onClick={handleAgregarAmigo}>Invitar Amigo</Boton>
             </div>
             {amigos.length > 0 && (
@@ -121,7 +127,11 @@ const PaginaInvitarAmigos = () => {
                 </ul>
               </div>
             )}
-            <Boton onClick={handleContinuarClick}>Ver mis grupos</Boton>
+            
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <Boton onClick={handleContinuarClick}>Ver mis grupos</Boton>
+              <Boton onClick={handleCancel}>Cancelar</Boton>
+            </div>
           </div>
         </Card>
       </div>

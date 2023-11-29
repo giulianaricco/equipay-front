@@ -2,8 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import './App.css';
 import { AuthProvider, useAuth } from './contexto/AuthContext';
-import PaginaInicio from './paginas/PaginaInicio';
-import WelcomePage from './paginas/WelcomePage';
+import PaginaInicio from './paginas/Inicio/PaginaInicio';
+import WelcomePage from './paginas/bienvenida/WelcomePage';
 import PaginaListarGrupo from './paginas/listaGrupo/ListaGrupos';
 import PaginaListarGrupoAdmin from './paginas/listaGrupo/ListaGrupoAdmin';
 import PaginaAgregarGrupo from './paginas/agregarGrupo/AgregarGrupo';
@@ -15,29 +15,29 @@ import PaginaUnirseGrupoLink from './paginas/unirseGrupo/UnirseGrupoLink';
 import PaginaUnirseGrupoCodigo from './paginas/unirseGrupo/UnirseGrupoCodigo';
 import PaginaAgregarGrupoAdmin from './paginas/agregarGrupo/AgregarGrupoAdmin';
 
-import PaginaRegistrarUsuario from './paginas/RegistrarUsuario';
-import PaginaListarUsuarios from './paginas/ListarUsuarios';
-import PaginaRegistrarGasto from './paginas/RegistrarGasto';
-import PaginaIniciarSesion from './paginas/IniciarSesion';
-import PaginaEliminarCategoria from './paginas/EliminarCategoria';
-import PaginaEliminarUsuario from './paginas/EliminarUsuario';
-import PaginaBloquearUsuario from './paginas/BloquearUsuario';
-import PaginaDesbloquearUsuario from './paginas/DesbloquearUsuario';
-import PaginaEliminarCuenta from './paginas/EliminarCuenta';
-import PaginaRegistrarPago from './paginas/RegistrarPago';
-import PaginaConsultarDeuda from './paginas/ConsultarDeudas';
-import PaginaVisualizarGraficosUser from './paginas/VisualizarGraficosUser';
-import PaginaVisualizarGraficosAdmin from './paginas/VisualizarGraficosAdmin';
+import PaginaRegistrarUsuario from './paginas/registrarUsuario/RegistrarUsuario';
+import PaginaListarUsuarios from './paginas/listaUsuarios/ListarUsuarios';
+import PaginaRegistrarGasto from './paginas/registrarGasto/RegistrarGasto';
+import PaginaIniciarSesion from './paginas/iniciarSesion/IniciarSesion';
+import PaginaEliminarCategoria from './paginas/eliminarCategoria/EliminarCategoria';
+import PaginaEliminarUsuario from './paginas/eliminarUsuario/EliminarUsuario';
+import PaginaBloquearUsuario from './paginas/bloquearUsuario/BloquearUsuario';
+import PaginaDesbloquearUsuario from './paginas/desbloquearUsuario/DesbloquearUsuario';
+import PaginaEliminarCuenta from './paginas/eliminarCuenta/EliminarCuenta';
+import PaginaRegistrarPago from './paginas/registrarPago/RegistrarPago';
+import PaginaConsultarDeuda from './paginas/consultarDeudas/ConsultarDeudas';
+import PaginaVisualizarGraficosUser from './paginas/graficosUsuario/VisualizarGraficosUser';
+import PaginaVisualizarGraficosAdmin from './paginas/graficosAdmin/VisualizarGraficosAdmin';
 
 
 
-import PaginaAgregarCategoria from './paginas/AgregarCategoria';
-import PaginaModificarCategoria from './paginas/ModificarCategoria';
+import PaginaAgregarCategoria from './paginas/agregarCategoria/AgregarCategoria';
+import PaginaModificarCategoria from './paginas/modificarCategoria/ModificarCategoria';
 import PaginaModificarPerfil from './paginas/modificarPerfil/ModificarPerfil';
 import PaginaModificarPerfilAdmin from './paginas/modificarPerfil/ModificarPerfilAdmin';
-import PaginaAltaUsuario from './paginas/AltaUsuario';
-import PaginaVisualizarUsuario from './paginas/VisualizarUsuario';
-import PaginaVisualizarGrupo from './paginas/VisualizarGrupo';
+import PaginaAltaUsuario from './paginas/altaUsuario/AltaUsuario';
+import PaginaVisualizarUsuario from './paginas/resumenesUsuario/VisualizarUsuario';
+import PaginaVisualizarGrupo from './paginas/resumenesGrupo/VisualizarGrupo';
 
 function App() {
 

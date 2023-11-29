@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import AdminHeader from "../componentes/AdminHeader";
-import Boton from "../componentes/Boton";
-import Card from "../componentes/Card";
-import InputField from "../componentes/InputField";
+import AdminHeader from "../../componentes/AdminHeader";
+import Boton from "../../componentes/Boton";
+import Card from "../../componentes/Card";
+import InputField from "../../componentes/InputField";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexto/AuthContext";
+import { useAuth } from "../../contexto/AuthContext";
 
 const styles = {
     inputStyle: {
@@ -137,7 +137,7 @@ const ModificarCategoria = () => {
                         </div>
 
                         <div style={{ display: "flex", justifyContent: "center" }}>
-                            <Boton  onClick={handleSubmit}>Modificar</Boton>
+                            <Boton onClick={handleSubmit}>Modificar</Boton>
                             <Boton onClick={handleCancel}>Cancelar</Boton>
                         </div>
                     </Card>

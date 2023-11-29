@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import axios from '../utils/axios';
+import axios from '../../utils/axios';
 import { Bar } from 'react-chartjs-2';
-import { useAuth } from '../contexto/AuthContext'; 
-import AdminHeader from '../componentes/AdminHeader';
+import { useAuth } from '../../contexto/AuthContext'; 
+import AdminHeader from '../../componentes/AdminHeader';
 import 'chart.js';
 import 'chart.js/auto';
 

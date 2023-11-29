@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Boton from '../componentes/Boton';
-import Card from '../componentes/Card'; // Importa el componente Card
-import InputField from '../componentes/InputField';
-import PublicHeader from "../componentes/PublicHeader";
+import Boton from '../../componentes/Boton';
+import Card from '../../componentes/Card'; // Importa el componente Card
+import InputField from '../../componentes/InputField';
+import PublicHeader from "../../componentes/PublicHeader";
 import { useNavigate } from 'react-router-dom';
 
 
@@ -54,12 +54,17 @@ function RegistrarUsuario() {
     }
   };
 
+  const handleCancel = async (e) => {
+      e.preventDefault();
+      navigate('/');
+  }
+
   return (
     <div>
       <PublicHeader />
       <div style={{ marginTop: '50px' }}>
         <div className="container">
-          <Card title="Registrar Usuario">
+          <Card title="Registro de Usuario">
             <div className="form-group">
               <InputField
               placeholder="Nombre"
@@ -101,8 +106,10 @@ function RegistrarUsuario() {
                 }}
               />
             </div>
-
-            <Boton onClick={handleSubmit}>Registrarse</Boton>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <Boton onClick={handleSubmit}>Registrarse</Boton>
+              <Boton onClick={handleCancel}>Cancelar</Boton>
+            </div>
           </Card>
         </div>
       </div>

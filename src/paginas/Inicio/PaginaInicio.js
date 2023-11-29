@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import EquiPayLogo from '../img/EquiPay-verde-sinFondo.png';
-import PublicHeader from "../componentes/PublicHeader";
-import { useAuth } from '../contexto/AuthContext'; 
+import EquiPayLogo from '../../img/EquiPay-verde-sinFondo.png';
+import PublicHeader from "../../componentes/PublicHeader";
+import { useAuth } from '../../contexto/AuthContext'; 
 
 function PaginaInicio() {
   const { getToken } = useAuth();

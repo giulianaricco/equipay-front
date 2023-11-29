@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import AdminHeader from '../componentes/AdminHeader';
-import Boton from '../componentes/Boton';
-import Card from '../componentes/Card';
-import axios from '../utils/axios';
-import { useAuth } from '../contexto/AuthContext'; 
+import AdminHeader from '../../componentes/AdminHeader';
+import Boton from '../../componentes/Boton';
+import Card from '../../componentes/Card';
+import axios from '../../utils/axios';
+import { useAuth } from '../../contexto/AuthContext'; 
+import { useNavigate } from "react-router-dom";
 
 const styles = {
   inputStyle: {
@@ -27,9 +28,10 @@ const styles = {
 
 };
 
-const EliminarUsuario = () => {
+const DesbloquearUsuario = () => {
   const { getToken } = useAuth();
   const token = getToken();
+  const navigate = useNavigate();
 
   const [usuarios, setUsuarios] = useState([]);
   const [idUsuario, setIdUsuario] = useState("");
@@ -44,7 +46,7 @@ const EliminarUsuario = () => {
       });
 
       if (response.status === 200) { 
-        const usuariosFiltrados = response.data.filter(usuario => usuario.estadoUsuario !== 'ELIMINADO');
+        const usuariosFiltrados = response.data.filter(usuario => usuario.estadoUsuario !== 'ELIMINADO' && usuario.estadoUsuario !== 'ACTIVO');
         setUsuarios(usuariosFiltrados);
       }
     } catch (error) {
@@ -84,18 +86,21 @@ const EliminarUsuario = () => {
     cargarDetallesUsuario(idUsuario);
 
     try {
-      const response = await axios.delete(`/api/usuarios/${idUsuario}`, {
-        headers: {
+      
+      const response = await axios.post(`/api/usuarios/${idUsuario}/desbloquear`, null, {
+      headers: {
           'Authorization': `Bearer ${token}`
-        },
+      },
       });
 
       if (response.status === 200) {
-        console.log('Usuario eliminado exitosamente');
-        alert("Usuario eliminado exitosamente.");
+        console.log('Usuario desbloqueado exitosamente');
+        alert("Usuario desbloqueado exitosamente.");
         // Actualizar la lista después de la eliminación
         obtenerUsuarios();
         setIdUsuario("");
+        // Ocultar los detalles del usuario al bloquear
+        setUsuarioDetalles(null);
       } else {
         console.error('Error inesperado:', response.statusText);
         alert('Error inesperado: ' + response.statusText);
@@ -105,13 +110,18 @@ const EliminarUsuario = () => {
     }
   };
 
+  const handleCancel = async (e) => {
+      e.preventDefault();
+      navigate('/welcome');
+  }
+
   return (
     <div>
       <AdminHeader />
       {(
         <div style={{ marginTop: '50px' }}>
           <div className="container">
-            <Card title="Eliminar Usuario">
+            <Card title="Desbloquear Usuario">
               <div className="form-group">
                 <select
                   value={idUsuario}
@@ -136,7 +146,11 @@ const EliminarUsuario = () => {
                   <p>Nombre: {usuarioDetalles.nombre} {usuarioDetalles.apellido ? usuarioDetalles.apellido : ' '}</p>
                 </div>
               )}
-              <Boton onClick={handleSubmit}>Eliminar</Boton>
+              
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <Boton onClick={handleSubmit}>Desbloquear</Boton>
+                <Boton onClick={handleCancel}>Cancelar</Boton>
+              </div>
             </Card>
           </div>
         </div>
@@ -145,4 +159,4 @@ const EliminarUsuario = () => {
   );
 };
 
-export default EliminarUsuario;
+export default DesbloquearUsuario;

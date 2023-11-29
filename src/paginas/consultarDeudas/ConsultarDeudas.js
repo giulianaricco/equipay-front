@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import UsuarioHeader from "../componentes/UsuarioHeader";
-import AdminHeader from "../componentes/AdminHeader";
-import Card from '../componentes/Card';
-import axios from '../utils/axios';
-import { useAuth } from '../contexto/AuthContext';
+import UsuarioHeader from "../../componentes/UsuarioHeader";
+import AdminHeader from "../../componentes/AdminHeader";
+import Card from '../../componentes/Card';
+import axios from '../../utils/axios';
+import { useAuth } from '../../contexto/AuthContext';
 
 const styles = {
   inputStyle: {
@@ -75,6 +75,7 @@ const ConsultarDeudas = () => {
             setDeudaSeleccionada(null);
             setSugerencias([]);
             setMonedaDeuda("");
+            alert("No tiene deudas en el grupo seleccionado");
           }
         } else {
           console.error('La propiedad deudas de la respuesta no es un array:', response.data.deudas);
@@ -130,24 +131,26 @@ const ConsultarDeudas = () => {
                   ))}
                 </select>
               </div>
-              <div className="form-group">
-                <h4>Deudas</h4>
-                <ul>
-                  {deudas.map((deuda) => (
-                    <li
-                      key={deuda.id}
-                      onClick={() => handleDeudaClick(deuda)}
-                      style={{
-                        cursor: 'pointer',
-                        color: deuda === deudaSeleccionada ? 'black' : 'white',
-                        textDecoration: 'none',
-                      }}
-                    >
-                      {deuda.moneda} {deuda.deudaEnGrupo.toFixed(2)}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              {idGrupo && (
+                <div className="form-group">
+                  <h4>Deudas</h4>
+                  <ul>
+                    {deudas.map((deuda) => (
+                      <li
+                        key={deuda.id}
+                        onClick={() => handleDeudaClick(deuda)}
+                        style={{
+                          cursor: 'pointer',
+                          color: deuda === deudaSeleccionada ? 'black' : 'white',
+                          textDecoration: 'none',
+                        }}
+                      >
+                        {deuda.moneda} {deuda.deudaEnGrupo.toFixed(2)}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
               {deudaSeleccionada && (
                 <div className="form-group">

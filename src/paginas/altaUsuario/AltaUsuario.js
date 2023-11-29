@@ -1,11 +1,11 @@
 import React from "react";
-import AdminHeader from "../componentes/AdminHeader";
-import Boton from "../componentes/Boton";
-import Card from "../componentes/Card";
-import InputField from "../componentes/InputField";
-import Dropdown from "../componentes/Dropdown";
+import AdminHeader from "../../componentes/AdminHeader";
+import Boton from "../../componentes/Boton";
+import Card from "../../componentes/Card";
+import InputField from "../../componentes/InputField";
+import Dropdown from "../../componentes/Dropdown";
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexto/AuthContext';
+import { useAuth } from '../../contexto/AuthContext';
 
 const AltaUsuario = () => {
   const { getToken } = useAuth();

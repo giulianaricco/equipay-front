@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import PublicHeader from "../componentes/PublicHeader";
-import Boton from "../componentes/Boton";
-import Card from "../componentes/Card";
-import InputField from "../componentes/InputField";
-import { useAuth } from '../contexto/AuthContext';
+import PublicHeader from "../../componentes/PublicHeader";
+import Boton from "../../componentes/Boton";
+import Card from "../../componentes/Card";
+import InputField from "../../componentes/InputField";
+import { useAuth } from '../../contexto/AuthContext';
 import { Link } from 'react-router-dom';
 
 function IniciarSesion() {
@@ -75,12 +75,17 @@ function IniciarSesion() {
         }
     };
 
+    const handleCancel = async (e) => {
+        e.preventDefault();
+        navigate('/');
+    }
+
     return (
         <div>
             <PublicHeader /*isLoggedIn={false} isAdmin={false} *//>
             <div style={{ marginTop: '50px' }}>
                 <div className="container">
-                    <Card title="Iniciar Sesión">
+                    <Card title="Iniciar Sesión" style={{ alignItems: 'center' }}>
                         <div className="form-group">
                         <InputField
                         placeholder="Email"
@@ -107,12 +112,11 @@ function IniciarSesion() {
                         />
                         </div>
 
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                            <Boton onClick={handleSubmit}>Iniciar sesión</Boton>
-                            <Link to="/recuperar-contrasena">
-                                <Boton>Recuperar contraseña</Boton>
-                            </Link>
-                        </div>
+                        <Boton onClick={handleSubmit}>Iniciar sesión</Boton>
+                        <Link to="/recuperar-contrasena">
+                            <Boton>Recuperar contraseña</Boton>
+                        </Link>
+                        <Boton onClick={handleCancel}>Cancelar</Boton>
                     </Card>
                 </div>
             </div>

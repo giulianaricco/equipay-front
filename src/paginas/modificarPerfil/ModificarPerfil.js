@@ -7,12 +7,14 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../../contexto/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 
 const ModificarPerfil = () => {
     const { getToken } = useAuth();
     const token = getToken();
     const [idUsuario, setIdUsuario] = React.useState("");
+    const navigate = useNavigate();
 
     const { user } = useAuth();
     const [usuarioEditado, setUsuarioEditado] = React.useState(null);
@@ -59,7 +61,13 @@ const ModificarPerfil = () => {
         } catch (error) {
             console.error("Error: ", error);
         }
+    } 
+
+    const handleCancel = async (e) => {
+        e.preventDefault();
+        navigate('/welcome');
     }
+
 
     return (
         <div id="ModificarPerfil">
@@ -111,12 +119,16 @@ const ModificarPerfil = () => {
                                 )}
                             </td>
                             <td>
+                                <div style={{ display: "flex", justifyContent: "center" }}>
                                 {usuarioEditado?.correo === user.correo ? (
-                                    <Boton onClick={handleGuardarEdicion}>Guardar</Boton>
-                                ) : (
-                                    <Boton onClick={() => handleModificar(user.correo)}>
-                                        <FontAwesomeIcon icon={faPencilAlt} />
-                                    </Boton>                                )}
+                                        <Boton onClick={handleGuardarEdicion}>Guardar</Boton>
+                                    ) : (
+                                        <Boton onClick={() => handleModificar(user.correo)}>
+                                            <FontAwesomeIcon icon={faPencilAlt} />
+                                        </Boton>
+                                    )}
+                                    <Boton onClick={handleCancel}>Cancelar</Boton>
+                                </div>
                             </td>
                             </tr>
                         </tbody>

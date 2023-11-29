@@ -8,6 +8,7 @@ import axios from '../../utils/axios';
 import './AgregarGrupo.css';
 import { useAuth } from '../../contexto/AuthContext';
 import { Navigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 
 const styles = {
@@ -37,6 +38,7 @@ const AgregarGrupoAdmin = () => {
     const { user } = useAuth();
     const token = getToken();
     const correo = user.correo;
+    const navigate = useNavigate();
   
     const [nombreGrupo, setNombreGrupo] = useState('');
     const [contacto, setContacto] = useState('');
@@ -125,6 +127,11 @@ const AgregarGrupoAdmin = () => {
         setUserId(event.target.value);
       };
   
+    const handleCancel = async (e) => {
+      e.preventDefault();
+      navigate('/welcome');
+    }
+    
   
     return (
       <div id="AgregarGrupo">
@@ -164,13 +171,17 @@ const AgregarGrupoAdmin = () => {
               />
             </div>
   
+            <div style={{ display: "flex", justifyContent: "center" }}>
               {mostrarBotonCrearGrupo && (
                 <Boton onClick={handleCrearGrupoClick}>Crear Grupo</Boton>
               )}
+              <Boton onClick={handleCancel}>Cancelar</Boton>
+            </div>
   
-             {mostrarBotonContinuar && (
-                <Boton onClick={handleContinuarClick}>Ver mis grupos</Boton>
-              )}
+            {mostrarBotonContinuar && (
+              <Boton onClick={handleContinuarClick}>Ver mis grupos</Boton>
+            )}
+             
             </div>
           </Card>
         </div>

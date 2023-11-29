@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Bar, Line } from 'react-chartjs-2';
-import { useAuth } from '../contexto/AuthContext'; 
-import UsuarioHeader from '../componentes/UsuarioHeader';
-import {getValorTotalPagosRealizados, getTotalPagosPorGrupo, getTotalUltimosDoceMeses} from '../apis/resumenControllerAPI'
+import { useAuth } from '../../contexto/AuthContext'; 
+import UsuarioHeader from '../../componentes/UsuarioHeader';
+import {getValorTotalPagosRealizados, getTotalPagosPorGrupo, getTotalUltimosDoceMeses} from '../../apis/resumenControllerAPI'
 import 'chart.js';
 import 'chart.js/auto';
 
