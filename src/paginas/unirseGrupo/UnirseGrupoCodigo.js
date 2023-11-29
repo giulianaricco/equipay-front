@@ -9,28 +9,25 @@ import axios from '../../utils/axios';
 const UnirseGrupoCodigo = () => {
   const { getToken, user } = useAuth();
   const token = getToken();
-  const [codigo, setCodigo] = useState('');
+  const [codGrupo, setCodigo] = useState('');
 
   const handleCodigoChange = (event) => {
     setCodigo(event.target.value);
   };
 
   const handleUnirseAGrupoClick = () => {
-    const idUsuario = user.correo; // Asegúrate de ajustar esto según tu implementación real
+    const idUsuario = user.correo;
 
-    // Llama al backend para unirse al grupo con el código
-    axios.post(`/api/grupos/${idUsuario}/usuarios-codigo?codigo=${codigo}`, null, {
+    axios.post(`/api/grupos/usuarios-codigo`, { idUsuario, codGrupo }, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
     })
     .then((response) => {
       console.log('Usuario agregado al grupo con éxito:', response.data);
-      // Agrega aquí la lógica para manejar el éxito, redireccionar, etc.
     })
     .catch((error) => {
       console.error('Error al agregar usuario al grupo:', error);
-      // Agrega aquí la lógica para manejar el error, mostrar mensajes, etc.
     });
   };
 
@@ -44,7 +41,7 @@ const UnirseGrupoCodigo = () => {
             <div className="form-group">
               <label>Código del Grupo:</label>
               <InputField
-                value={codigo}
+                value={codGrupo}
                 onChange={handleCodigoChange}
                 placeholder="Ingresa el código del grupo"
               />
