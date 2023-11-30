@@ -3,7 +3,7 @@ import AdminHeader from '../../componentes/AdminHeader';
 import Boton from '../../componentes/Boton';
 import Card from '../../componentes/Card'; 
 import InputField from '../../componentes/InputField';
-import axios from 'axios';
+import axios from '../../utils/axios';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../../contexto/AuthContext";
 
@@ -29,11 +29,15 @@ const AgregarCategoria = () => {
         }
 
         try {
+            console.log('token: ', token)
+            console.log('data: ', data)
             const response = await axios.post('/api/categorias/', data, {
                 headers: {
                   'Authorization': `Bearer ${token}` 
                 }
               });
+
+              console.log('response: ', response)
 
             if (response.status === 200) {
                 console.log('Categoria agregada correctamente');

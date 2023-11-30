@@ -16,6 +16,7 @@ export const AuthProvider = ({ children }) => {
     if (decodedToken) {
       setUser({
         nombre: decodedToken.nombre,
+        apellido: decodedToken.apellido,
         rol: decodedToken.rol,
         correo: decodedToken.sub,
       });

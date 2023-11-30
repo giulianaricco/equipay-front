@@ -3,7 +3,7 @@ import AdminHeader from "../../componentes/AdminHeader";
 import Boton from "../../componentes/Boton";
 import Card from "../../componentes/Card";
 import InputField from "../../componentes/InputField";
-import axios from "axios";
+import axios from '../../utils/axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../../contexto/AuthContext";
@@ -31,7 +31,7 @@ const ModificarPerfilAdmin = () => {
             correo: correo,
             nombre: user.nombre,
             apellido: user.apellido,
-            //password: user.password,
+            password: user.password,
         });
     }
 
@@ -39,7 +39,7 @@ const ModificarPerfilAdmin = () => {
         try {
             const { nombre, apellido, password } = usuarioEditado;
             const nuevoUsuario = { nombre, apellido, password };
-            const response = await axios.put(`/api/usuario/${user.correo}`, nuevoUsuario, {
+            const response = await axios.put(`/api/usuarios/${user.correo}`, nuevoUsuario, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 },
@@ -77,7 +77,7 @@ const ModificarPerfilAdmin = () => {
                            <tr>
                             <th>Nombre</th>
                             <th>Apellido</th>
-                            <th>Password</th> 
+                            <th>Contraseña</th>
                             <th>Modificar</th>
                            </tr>
                         </thead>
@@ -103,15 +103,23 @@ const ModificarPerfilAdmin = () => {
                                     />
                                 ) : (
                                     user.apellido
-                                )}
-                            </td>
                             <td>
                                 {usuarioEditado?.correo === user.correo ? (
-                                    <InputField
-                                    type="text"
+                                    <input
+                                    type="password"
                                     value={usuarioEditado.password}
                                     onChange={(e) => setUsuarioEditado({ ...usuarioEditado, password: e.target.value })}
-                                    />
+                                    placeholder="Ingrese su contraseña"
+                                    className='placeholder-white'
+                                    style={{
+                                    backgroundColor: '#27A281', // Fondo verde
+                                    borderRadius: '5px', // Esquinas redondeadas
+                                    padding: '8px', // Relleno interno
+                                    border: '1px solid white', // Borde blanco
+                                    color: 'white', // Texto en blanco
+                                    placeholder: 'white', // Color del marcador de posición en blanco
+                                    }}
+                                />
                                 ) : (
                                     user.password
                                 )}
@@ -127,7 +135,6 @@ const ModificarPerfilAdmin = () => {
                                     )}
                                     <Boton onClick={handleCancel}>Cancelar</Boton>
                                 </div>
-                                
                             </td>
                             </tr>
                         </tbody>
