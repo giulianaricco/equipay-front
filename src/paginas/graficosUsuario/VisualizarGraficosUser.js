@@ -65,67 +65,93 @@ const VisualizarGraficos = () => {
     datasets: [
       {
         label: 'Total gastos por Mes',
-        backgroundColor: ['rgba(75,192,192,0.6)', 'rgba(255,99,132,0.6)'],
-        borderColor: ['rgba(75,192,192,1)', 'rgba(255,99,132,1)'],
+        backgroundColor: ['rgba(75,192,192,0.6)'],
+        borderColor: ['rgba(75,192,192,1)'],
         borderWidth: 3,
-        hoverBackgroundColor: ['rgba(75,192,192,0.8)', 'rgba(255,99,132,0.8)'],
-        hoverBorderColor: ['rgba(75,192,192,1)', 'rgba(255,99,132,1)'],
+        hoverBackgroundColor: ['rgba(75,192,192,0.8)'],
+        hoverBorderColor: ['rgba(75,192,192,1)'],
         data: totalUltimosDoceMeses.map(item => item.valor)
       }
     ]
-  }
+  };
+
+  const optionsLine = {
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+    maintainAspectRatio: false,
+    responsive: true,
+  };
 
   const datosTotalGastosPorMoneda = {
     labels: ['UYU', 'USD'],
     datasets: [
       {
         label: 'Total pagos por moneda',
-        backgroundColor: ['rgba(75,192,192,0.6)', 'rgba(255,99,132,0.6)'],
-        borderColor: ['rgba(75,192,192,1)', 'rgba(255,99,132,1)'],
+        backgroundColor: ['rgba(75,192,192,0.6)'],
+        borderColor: ['rgba(75,192,192,1)'],
         borderWidth: 1,
-        hoverBackgroundColor: ['rgba(75,192,192,0.8)', 'rgba(255,99,132,0.8)'],
-        hoverBorderColor: ['rgba(75,192,192,1)', 'rgba(255,99,132,1)'],
+        hoverBackgroundColor: ['rgba(75,192,192,0.8)'],
+        hoverBorderColor: ['rgba(75,192,192,1)'],
         data: [pagosEnPesos.length !== 0 ? pagosEnPesos[0].valor : 0, pagosEnDolares.length !== 0 ? pagosEnDolares[0].valor : 0],
       },
     ],
-  }
+  };
+
+  const optionsBarMoneda = {
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+    maintainAspectRatio: false,
+    responsive: true,
+  };
 
   const datosTotalPagosPorGrupo = {
     labels: pagosPorGrupos.map(item => item.nombreGrupo),
     datasets: [
       {
         label: 'Total pagos por grupo',
-        backgroundColor: ['rgba(75,192,192,0.6)', 'rgba(255,99,132,0.6)'],
-        borderColor: ['rgba(75,192,192,1)', 'rgba(255,99,132,1)'],
+        backgroundColor: ['rgba(75,192,192,0.6)'],
+        borderColor: ['rgba(75,192,192,1)'],
         borderWidth: 1,
-        hoverBackgroundColor: ['rgba(75,192,192,0.8)', 'rgba(255,99,132,0.8)'],
-        hoverBorderColor: ['rgba(75,192,192,1)', 'rgba(255,99,132,1)'],
+        hoverBackgroundColor: ['rgba(75,192,192,0.8)'],
+        hoverBorderColor: ['rgba(75,192,192,1)'],
         data: pagosPorGrupos.map(item => item.valor),
       },
     ],
-  }
+  };
 
-  // Opciones de configuración de la gráfica
-  const options = {
+  const optionsBarGrupo = {
     scales: {
       y: {
         beginAtZero: true,
       },
     },
+    maintainAspectRatio: false,
+    responsive: true,
   };
 
   return (
     <div>
       <UsuarioHeader />
-      <h1>Estadísticas Personales</h1>
-      <div>
-        <Line data={datosTotalGastosPorMes} options={options} redraw/>
+      <h1 style={{ textAlign: 'center', marginTop: '20px', marginBottom: '20px' }}>Estadísticas Personales</h1>
+
+      <div style={{ height: '50%', marginBottom: '20px' }}>
+        <Line data={datosTotalGastosPorMes} options={optionsLine} redraw />
       </div>
-      <div>
-        <Bar data={datosTotalGastosPorMoneda} options={options} redraw/>
-      </div>
-      <div>
-        <Bar data={datosTotalPagosPorGrupo} options={options} redraw/>
+
+      <div style={{ display: 'flex', flexDirection: 'row', height: '50%' }}>
+        <div style={{ flex: 1, marginRight: '10px' }}>
+          <Bar data={datosTotalGastosPorMoneda} options={optionsBarMoneda} redraw />
+        </div>
+
+        <div style={{ flex: 1 }}>
+          <Bar data={datosTotalPagosPorGrupo} options={optionsBarGrupo} redraw />
+        </div>
       </div>
     </div>
   );
