@@ -4,10 +4,12 @@ import InputField from '../../componentes/InputField';
 import Boton from '../../componentes/Boton';
 import PublicHeader from '../../componentes/PublicHeader';
 import Card from '../../componentes/Card';
+import { useNavigate } from "react-router-dom";
 
 const RecuperarContrasena = () => {
   const [email, setEmail] = useState('');
   const [mensaje, setMensaje] = useState('');
+  const navigate = useNavigate();
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -30,6 +32,11 @@ const RecuperarContrasena = () => {
         setMensaje('Error al intentar recuperar la contraseña. Por favor, inténtelo de nuevo.');
       });
   };
+  
+  const handleCancel = async (e) => {
+    e.preventDefault();
+    navigate('/welcome');
+}
 
   return (
     <div>
@@ -40,10 +47,11 @@ const RecuperarContrasena = () => {
           <label>Correo Electrónico:</label>
           <InputField type="email" value={email} onChange={handleEmailChange} />
         </div>
-        <div className="form-group">
+        <div className="form-group" style={{ display: "flex", justifyContent: "center" }}>
           <Boton onClick={handleRecuperarContrasenaClick} className="btn btn-primary">
             Recuperar Contraseña
           </Boton>
+          <Boton onClick={handleCancel}>Cancelar</Boton>
         </div>
         {mensaje && <p>{mensaje}</p>}
       </Card>

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import UsuarioHeader from "../componentes/UsuarioHeader";
-import AdminHeader from "../componentes/AdminHeader";
-import Boton from '../componentes/Boton';
-import Card from '../componentes/Card';
-import { useAuth } from '../contexto/AuthContext'; 
+import UsuarioHeader from "../../componentes/UsuarioHeader";
+import AdminHeader from "../../componentes/AdminHeader";
+import Boton from '../../componentes/Boton';
+import Card from '../../componentes/Card';
+import { useAuth } from '../../contexto/AuthContext'; 
 
 const ListarUsuarios = () => {
   const { getToken } = useAuth();

@@ -1,50 +1,49 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { parseJwt } from '../utils/jwtUtils';
+
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(localStorage.getItem('token'));
+  const storedToken = localStorage.getItem("token");
+  const [token, setToken] = useState(storedToken || null);
   const [user, setUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(!!storedToken);
 
-  useEffect(() => {
-    if (token) {
-      const decodedToken = parseJwt(token);
-      console.log(decodedToken);
-      if (decodedToken) {
-        setUser({
-          nombre: decodedToken.nombre,
-          rol: decodedToken.rol,
-          correo: decodedToken.sub,
-        });
-      } else {
-        console.error('Error al decodificar el token');
-      }
+  const processToken = (token) => {
+    const decodedToken = parseJwt(token);
+    console.log(decodedToken);
+    if (decodedToken) {
+      setUser({
+        nombre: decodedToken.nombre,
+        apellido: decodedToken.apellido,
+        rol: decodedToken.rol,
+        correo: decodedToken.sub,
+      });
+      localStorage.setItem("token", token);
     } else {
-      // Restablecer el usuario a null si no hay token
-      setUser(null);
+      console.error('Error al decodificar el token');
     }
-  }, [token]);
+  };
 
-  const login = (newToken) => {
-    setToken(newToken);
-    localStorage.setItem('token', newToken);
+  const login = (token) => {
+    processToken(token);
+    setIsAuthenticated(true);
   };
 
   const logout = () => {
-    setToken('');
-    setUser(null);
-    // Eliminar el token del almacenamiento local
     localStorage.removeItem('token');
+    setUser(null);
+    setIsAuthenticated(false);
   };
 
   // Nuevo método para obtener el token
   const getToken = () => {
-    return token;
+    return localStorage.getItem("token");
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, getToken }}>
+    <AuthContext.Provider value={{ user, token, login, logout, getToken, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );

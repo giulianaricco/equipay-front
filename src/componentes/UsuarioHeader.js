@@ -1,17 +1,21 @@
 import React from 'react';
 import { useAuth } from '../contexto/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const UsuarioHeader = () => {
 
   const { logout } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    // Llamar a la función logout al hacer clic en el botón de cerrar sesión
-    logout();
-    // Redirigir a la página de inicio después del logout
-    navigate('/');
+  const handleOptionSelect = (value) => {
+    if (value === '/cerrar-sesion') {
+      logout();
+      navigate('/');
+    } 
+    else {
+      navigate(value);
+    }
   };
 
     const headerStyle = {
@@ -36,27 +40,28 @@ const UsuarioHeader = () => {
       return (
         <div style={headerStyle}>
           <div>
-            <span style={{ fontSize: '1.5em', fontWeight: 'bold' }}>EQUIPAY</span>
+          <Link to="/welcome">
+            <span style={{ fontSize: '1.5em', fontWeight: 'bold', color: '#27A281' }}>EQUIPAY</span>
+          </Link>
           </div>
           <div>
             <select style={selectStyle} onChange={(e) => navigate(e.target.value)}>
                 <option value="/">Grupos</option>
                 <option value="/agregar-grupo">Alta de grupo</option>
                 <option value="/unirse-grupo-codigo">Unirse a un grupo</option>
-                <option value="/listar-grupos">Listar y buscar grupos</option>
-                <option value="/listar-grupos">Emilinar y modificar grupo</option>
+                <option value="/listar-grupos">Listar y modificar grupos</option>
                 <option value="/invitar-amigo">Invitar amigos a un grupo</option>
-                <option value="/otra-opcion-usuario">Visualizar actividad</option>
                 <option value="/registrar-gasto">Registrar gasto</option>
                 <option value="/registrar-pago">Registrar pago</option>
                 <option value="/consultar-deudas">Consultar deudas</option>
+                <option value="/historico-actividad">Actividad del grupo</option>
             </select>
-            <select style={selectStyle} onChange={(e) => navigate(e.target.value)}>
+            <select style={selectStyle} onChange={(e) => handleOptionSelect(e.target.value)}>
                 <option value="/">Perfil</option>
-                <option value="/otra-opcion-categoria">Modificar perfil</option>
+                <option value="/modificar-perfil">Modificar perfil</option>
                 <option value="/eliminar-cuenta">Eliminar cuenta</option>
-                <option value="/otra-opcion-categoria">Visualizar estadísticas</option>
-                <option onClick={handleLogout}>Cerrar sesión</option>
+                <option value="/estadisticas-personales">Visualizar estadísticas</option>
+                <option value="/cerrar-sesion">Cerrar sesión</option>
             </select>
           </div>
         </div>

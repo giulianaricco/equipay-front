@@ -32,6 +32,10 @@ useEffect(() => {
   fetchData();
 }, [grupo]);
 
+const handleAtras = () => {
+  window.history.back();
+};
+
 if (!grupo) {
   return <p>Cargando...</p>;
 }
@@ -70,6 +74,7 @@ const idMiembros = grupo.idMiembros || [];
             </tr>
           </tbody>
         </table>
+        <Boton onClick={handleAtras}>Atrás</Boton>
       </Card>
     </>
   );

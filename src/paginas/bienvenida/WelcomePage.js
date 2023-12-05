@@ -1,7 +1,7 @@
-import React from 'react';import EquiPayLogo from '../img/EquiPay-verde-sinFondo.png';
-import UsuarioHeader from "../componentes/UsuarioHeader";
-import AdminHeader from "../componentes/AdminHeader";
-import { useAuth } from '../contexto/AuthContext';
+import React from 'react';import EquiPayLogo from '../../img/EquiPay-verde-sinFondo.png';
+import UsuarioHeader from "../../componentes/UsuarioHeader";
+import AdminHeader from "../../componentes/AdminHeader";
+import { useAuth } from '../../contexto/AuthContext';
 
 function WelcomePage() {
   const { user } = useAuth();
@@ -23,11 +23,11 @@ function WelcomePage() {
 
   return (
     <div>
-      {user && user.rol === 'Usuario' && <UsuarioHeader nombre={user.nombre} />}
-      {user && user.rol === 'Admin' && <AdminHeader nombre={user.nombre} />}
+      {user?.rol === 'Usuario' ? <UsuarioHeader nombre={user.nombre} /> : null}
+      {user?.rol === 'Admin' ? <AdminHeader nombre={user.nombre} /> : null}
       <div style={containerStyle}>
       <div style={textStyle}>
-        <p>¡Bienvenido/a!</p>
+        <p>¡Bienvenido/a {user.nombre}!</p>
       </div>
       <img src={EquiPayLogo} alt="Descripción de la imagen" style={{ maxWidth: '100%' }} />
     </div>

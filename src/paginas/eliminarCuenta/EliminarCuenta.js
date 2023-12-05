@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import AdminHeader from '../componentes/AdminHeader';
-import UsuarioHeader from '../componentes/UsuarioHeader';
-import Boton from '../componentes/Boton';
-import Card from '../componentes/Card';
-import axios from '../utils/axios';
-import { useAuth } from '../contexto/AuthContext'; 
+import AdminHeader from '../../componentes/AdminHeader';
+import UsuarioHeader from '../../componentes/UsuarioHeader';
+import Boton from '../../componentes/Boton';
+import Card from '../../componentes/Card';
+import axios from '../../utils/axios';
+import { useAuth } from '../../contexto/AuthContext'; 
 import { useNavigate } from 'react-router-dom';
 
 const EliminarCuenta = () => {
@@ -60,6 +60,11 @@ const EliminarCuenta = () => {
     }
   };
 
+  const handleCancel = async (e) => {
+      e.preventDefault();
+      navigate('/welcome');
+  }
+
   return (
     <div>
       {user && user.rol === 'Usuario' && <UsuarioHeader nombre={user.nombre} />}
@@ -71,7 +76,10 @@ const EliminarCuenta = () => {
               <br></br>
               <h3>¿Estás seguro de que deseas eliminar tu cuenta?</h3>
               <br></br>
-              <Boton onClick={confirmarEliminacion}>Confirmar</Boton>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <Boton onClick={confirmarEliminacion}>Confirmar</Boton>
+                <Boton onClick={handleCancel}>Cancelar</Boton>
+              </div>
             </Card>
           </div>
         </div>

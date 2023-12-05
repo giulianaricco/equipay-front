@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import AdminHeader from '../componentes/AdminHeader';
-import Boton from '../componentes/Boton';
-import Card from '../componentes/Card';
-import axios from '../utils/axios';
-import { useAuth } from '../contexto/AuthContext'; 
+import AdminHeader from '../../componentes/AdminHeader';
+import Boton from '../../componentes/Boton';
+import Card from '../../componentes/Card';
+import axios from '../../utils/axios';
+import { useAuth } from '../../contexto/AuthContext'; 
+import { useNavigate } from "react-router-dom";
 
 const styles = {
   inputStyle: {
@@ -30,6 +31,7 @@ const styles = {
 const EliminarCategoria = () => {
   const { getToken } = useAuth();
   const token = getToken();
+  const navigate = useNavigate();
 
   const [categorias, setCategorias] = useState([]);
   const [idCategoria, setIdCategoria] = useState("");
@@ -87,6 +89,11 @@ const EliminarCategoria = () => {
     }
   };
 
+  const handleCancel = async (e) => {
+      e.preventDefault();
+      navigate('/welcome');
+  }
+
   return (
     <div>
       <AdminHeader /*agregar condicion por administrador logeado*//>
@@ -107,7 +114,10 @@ const EliminarCategoria = () => {
                   ))}
                 </select>
               </div>
-              <Boton onClick={handleSubmit}>Eliminar</Boton>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <Boton onClick={handleSubmit}>Eliminar</Boton>
+                <Boton onClick={handleCancel}>Cancelar</Boton>
+              </div>
           </Card>
         </div>
       </div>

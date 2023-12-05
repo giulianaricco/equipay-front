@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import UsuarioHeader from "../componentes/UsuarioHeader";
-import AdminHeader from "../componentes/AdminHeader";
-import Boton from '../componentes/Boton';
-import Card from '../componentes/Card';
-import axios from '../utils/axios';
-import { useAuth } from '../contexto/AuthContext';
+import UsuarioHeader from "../../componentes/UsuarioHeader";
+import AdminHeader from "../../componentes/AdminHeader";
+import Card from '../../componentes/Card';
+import axios from '../../utils/axios';
+import { useAuth } from '../../contexto/AuthContext';
 
 const styles = {
   inputStyle: {
@@ -28,15 +27,11 @@ const styles = {
 
 };
 
-const RegistrarPago = () => {
+const ConsultarDeudas = () => {
   const { getToken } = useAuth();
   const { user } = useAuth();
   const token = getToken();
 
-  const [monto, setMonto] = useState("");
-  const [moneda, setMoneda] = useState("");
-  const [fecha, setFecha] = useState("");
-  const [usuario, setUsuario] = useState("");
   const [idGrupo, setIdGrupo] = useState("");
   const [gruposUsuario, setGruposUsuario] = useState([]);
   const [deudas, setDeudas] = useState([]);
@@ -48,19 +43,11 @@ const RegistrarPago = () => {
 
   const handleDeudaClick = (deuda) => {
     setDeudaSeleccionada(deuda);
-    setSugerenciaSeleccionada(null); // Limpiar la sugerencia seleccionada al cambiar deuda
-    // Actualizar campos según la nueva deuda seleccionada
-    setMonto("");
-    setMoneda("");
-    setUsuario("");
+    setSugerenciaSeleccionada(null);
   };
 
   const handleSugerenciaClick = (sugerencia) => {
     setSugerenciaSeleccionada(sugerencia);
-    // Actualizar campos según la nueva sugerencia seleccionada
-    setMonto(sugerencia.monto.toFixed(2));
-    setMoneda(sugerencia.moneda);
-    setUsuario(sugerencia.usuario.correo);
   };
 
   const obtenerDeudas = async () => {
@@ -88,6 +75,7 @@ const RegistrarPago = () => {
             setDeudaSeleccionada(null);
             setSugerencias([]);
             setMonedaDeuda("");
+            alert("No tiene deudas en el grupo seleccionado");
           }
         } else {
           console.error('La propiedad deudas de la respuesta no es un array:', response.data.deudas);
@@ -122,57 +110,13 @@ const RegistrarPago = () => {
     obtenerGruposUsuario();
   }, []);
 
-  const handleMontoChange = (e) => {
-    const input = e.target.value;
-    if (/^\d+(\.\d{0,2})?$/.test(input)) {
-      setMonto(input);
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!monto || !moneda || !fecha || !idGrupo || !usuario || !user.correo) {
-      alert("Por favor complete los campos vacíos.");
-      return;
-    }
-
-    const data = {
-      monto: parseFloat(monto),
-      moneda,
-      fecha,
-      idGrupo: parseInt(idGrupo),
-      idRealiza: user.correo,
-      idRecibe: usuario,
-    };
-
-    try {
-      const response = await axios.post('/api/pagos/', data, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      if (response.status === 200) {
-        console.log('Pago registrado correctamente:', response.data);
-        alert("Pago registrado correctamente.");
-        // Después de realizar el pago, obtener las deudas actualizadas
-        obtenerDeudas();
-      } else {
-        console.error('Error al registrar el pago:', response.statusText);
-        alert('Error al registrar el pago: ' + response.statusText);
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
-
   return (
-    <div id="RegistrarPago">
+    <div id="ConsultarDeudas">
       {user && user.rol === 'Usuario' && <UsuarioHeader nombre={user.nombre} />}
       {user && user.rol === 'Admin' && <AdminHeader nombre={user.nombre} />}
       <div style={{ marginTop: '50px' }}>
         <div className="container">
-          <Card title="Registrar Pago">
+          <Card title="Consultar Deudas">
             <div>
               <div className="form-group">
                 <select
@@ -187,24 +131,26 @@ const RegistrarPago = () => {
                   ))}
                 </select>
               </div>
-              <div className="form-group">
-                <h4>Deudas</h4>
-                <ul>
-                  {deudas.map((deuda) => (
-                    <li
-                      key={deuda.id}
-                      onClick={() => handleDeudaClick(deuda)}
-                      style={{
-                        cursor: 'pointer',
-                        color: deuda === deudaSeleccionada ? 'black' : 'white',
-                        textDecoration: 'none',
-                      }}
-                    >
-                      {deuda.moneda} {deuda.deudaEnGrupo.toFixed(2)}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              {idGrupo && (
+                <div className="form-group">
+                  <h4>Deudas</h4>
+                  <ul>
+                    {deudas.map((deuda) => (
+                      <li
+                        key={deuda.id}
+                        onClick={() => handleDeudaClick(deuda)}
+                        style={{
+                          cursor: 'pointer',
+                          color: deuda === deudaSeleccionada ? 'black' : 'white',
+                          textDecoration: 'none',
+                        }}
+                      >
+                        {deuda.moneda} {deuda.deudaEnGrupo.toFixed(2)}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
               {deudaSeleccionada && (
                 <div className="form-group">
@@ -226,47 +172,6 @@ const RegistrarPago = () => {
                   </ul>
                 </div>
               )}
-
-              <div className="form-group">
-                <input
-                  value={monto}
-                  onChange={handleMontoChange}
-                  placeholder="Monto"
-                  className='placeholder-white'
-                  style={styles.inputStyle}
-                />
-              </div>
-              <div className="form-group">
-                <select
-                  value={moneda}
-                  onChange={(e) => setMoneda(e.target.value)}
-                  style={styles.selectStyle}>
-                  <option value="">Seleccione una moneda</option>
-                  <option value="USD">USD</option>
-                  <option value="UYU">UYU</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <input
-                  value={fecha}
-                  type="date"
-                  onChange={(e) => setFecha(e.target.value)}
-                  placeholder="Fecha"
-                  className='placeholder-white'
-                  style={styles.inputStyle}
-                />
-              </div>
-              <div className="form-group">
-                <input
-                  value={usuario}
-                  onChange={(e) => setUsuario(e.target.value)}
-                  placeholder="Correo usuario"
-                  className='placeholder-white'
-                  style={styles.inputStyle}
-                />
-              </div>
-
-              <Boton onClick={handleSubmit}>Registrar Pago</Boton>
             </div>
           </Card>
         </div>
@@ -275,4 +180,4 @@ const RegistrarPago = () => {
   );
 };
 
-export default RegistrarPago;
+export default ConsultarDeudas;
