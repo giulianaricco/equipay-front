@@ -114,10 +114,20 @@ const AltaUsuario = () => {
           </div>
 
           <div className="form-group">
-            <InputField
-            placeholder="Password"
+          <input
+            type="password"
+            placeholder="Ingrese su contraseña"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className='placeholder-white'
+            style={{
+            backgroundColor: '#27A281', // Fondo verde
+            borderRadius: '5px', // Esquinas redondeadas
+            padding: '8px', // Relleno interno
+            border: '1px solid white', // Borde blanco
+            color: 'white', // Texto en blanco
+            placeholder: 'white', // Color del marcador de posición en blanco
+            }}
             />
           </div>
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import UsuarioHeader from "../../componentes/UsuarioHeader";
 import Boton from "../../componentes/Boton";
 import Card from "../../componentes/Card";
@@ -13,11 +13,12 @@ import { useNavigate } from "react-router-dom";
 const ModificarPerfil = () => {
     const { getToken } = useAuth();
     const token = getToken();
-    const [idUsuario, setIdUsuario] = React.useState("");
+    const [idUsuario, setIdUsuario] = useState("");
     const navigate = useNavigate();
 
     const { user } = useAuth();
-    const [usuarioEditado, setUsuarioEditado] = React.useState(null);
+    const [userState, setUser] = useState(user);
+    const [usuarioEditado, setUsuarioEditado] = useState(null);
 
 
     useEffect(() => {
@@ -40,6 +41,12 @@ const ModificarPerfil = () => {
         try {
             const { nombre, apellido, password } = usuarioEditado;
             const nuevoUsuario = { nombre, apellido, password };
+
+            if (!nuevoUsuario.password){
+                alert('Debe introducir su contraseña')
+                return
+            }
+            
             const response = await axios.put(`/api/usuarios/${user.correo}`, nuevoUsuario, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -49,11 +56,16 @@ const ModificarPerfil = () => {
             if (response.status === 200) {
                 console.log("Usuario modificado correctamente");
                 alert("Usuario modificado correctamente");
-                setIdUsuario("");
+                // Actualizar el usuario en el contexto
+                setUser({
+                    ...user,
+                    nombre: nuevoUsuario.nombre,
+                    apellido: nuevoUsuario.apellido,
+                    password: nuevoUsuario.password,
+                  });
+                  
+                // Desactiva el modo de edición (no anda)
                 setUsuarioEditado(null);
-            } else if (response.status === 409) {
-                console.log("Usuario ya existente");
-                alert("Usuario ya existente");
             } else {
                 console.error("Error inesperado:", response.statusText);
                 alert("Error inesperado: " + response.statusText);
@@ -65,7 +77,7 @@ const ModificarPerfil = () => {
 
     const handleCancel = async (e) => {
         e.preventDefault();
-        navigate('/welcome');
+        setUsuarioEditado(null);
     }
 
 
@@ -93,7 +105,7 @@ const ModificarPerfil = () => {
                                     onChange={(e) => setUsuarioEditado({ ...usuarioEditado, nombre: e.target.value })}
                                     />
                                 ) : (
-                                    user.nombre
+                                    userState.nombre
                                 )}
                             </td>
                             <td>
@@ -104,7 +116,7 @@ const ModificarPerfil = () => {
                                     onChange={(e) => setUsuarioEditado({ ...usuarioEditado, apellido: e.target.value })}
                                     />
                                 ) : (
-                                    user.apellido
+                                    userState.apellido
                                 )}
                             </td>
                             <td>
@@ -125,19 +137,19 @@ const ModificarPerfil = () => {
                                     }}
                                 />
                                 ) : (
-                                    user.password
+                                    '****'
                                 )}
                             </td>
                             <td>
                                 <div style={{ display: "flex", justifyContent: "center" }}>
                                 {usuarioEditado?.correo === user.correo ? (
-                                        <Boton onClick={handleGuardarEdicion}>Guardar</Boton>
+                                        <><Boton onClick={handleGuardarEdicion}>Guardar
+                                        </Boton><Boton onClick={handleCancel}>Cancelar</Boton></>
                                     ) : (
                                         <Boton onClick={() => handleModificar(user.correo)}>
                                             <FontAwesomeIcon icon={faPencilAlt} />
                                         </Boton>
                                     )}
-                                    <Boton onClick={handleCancel}>Cancelar</Boton>
                                 </div>
                             </td>
                             </tr>
