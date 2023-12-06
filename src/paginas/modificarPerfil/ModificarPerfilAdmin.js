@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import AdminHeader from "../../componentes/AdminHeader";
 import Boton from "../../componentes/Boton";
 import Card from "../../componentes/Card";
@@ -12,11 +12,12 @@ import { useNavigate } from "react-router-dom";
 const ModificarPerfilAdmin = () => {
     const { getToken } = useAuth();
     const token = getToken();
-    const [idUsuario, setIdUsuario] = React.useState("");
-    const { user } = useAuth();
+    const [idUsuario, setIdUsuario] = useState("");
     const navigate = useNavigate();
 
-    const [usuarioEditado, setUsuarioEditado] = React.useState(null);
+    const { user } = useAuth();
+    const [userState, setUser] = useState(user);
+    const [usuarioEditado, setUsuarioEditado] = useState(null);
 
 
     useEffect(() => {
@@ -39,20 +40,32 @@ const ModificarPerfilAdmin = () => {
         try {
             const { nombre, apellido, password } = usuarioEditado;
             const nuevoUsuario = { nombre, apellido, password };
+
+            if (!nuevoUsuario.password){
+                alert('Debe introducir su contraseña')
+                return
+            }
+
+            console.log(nuevoUsuario)
+
             const response = await axios.put(`/api/usuarios/${user.correo}`, nuevoUsuario, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 },
             });
 
+
             if (response.status === 200) {
                 console.log("Usuario modificado correctamente");
                 alert("Usuario modificado correctamente");
-                setIdUsuario("");
+                // Actualizar el usuario en el contexto
+                setUser({
+                    ...user,
+                    nombre: nuevoUsuario.nombre,
+                    apellido: nuevoUsuario.apellido,
+                    password: nuevoUsuario.password,
+                });
                 setUsuarioEditado(null);
-            } else if (response.status === 409) {
-                console.log("Usuario ya existente");
-                alert("Usuario ya existente");
             } else {
                 console.error("Error inesperado:", response.statusText);
                 alert("Error inesperado: " + response.statusText);
@@ -64,8 +77,8 @@ const ModificarPerfilAdmin = () => {
 
     const handleCancel = async (e) => {
         e.preventDefault();
-        navigate('/welcome');
-    }
+        setUsuarioEditado(null);
+        }
 
     return (
         <div id="ModificarPerfil">
@@ -91,7 +104,7 @@ const ModificarPerfilAdmin = () => {
                                     onChange={(e) => setUsuarioEditado({ ...usuarioEditado, nombre: e.target.value })}
                                     />
                                 ) : (
-                                    user.nombre
+                                    userState.nombre
                                 )}
                             </td>
                             <td>
@@ -102,7 +115,9 @@ const ModificarPerfilAdmin = () => {
                                     onChange={(e) => setUsuarioEditado({ ...usuarioEditado, apellido: e.target.value })}
                                     />
                                 ) : (
-                                    user.apellido
+                                    userState.apellido
+                                )}
+                            </td>
                             <td>
                                 {usuarioEditado?.correo === user.correo ? (
                                     <input
@@ -121,19 +136,19 @@ const ModificarPerfilAdmin = () => {
                                     }}
                                 />
                                 ) : (
-                                    user.password
+                                    '****'
                                 )}
                             </td>
                             <td>
                                 <div style={{ display: "flex", justifyContent: "center" }}>
                                 {usuarioEditado?.correo === user.correo ? (
-                                    <Boton onClick={handleGuardarEdicion}>Guardar</Boton>
-                                ) : (
+                                    <><Boton onClick={handleGuardarEdicion}>Guardar
+                                    </Boton><Boton onClick={handleCancel}>Cancelar</Boton></>
+                                 ) : (
                                     <Boton onClick={() => handleModificar(user.correo)}>
                                         <FontAwesomeIcon icon={faPencilAlt} />
                                     </Boton>
                                     )}
-                                    <Boton onClick={handleCancel}>Cancelar</Boton>
                                 </div>
                             </td>
                             </tr>
