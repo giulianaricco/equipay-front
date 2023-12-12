@@ -44,8 +44,10 @@ function App() {
 
   const ProtectedRouteUser = ({ children }) => {
     const { isAuthenticated, user } = useAuth();
+
+    console.log('holaaaa', user)
   
-    if (isAuthenticated && user.rol === 'Usuario') {
+    if (isAuthenticated && user && user.rol === 'Usuario') {
       return children;
     } 
     else {

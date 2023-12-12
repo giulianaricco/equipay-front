@@ -31,15 +31,15 @@ const ModificarPerfilAdmin = () => {
         setUsuarioEditado({
             correo: correo,
             nombre: user.nombre,
-            apellido: user.apellido,
+            //apellido: user.apellido,
             password: user.password,
         });
     }
 
     const handleGuardarEdicion = async () => {
         try {
-            const { nombre, apellido, password } = usuarioEditado;
-            const nuevoUsuario = { nombre, apellido, password };
+            const { nombre, password } = usuarioEditado;
+            const nuevoUsuario = { nombre, password };
 
             if (!nuevoUsuario.password){
                 alert('Debe introducir su contraseña')
@@ -62,7 +62,7 @@ const ModificarPerfilAdmin = () => {
                 setUser({
                     ...user,
                     nombre: nuevoUsuario.nombre,
-                    apellido: nuevoUsuario.apellido,
+                    //apellido: nuevoUsuario.apellido,
                     password: nuevoUsuario.password,
                 });
                 setUsuarioEditado(null);
@@ -89,7 +89,6 @@ const ModificarPerfilAdmin = () => {
                         <thead>
                            <tr>
                             <th>Nombre</th>
-                            <th>Apellido</th>
                             <th>Contraseña</th>
                             <th>Modificar</th>
                            </tr>
@@ -107,17 +106,7 @@ const ModificarPerfilAdmin = () => {
                                     userState.nombre
                                 )}
                             </td>
-                            <td>
-                                {usuarioEditado?.correo === user.correo ? (
-                                    <InputField
-                                    type="text"
-                                    value={usuarioEditado.apellido}
-                                    onChange={(e) => setUsuarioEditado({ ...usuarioEditado, apellido: e.target.value })}
-                                    />
-                                ) : (
-                                    userState.apellido
-                                )}
-                            </td>
+                            
                             <td>
                                 {usuarioEditado?.correo === user.correo ? (
                                     <input

@@ -26,6 +26,7 @@ const UnirseGrupoCodigo = () => {
       }
     })
     .then((response) => {
+      alert('Usuario agregado al grupo con éxito');
       console.log('Usuario agregado al grupo con éxito:', response.data);
     })
     .catch((error) => {
