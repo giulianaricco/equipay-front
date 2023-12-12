@@ -1,10 +1,11 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { parseJwt } from '../utils/jwtUtils';
 
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+
   const storedToken = localStorage.getItem("token");
   const [token, setToken] = useState(storedToken || null);
   const [user, setUser] = useState(null);
@@ -12,18 +13,20 @@ export const AuthProvider = ({ children }) => {
 
   const processToken = (token) => {
     const decodedToken = parseJwt(token);
-    console.log(decodedToken);
+    let user = {}
     if (decodedToken) {
-      setUser({
+      user = {
         nombre: decodedToken.nombre,
         apellido: decodedToken.apellido,
         rol: decodedToken.rol,
         correo: decodedToken.sub,
-      });
+      }
+      setUser(user);
       localStorage.setItem("token", token);
     } else {
       console.error('Error al decodificar el token');
     }
+    return user
   };
 
   const login = (token) => {
@@ -43,7 +46,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, getToken, isAuthenticated }}>
+    <AuthContext.Provider value={{ user, token, login, logout, getToken, isAuthenticated, processToken }}>
       {children}
     </AuthContext.Provider>
   );
