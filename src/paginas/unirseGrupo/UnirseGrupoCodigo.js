@@ -6,6 +6,7 @@ import InputField from '../../componentes/InputField';
 import UsuarioHeader from '../../componentes/UsuarioHeader';
 import axios from '../../utils/axios';
 import { useNavigate } from "react-router-dom";
+import toastr from '../../componentes/Toastr';
 
 const UnirseGrupoCodigo = () => {
   const { getToken, user } = useAuth();
@@ -26,10 +27,10 @@ const UnirseGrupoCodigo = () => {
       }
     })
     .then((response) => {
-      console.log('Usuario agregado al grupo con éxito:', response.data);
+      toastr.success('Usuario agregado al grupo con éxito');
     })
     .catch((error) => {
-      console.error('Error al agregar usuario al grupo:', error);
+      toastr.error('Error al agregar usuario al grupo');
     });
   };
 
