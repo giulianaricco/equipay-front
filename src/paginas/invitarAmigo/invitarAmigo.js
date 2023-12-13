@@ -7,6 +7,7 @@ import Boton from '../../componentes/Boton';
 import axios from '../../utils/axios';
 import { useAuth } from '../../contexto/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import toastr from '../../componentes/Toastr';
 
 const PaginaInvitarAmigos = () => {
   const { getToken, user } = useAuth();
@@ -51,12 +52,12 @@ const PaginaInvitarAmigos = () => {
   const handleAgregarAmigo = () => {
     if (validarContacto(contacto)) {
       if (contacto.toLowerCase() === correoUsuario.toLowerCase()) {
-        alert('No puedes invitarte a ti mismo.');
+        toastr.error('No puedes invitarte a ti mismo.');
         return;
       }
 
       if (correosInvitados.has(contacto.toLowerCase())) {
-        alert('Ya has enviado una invitación a este correo.');
+        toastr.error('Ya has enviado una invitación a este correo.');
         return;
       }
 
@@ -77,7 +78,7 @@ const PaginaInvitarAmigos = () => {
           console.error('Error al invitar amigo:', error);
         });
     } else {
-      alert('El contacto no es un email válido.');
+      toastr.error('El contacto no es un email válido.');
     }
   };
 

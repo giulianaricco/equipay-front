@@ -6,6 +6,7 @@ import InputField from '../../componentes/InputField';
 import axios from '../../utils/axios';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../../contexto/AuthContext";
+import toastr from "../../componentes/Toastr";
 
 
 const AgregarCategoria = () => {
@@ -20,7 +21,7 @@ const AgregarCategoria = () => {
         e.preventDefault();
 
         if (!nombre) {
-            alert("Por favor, tiene que introducir el nombre de la categoria");
+            toastr.error("Por favor, tiene que introducir el nombre de la categoria");
             return;
         }
 
@@ -41,13 +42,13 @@ const AgregarCategoria = () => {
 
             if (response.status === 200) {
                 console.log('Categoria agregada correctamente');
-                alert('Categoria agregada correctamente');
+                toastr.success('Categoria agregada correctamente');
             } else if (response.status === 409) {
                 console.log('Categoria ya existente');
-                alert('Categoria ya existente');
+                toastr.error('Categoria ya existente');
             } else {
                 console.error('Error inesperado:', response.statusText);
-                alert('Error inesperado: ' + response.statusText);
+                toastr.error('Error inesperado: ' + response.statusText);
             }
         } catch (error) {
             console.error('Error: ', error);

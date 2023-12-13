@@ -6,6 +6,7 @@ import Card from "../../componentes/Card";
 import InputField from "../../componentes/InputField";
 import { useAuth } from '../../contexto/AuthContext';
 import { Link } from 'react-router-dom';
+import toastr from "../../componentes/Toastr";
 
 function IniciarSesion() {
     const { login } = useAuth();
@@ -20,7 +21,7 @@ function IniciarSesion() {
         e.preventDefault();
     
         if (!email || !password) {
-          alert("Por favor, tiene que introducir email y contraseña");
+            toastr.error("Por favor, tiene que introducir email y contraseña");
           return;
         }
 
@@ -44,7 +45,7 @@ function IniciarSesion() {
                 // Almacenar el token
                 const token = await response.text();
                 if (token === 'El usuario o la contraseña ingresada no son correctos, vuelva a intentarlo.') {
-                    alert('El usuario o la contraseña ingresada no son correctos, vuelva a intentarlo.')
+                    toastr.error('El usuario o la contraseña ingresada no son correctos, vuelva a intentarlo.')
                     setPassword("");
                     return;
                 }
@@ -53,7 +54,7 @@ function IniciarSesion() {
                 console.log('Usuario logeado correctamente');
                 console.log('Token JWT:', token);
                 
-                alert('Usuario logeado correctamente');
+                toastr.success('Usuario logeado correctamente');
                 
 
                 // Redirigir a la página "welcome"
@@ -61,13 +62,13 @@ function IniciarSesion() {
                             
             } else if (response.status === 401) {
                 console.log('Credenciales incorrectas');
-                alert('Credenciales incorrectas. Por favor, inténtalo de nuevo.');
+                toastr.error('Credenciales incorrectas. Por favor, inténtalo de nuevo.');
             } else if (response.status === 404) {
                 console.log('Usuario no encontrado');
-                alert('Usuario no encontrado');
+                toastr.error('Usuario no encontrado');
             } else {
                 console.error('Error inesperado:', response.statusText);
-                alert('Error inesperado: ' + response.statusText);
+                toastr.error('Error inesperado: ' + response.statusText);
             }
         } catch (error) {
             console.error('Error: ', error);

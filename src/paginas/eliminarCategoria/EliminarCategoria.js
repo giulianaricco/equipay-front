@@ -5,6 +5,7 @@ import Card from '../../componentes/Card';
 import axios from '../../utils/axios';
 import { useAuth } from '../../contexto/AuthContext'; 
 import { useNavigate } from "react-router-dom";
+import toastr from '../../componentes/Toastr';
 
 const styles = {
   inputStyle: {
@@ -62,7 +63,7 @@ const EliminarCategoria = () => {
     e.preventDefault();
 
     if (!idCategoria) {
-      alert("Por favor seleccione una categoría.");
+      toastr.error("Por favor seleccione una categoría.");
       return;
     }
 
@@ -76,13 +77,13 @@ const EliminarCategoria = () => {
 
       if (response.ok) {
         console.log('Categoría eliminada exitosamente');
-        alert("Categoría eliminada exitosamente.");
+        toastr.success("Categoría eliminada exitosamente.");
         // Actualizar la lista de categorías después de la eliminación
         obtenerCategorias();
         setIdCategoria(""); // Limpiar el valor de idCategoria
       } else {
         console.error('Error inesperado:', response.statusText);
-        alert('Error inesperado: ' + response.statusText);
+        toastr.error('Error inesperado: ' + response.statusText);
       }
     } catch (error) {
       console.error('Error:', error);

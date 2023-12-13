@@ -5,6 +5,7 @@ import Card from '../../componentes/Card';
 import axios from '../../utils/axios';
 import { useAuth } from '../../contexto/AuthContext'; 
 import { useNavigate } from "react-router-dom";
+import toastr from '../../componentes/Toastr';
 
 const styles = {
   inputStyle: {
@@ -79,7 +80,7 @@ const EliminarUsuario = () => {
     e.preventDefault();
 
     if (!idUsuario) {
-      alert("Por favor seleccione un usuario.");
+      toastr.error("Por favor seleccione un usuario.");
       return;
     }
 
@@ -94,13 +95,13 @@ const EliminarUsuario = () => {
 
       if (response.status === 200) {
         console.log('Usuario eliminado exitosamente');
-        alert("Usuario eliminado exitosamente.");
+        toastr.error("Usuario eliminado exitosamente.");
         // Actualizar la lista después de la eliminación
         obtenerUsuarios();
         setIdUsuario("");
       } else {
         console.error('Error inesperado:', response.statusText);
-        alert('Error inesperado: ' + response.statusText);
+        toastr.error('Error inesperado: ' + response.statusText);
       }
     } catch (error) {
       console.error('Error:', error);

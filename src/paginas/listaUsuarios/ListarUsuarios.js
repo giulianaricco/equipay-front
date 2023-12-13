@@ -4,6 +4,7 @@ import AdminHeader from "../../componentes/AdminHeader";
 import Boton from '../../componentes/Boton';
 import Card from '../../componentes/Card';
 import { useAuth } from '../../contexto/AuthContext'; 
+import toastr from '../../componentes/Toastr';
 
 const ListarUsuarios = () => {
   const { getToken } = useAuth();
@@ -97,7 +98,7 @@ const ListarUsuarios = () => {
       }
     } catch (error) {
       setUsuarioFiltrado(null);
-      alert("No se encontraron datos para el correo ingresado.");
+      toastr.error("No se encontraron datos para el correo ingresado.");
       console.error('Error:', error);
     }
   };

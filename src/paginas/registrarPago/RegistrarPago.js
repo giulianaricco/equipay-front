@@ -6,6 +6,7 @@ import Card from '../../componentes/Card';
 import axios from '../../utils/axios';
 import { useAuth } from '../../contexto/AuthContext';
 import { useNavigate } from "react-router-dom";
+import toastr from '../../componentes/Toastr';
 
 const styles = {
   inputStyle: {
@@ -135,7 +136,7 @@ const RegistrarPago = () => {
     e.preventDefault();
 
     if (!monto || !moneda || !fecha || !idGrupo || !usuario || !user.correo) {
-      alert("Por favor complete los campos vacíos.");
+      toastr.error("Por favor complete los campos vacíos.");
       return;
     }
 
@@ -156,12 +157,12 @@ const RegistrarPago = () => {
       });
       if (response.status === 200) {
         console.log('Pago registrado correctamente:', response.data);
-        alert("Pago registrado correctamente.");
+        toastr.success("Pago registrado correctamente.");
         // Después de realizar el pago, obtener las deudas actualizadas
         obtenerDeudas();
       } else {
         console.error('Error al registrar el pago:', response.statusText);
-        alert('Error al registrar el pago: ' + response.statusText);
+        toastr.error('Error al registrar el pago: ' + response.statusText);
       }
     } catch (error) {
       console.error('Error:', error);

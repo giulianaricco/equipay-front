@@ -6,6 +6,7 @@ import Card from '../../componentes/Card'; // Importa el componente Card
 import axios from '../../utils/axios';
 import { useAuth } from '../../contexto/AuthContext'; 
 import { useNavigate } from "react-router-dom";
+import toastr from '../../componentes/Toastr';
 
 const styles = {
   inputStyle: {
@@ -143,7 +144,7 @@ const RegistrarGasto = () => {
     //const fechaFormateada = formatearFecha(fecha);
 
     if (!monto || !moneda || !descripcion || !fecha || !idGrupo || !idCubiertoPor || !idBeneficiados || !idCategoria) {
-      alert("Por favor complete los campos vacíos.");
+      toastr.error("Por favor complete los campos vacíos.");
       return;
     }
 
@@ -166,10 +167,10 @@ const RegistrarGasto = () => {
       });
       if (response.status === 200) {
         console.log('Gasto registrado correctamente:', response.data);
-        alert("Gasto registrado correctamente.");
+        toastr.success("Gasto registrado correctamente.");
       } else {
         console.error('Error al registrar el gasto:', response.statusText);
-        alert('Error al registrar el gasto: ' + response.statusText);
+        toastr.error('Error al registrar el gasto: ' + response.statusText);
       }
     } catch (error) {
       console.error('Error:', error);

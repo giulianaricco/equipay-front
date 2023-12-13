@@ -9,6 +9,7 @@ import './AgregarGrupo.css';
 import { useAuth } from '../../contexto/AuthContext';
 import { Navigate } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
+import toastr from '../../componentes/Toastr';
 
 
 const styles = {
@@ -100,7 +101,7 @@ const AgregarGrupoAdmin = () => {
         setMostrarBotonContinuar(true);
         setMostrarBotonCrearGrupo(false);
       } else {
-        alert('El nombre del grupo debe tener al menos 3 caracteres.');
+        toastr.error('El nombre del grupo debe tener al menos 3 caracteres.');
       }
         const nuevoGrupo = {
           nombre: nombreGrupo,

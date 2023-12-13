@@ -6,6 +6,7 @@ import InputField from "../../componentes/InputField";
 import Dropdown from "../../componentes/Dropdown";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexto/AuthContext';
+import toastr from "../../componentes/Toastr";
 
 const AltaUsuario = () => {
   const { getToken } = useAuth();
@@ -24,7 +25,7 @@ const AltaUsuario = () => {
     e.preventDefault();
 
     if (!name || !lastName || !email || !password || !rol) {
-      alert("Por favor complete todos los campos.");
+      toastr.error("Por favor complete todos los campos.");
       return;
     }
 
@@ -67,14 +68,14 @@ const AltaUsuario = () => {
       
     if (response.ok) {
       console.log('Usuario registrado exitosamente');
-      alert("Usuario registrado correctamente.");
+      toastr.success("Usuario registrado correctamente.");
       navigate('/welcome');
     } else if (response.status === 409) {
       console.log('Ya existe un usuario con el correo ingresado');
-      alert('Ya existe un usuario con el correo ingresado.');
+      toastr.error('Ya existe un usuario con el correo ingresado.');
     } else {
       console.error('Error inesperado:', response.statusText);
-      alert('Error inesperado: ' + response.statusText);
+      toastr.error('Error inesperado: ' + response.statusText);
     }
   };
 

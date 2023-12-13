@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexto/AuthContext";
 import AdminHeader from "../../componentes/AdminHeader";
+import toastr from "../../componentes/Toastr";
 
 const styles = {
     inputStyle: {
@@ -81,7 +82,7 @@ const VisualizarUsuario = () => {
                 console.log("Actividad de gastos obtenida exitosamente");
             } else {
                 console.error("Error inesperado:", response.statusText);
-                alert("Error inesperado: " + response.statusText);
+                toastr.error("Error inesperado: " + response.statusText);
             }
         } catch (error) {
             console.error("Error:", error);
@@ -100,7 +101,7 @@ const VisualizarUsuario = () => {
                 console.log("Actividad de pagos obtenida exitosamente");
             } else {
                 console.error("Error inesperado:", response.statusText);
-                alert("Error inesperado: " + response.statusText);
+                toastr.error("Error inesperado: " + response.statusText);
             }
         } catch (error) {
             console.error("Error:", error);

@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../../contexto/AuthContext";
 import { useNavigate } from "react-router-dom";
+import toastr from "../../componentes/Toastr";
 
 
 const ModificarPerfil = () => {
@@ -43,7 +44,7 @@ const ModificarPerfil = () => {
             const nuevoUsuario = { nombre, apellido, password };
 
             if (!nuevoUsuario.password){
-                alert('Debe introducir su contraseña')
+                toastr.error('Debe introducir su contraseña')
                 return
             }
             
@@ -55,7 +56,7 @@ const ModificarPerfil = () => {
 
             if (response.status === 200) {
                 console.log("Usuario modificado correctamente");
-                alert("Usuario modificado correctamente");
+                toastr.success("Usuario modificado correctamente");
                 // Actualizar el usuario en el contexto
                 setUser({
                     ...user,
@@ -68,7 +69,7 @@ const ModificarPerfil = () => {
                 setUsuarioEditado(null);
             } else {
                 console.error("Error inesperado:", response.statusText);
-                alert("Error inesperado: " + response.statusText);
+                toastr.error("Error inesperado: " + response.statusText);
             }
         } catch (error) {
             console.error("Error: ", error);

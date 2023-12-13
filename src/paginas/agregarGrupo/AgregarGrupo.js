@@ -8,6 +8,7 @@ import { useAuth } from '../../contexto/AuthContext';
 import UsuarioHeader from '../../componentes/UsuarioHeader';
 import { Navigate } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
+import toastr from '../../componentes/Toastr';
 
 
 const styles = {
@@ -75,11 +76,11 @@ const PaginaAgregarGrupo = () => {
   const handleAgregarAmigo = () => {
     if (validarContacto(contacto)) {
       if (contacto.toLowerCase() === user.correo.toLowerCase()) {
-        alert('No puedes invitarte a ti mismo.');
+        toastr.error('No puedes invitarte a ti mismo.');
         return; 
       }
       if (correosInvitados.has(contacto.toLowerCase())) {
-        alert('Ya has enviado una invitación a este correo.');
+        toastr.error('Ya has enviado una invitación a este correo.');
         return; // No realizar la solicitud si el correo ya ha sido invitado
       }
 
@@ -94,12 +95,13 @@ const PaginaAgregarGrupo = () => {
       })
       .then((response) => {
         console.log('Amigo invitado con éxito:', response.data);
+        toastr.success('Amigo invitado con éxito')
       })
       .catch((error) => {
         console.error('Error al invitar amigo:', error);
       });
     } else {
-      alert('El contacto no es un email válido.');
+      toastr.error('El contacto no es un email válido.');
     }
   };
 
@@ -113,7 +115,7 @@ const PaginaAgregarGrupo = () => {
       setMostrarBotonContinuar(true);
       setMostrarBotonCrearGrupo(false);
     } else {
-      alert('El nombre del grupo debe tener al menos 3 caracteres.');
+      toastr.error('El nombre del grupo debe tener al menos 3 caracteres.');
     }
       const nuevoGrupo = {
         nombre: nombreGrupo,

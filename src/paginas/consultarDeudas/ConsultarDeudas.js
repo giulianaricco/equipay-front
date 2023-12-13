@@ -4,6 +4,7 @@ import AdminHeader from "../../componentes/AdminHeader";
 import Card from '../../componentes/Card';
 import axios from '../../utils/axios';
 import { useAuth } from '../../contexto/AuthContext';
+import toastr from '../../componentes/Toastr';
 
 const styles = {
   inputStyle: {
@@ -75,7 +76,7 @@ const ConsultarDeudas = () => {
             setDeudaSeleccionada(null);
             setSugerencias([]);
             setMonedaDeuda("");
-            alert("No tiene deudas en el grupo seleccionado");
+            toastr.error("No tiene deudas en el grupo seleccionado");
           }
         } else {
           console.error('La propiedad deudas de la respuesta no es un array:', response.data.deudas);

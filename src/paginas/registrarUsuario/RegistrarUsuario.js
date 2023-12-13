@@ -4,6 +4,7 @@ import Card from '../../componentes/Card'; // Importa el componente Card
 import InputField from '../../componentes/InputField';
 import PublicHeader from "../../componentes/PublicHeader";
 import { useNavigate } from 'react-router-dom';
+import toastr from "../../componentes/Toastr";
 
 
 function RegistrarUsuario() {
@@ -17,7 +18,7 @@ function RegistrarUsuario() {
     e.preventDefault();
 
     if (!name || !email || !password) {
-      alert("Por favor complete nombre, email y contraseña.");
+      toastr.error("Por favor complete nombre, email y contraseña.");
       return;
     }
 
@@ -30,7 +31,7 @@ function RegistrarUsuario() {
 
     try {
       // Llamada a la API con fetch
-      const response = await fetch('/api/auth/registro', {
+      const response = await fetch('http://localhost:8080/api/auth/registro', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -40,14 +41,14 @@ function RegistrarUsuario() {
       
       if (response.ok) {
         console.log('Usuario registrado exitosamente');
-        alert("Usuario registrado correctamente.");
+        toastr.success("Usuario registrado correctamente.");
         navigate('/welcome');
-      } else if (response.status === 409) {
+      } else if (response.status === 401) {
         console.log('Ya existe un usuario con el correo ingresado');
-        alert('Ya existe un usuario con el correo ingresado.');
+        toastr.error('Ya existe un usuario con el correo ingresado.');
       } else {
         console.error('Error inesperado:', response.statusText);
-        alert('Error inesperado: ' + response.statusText);
+        toastr.error('Error inesperado: ' + response.statusText);
       }
     } catch (error) {
       console.error('Error:', error);

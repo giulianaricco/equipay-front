@@ -6,6 +6,7 @@ import InputField from "../../componentes/InputField";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexto/AuthContext";
+import toastr from "../../componentes/Toastr";
 
 const styles = {
     inputStyle: {
@@ -64,12 +65,12 @@ const ModificarCategoria = () => {
         e.preventDefault();
 
         if (!idCategoria) {
-            alert("Por favor seleccione una categoría.");
+            toastr.error("Por favor seleccione una categoría.");
             return;
           }
 
         if (!nombre) {
-        alert("Por favor, tiene que introducir el nombre de la categoria");
+        toastr.error("Por favor, tiene que introducir el nombre de la categoria");
         return;
         }
 
@@ -87,12 +88,12 @@ const ModificarCategoria = () => {
 
             if (response.status === 200) {
                 console.log("Categoria modificada exitosamente");
-                alert("Categoria modificada exitosamente");
+                toastr.success("Categoria modificada exitosamente");
                 obtenerCategorias();
                 setIdCategoria("");
             } else {
                 console.error("Error inesperado:", response.statusText);
-                alert("Error inesperado: " + response.statusText);
+                toastr.error("Error inesperado: " + response.statusText);
             } 
         } catch (error) {
             console.error("Error:", error);

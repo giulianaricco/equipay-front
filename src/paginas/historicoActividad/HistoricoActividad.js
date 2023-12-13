@@ -5,6 +5,7 @@ import axios from '../../utils/axios';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexto/AuthContext";
 import UsuarioHeader from "../../componentes/UsuarioHeader";
+import toastr from "../../componentes/Toastr";
 
 const styles = {
     inputStyle: {
@@ -59,7 +60,7 @@ const styles = {
         event.preventDefault();
 
         if (!grupoSeleccionado) {
-            alert("Debe seleccionar un grupo");
+            toastr.error("Debe seleccionar un grupo");
             return;
         }
         try {
